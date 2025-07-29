@@ -1,0 +1,175 @@
+{% load static %}
+
+<div id="panel-overlay" class="panel-overlay"></div>
+
+<div id="size-guide-panel" class="side-panel">
+    
+    <div class="panel-header">
+        <h3>Guide des tailles</h3>
+        <button id="close-size-guide" class="close-btn">&times;</button>
+    </div>
+
+    <div class="panel-content">
+        <table>
+            <thead>
+                <tr>
+                    <th>TAILLE CM</th>
+                    <th>FRANCE</th>
+                    <th>ITALIE</th>
+                    <th>ROYAUME-UNI</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>32</td>
+                    <td>34</td>
+                    <td>38</td>
+                    <td>6</td>
+                </tr>
+                <tr>
+                    <td>34</td>
+                    <td>36</td>
+                    <td>40</td>
+                    <td>8</td>
+                </tr>
+                <tr>
+                    <td>36</td>
+                    <td>38</td>
+                    <td>42</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td>38</td>
+                    <td>40</td>
+                    <td>44</td>
+                    <td>12</td>
+                </tr>
+                <tr>
+                    <td>40</td>
+                    <td>42</td>
+                    <td>46</td>
+                    <td>14</td>
+                </tr>
+                <tr>
+                    <td>42</td>
+                    <td>44</td>
+                    <td>48</td>
+                    <td>16</td>
+                </tr>
+                <tr>
+                    <td>44</td>
+                    <td>46</td>
+                    <td>50</td>
+                    <td>18</td>
+                </tr>
+                <tr>
+                    <td>46</td>
+                    <td>48</td>
+                    <td>52</td>
+                    <td>20</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h4>Comment mesurer</h4>
+        <p>Afin de choisir la bonne taille, nous vous conseillons de prendre les mesures suivantes à l'aide d'un ruban à mesurer.</p>
+        
+        <img src="https://i.imgur.com/u1a2gH6.png" alt="Guide des mesures" class="measurement-img">
+    </div>
+</div>
+
+
+
+<style>
+    .panel-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1001;
+        display: none; /* Caché par défaut */
+    }
+
+    .side-panel {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 450px;
+        max-width: 90%;
+        height: 100%;
+        background-color: #ffffff;
+        z-index: 1002;
+        transform: translateX(100%);
+        transition: transform 0.4s ease-in-out;
+        display: flex;
+        flex-direction: column;
+    }
+    .side-panel.open {
+        transform: translateX(0);
+    }
+
+    /* Style du contenu du panneau */
+    .panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 25px;
+        border-bottom: 1px solid #eee;
+    }
+    .panel-header h3 {
+        text-transform: uppercase;
+        font-family: 'Tenor Sans', sans-serif;
+        font-size: 1rem;
+        letter-spacing: 2px;
+        margin: 0;
+    }
+    .close-btn {
+        background: none;
+        border: none;
+        font-size: 2rem;
+        font-weight: 300;
+        cursor: pointer;
+        color: #1c1c1c;
+    }
+
+    .panel-content {
+        padding: 25px;
+        overflow-y: auto;
+        flex-grow: 1;
+    }
+    .panel-content h4 {
+        text-transform: uppercase;
+        font-family: 'Tenor Sans', sans-serif;
+        margin-top: 40px;
+        margin-bottom: 15px;
+    }
+    .panel-content p {
+        font-size: 0.9rem;
+        line-height: 1.6;
+        color: #333;
+    }
+    .panel-content table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+    }
+    .panel-content th, .panel-content td {
+        text-align: left;
+        padding: 12px 8px;
+        border-bottom: 1px solid #eee;
+    }
+    .panel-content th {
+        font-weight: bold;
+        color: #1c1c1c;
+    }
+
+    .measurement-img {
+        width: 100%;
+        max-width: 250px;
+        display: block;
+        margin: 20px auto 0;
+    }
+</style>

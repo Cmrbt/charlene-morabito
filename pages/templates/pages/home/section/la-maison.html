@@ -1,0 +1,134 @@
+{% load static %}
+<section id="la-maison" class="maison-section">
+
+    <div class="maison-intro">
+        <h2>Charlène Morabito <br> L'Artisanat Italien au Cœur, l'Allure Parisienne pour Signature</h2>
+        <p>
+            Née de la vision de Charlène Morabito, la maison incarne la fusion de deux cultures : la richesse d'un savoir-faire artisanal hérité de Calabre et l'élégance intemporelle de la France, de la lumière de Cannes à l'effervescence de Paris. Chaque création est une célébration de cette dualité, conçue pour une femme libre, solaire et résolument moderne.
+        </p>
+    </div>
+
+    <div class="story-block">
+        <div class="story-text">
+            <h3>Les Racines Calabraises</h3>
+            <p>
+                C'est en Calabre, terre de caractère et de traditions, que l'histoire de la maison prend racine. Cet héritage italien, transmis avec passion, insuffle à chaque pièce une âme unique. Le culte des belles matières, la précision du geste et le sens du détail sont les piliers d'un artisanat d'exception qui défie le temps.
+            </p>
+        </div>
+        <div class="story-image">
+            <img src="{% static 'pages/images/maison/CAZA_AZZURRA_CALABRIA.jpg' %}"  alt="Paysage inspiré de la Calabre">
+        </div>
+    </div>
+
+    <div class="story-block layout-reversed">
+        <div class="story-text" style="text-align: right;"> <h3>L'Élégance Cannoise</h3>
+            <p>
+                Baignée par la lumière de la Côte d'Azur, Charlène Morabito développe à Cannes son amour pour une silhouette à la fois chic et décontractée. Le glamour de la Croisette et l'art de vivre méditerranéen inspirent des collections fluides et solaires, qui subliment le corps en mouvement et célèbrent une féminité naturelle.
+            </p>
+        </div>
+        <div class="story-image">
+            <img src="{% static 'pages/images/maison/ffff.jpg' %}"  alt="Paysage inspiré de Cannes">
+        </div>
+    </div>
+    
+    <div class="story-block">
+        <div class="story-text">
+            <h3>La Consécration Parisienne</h3>
+            <p>
+                C'est à Paris, capitale incontestée de la mode, que la vision de la créatrice s'affirme pleinement. La silhouette Morabito y gagne en structure et en audace. L'énergie de la ville, son exigence et son avant-gardisme poussent à la réinvention constante, donnant naissance à des pièces fortes qui marient à la perfection force et douceur.
+            </p>
+        </div>
+        <div class="story-image">
+            <img src="{% static 'pages/images/maison/Paris.jpg' %}"  alt="Paysage inspiré de Cannes">
+        </div>
+    </div>
+
+</section>
+
+
+
+<style>
+    .maison-section {
+        background-color: #ffffff;
+        color: #333;
+        padding: 120px 60px;
+        font-family: 'Raleway', sans-serif;
+    }
+
+    .maison-intro {
+        text-align: center;
+        max-width: 700px;
+        margin: 0 auto 100px auto;
+    }
+
+    .maison-intro h2 {
+        font-size: 1.2rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        margin-bottom: 20px;
+    }
+
+    .maison-intro p {
+        font-size: 1rem;
+        line-height: 1.7;
+        color: #555;
+    }
+
+    .story-block {
+        display: flex;
+        align-items: center;
+        gap: 80px;
+        margin-bottom: 100px;
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Version alternée avec l'image à gauche */
+    .story-block.layout-reversed {
+        flex-direction: row-reverse;
+    }
+
+    .story-text, .story-image {
+        flex: 1; /* Chaque colonne prend 50% de l'espace */
+    }
+
+    .story-text h3 {
+        font-family: 'Playfair Display', serif; /* On utilise la police chic du titre */
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 25px;
+    }
+
+    .story-text p {
+        font-size: 0.95rem;
+        line-height: 1.8;
+        color: #555;
+        margin-bottom: 30px;
+    }
+
+    .story-link {
+        color: #333;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 0.8rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        padding-bottom: 5px;
+        border-bottom: 2px solid #333;
+    }
+
+    .story-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    .story-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 16px; /* <- C'est la ligne à ajouter */
+    }
+</style>

@@ -1,0 +1,85 @@
+{% load static %}
+
+<section id="lookbook" class="lookbook-section">
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" style="background-image: url('{% static 'pages/images/swiper-slide/WOMEN_035_DENIM-GRIS-ROSE_LVCOM_2048x1152_DI3.webp' %}');"></div>
+            <div class="swiper-slide" style="background-image: url('{% static 'pages/images/swiper-slide/WOMEN_DREAM_MISTY_DI3.webp' %}');"></div>
+            <div class="swiper-slide" style="background-image: url('{% static 'pages/images/swiper-slide/WOMEN_CREATORS_WORN_2_DI3.jpg' %}');"></div>
+            <div class="swiper-slide" style="background-image: url('{% static 'pages/images/swiper-slide/W_BC_LG_CARRYALLBB_WORN_DEC24_01_DI3.webp' %}');"></div>
+        </div>
+    </div>
+
+    <div class="lookbook-content">
+        <p class="lookbook-subtitle">Collection 2025</p>
+    </div>
+</section>
+
+<style>
+    .lookbook-section {
+        position: relative;
+        height: 100vh; /* Prend 100% de la hauteur de l'écran */
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: #fff;
+        overflow: hidden; /* Cache tout ce qui dépasse */
+    }
+
+    /* Superposition sombre pour la lisibilité du texte */
+    .lookbook-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.40);
+        z-index: 2;
+    }
+
+    .swiper-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+    }
+
+    .swiper-slide {
+        background-size: cover;
+        background-position: center;
+    }
+
+    .lookbook-content {
+        position: relative;
+        z-index: 3; /* Assure que le texte est au-dessus de la superposition */
+    }
+
+    /* Style inspiré de la section "Haute Couture" pour la cohérence */
+    .lookbook-subtitle {
+        font-family: 'Raleway', sans-serif;
+        font-size: 1rem;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const lookbookSwiper = new Swiper('.swiper-container', {
+            effect: 'fade', 
+            loop: true,
+            autoplay: {
+                delay: 4000,
+                disableOnInteraction: false,
+            },
+            speed: 1500, 
+            allowTouchMove: false, 
+        });
+    });
+</script>
