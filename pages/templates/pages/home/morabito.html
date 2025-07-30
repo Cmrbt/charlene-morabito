@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="{% static 'pages/style_header.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap" rel="stylesheet">
+
+    
     <style>
         body, html {
             margin: 0;
@@ -30,13 +32,20 @@
             background-color: #000; display: flex; justify-content: center;
             align-items: center; z-index: 9999;
         }
+
         .preloader-logo {
-            color: #fff; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: 1.8rem; font-weight: bolder; text-transform: uppercase;
-            letter-spacing: 2px; padding-bottom: 10px;
+            color: #fff;
+            font-family: 'Tenor Sans', sans-serif; 
+            font-size: 1.8rem;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding-bottom: 10px;
             background-image: linear-gradient(to right, #009246 33.3%, #FFFFFF 33.3%, #FFFFFF 66.6%, #CE2B37 66.6%);
-            background-repeat: no-repeat; background-size: 80% 2px;
-            background-position: bottom center; opacity: 0;
+            background-repeat: no-repeat;
+            background-size: 80% 2px;
+            background-position: bottom center;
+            opacity: 0;
         }
 
         .nav-logo,
@@ -78,6 +87,7 @@
             </div>
         </nav>
     </header>
+
 
     <main class="hero-section">
         <div class="image-column">
@@ -231,6 +241,30 @@
             });
         });
     </script>
-    <!--<link rel="stylesheet" href="{% static 'pages/style_header.css' %}">-->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 1. On vérifie si l'URL contient une ancre (ex: #nouvelle-collection)
+            const hash = window.location.hash;
+
+            // 2. Si une ancre existe, on attend un court instant que l'animation
+            //    du preloader se termine, puis on défile en douceur.
+            if (hash) {
+                const targetElement = document.querySelector(hash);
+                if (targetElement) {
+                    // On utilise un petit délai pour être sûr que tout est chargé et visible
+                    setTimeout(() => {
+                        gsap.to(window, {
+                            duration: 1.5, // Durée du défilement
+                            ease: 'power2.inOut',
+                            scrollTo: {
+                                y: targetElement,
+                                offsetY: 70 // Décalage pour le header fixe
+                            }
+                        });
+                    }, 100); // Délai de 100ms
+                }
+            }
+        });
+    </script>
 </body>
 </html>
