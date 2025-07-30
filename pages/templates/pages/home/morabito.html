@@ -9,9 +9,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="{% static 'pages/style_header.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap" rel="stylesheet">
-
-
-
     <style>
         body, html {
             margin: 0;
@@ -30,12 +27,19 @@
     </style>
 </head>
 <body>
+
+    <div class="preloader">
+        <div class="preloader-logo">
+            CHARLÈNE MORABITO
+        </div>
+    </div>
+
     <header class="main-header">
         <nav class="main-nav">
             <div class="nav-links-left">
                 <a href="#nouvelle-collection">NOUVEAUTÉS</a>
                 <a href="#ready-to-wear">PRÊT-À-PORTER</a>
-                <a href="#la-maison">La Maison</a>
+                <a href="#la-maison">Sur-Mesure</a>
             </div>
             <div class="nav-logo">
                 <a href="/">
@@ -43,6 +47,7 @@
                 </a>
             </div>
             <div class="nav-links-right">
+                <a href="#la-maison">La Maison</a>
                 <a href="#footer">CONTACT</a>
                 <a href="#">SE CONNECTER</a>
                 <a href="#" class="cart-icon" aria-label="Panier">
@@ -80,6 +85,58 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof gsap !== 'undefined') {
+
+                const tl = gsap.timeline({
+                    onComplete: () => {
+                        document.querySelector('.preloader')?.remove();
+                        gsap.set('.nav-logo', { clearProps: 'transform' });
+                    }
+                });
+
+                tl.to('.preloader-logo', {
+                    duration: 1.2,
+                    opacity: 1,
+                    ease: 'power1.inOut'
+                }, '+=0.5');
+
+                tl.to('.preloader', {
+                    duration: 1,
+                    opacity: 0,
+                    ease: 'power2.out'
+                });
+
+                tl.to('.nav-logo', {
+                    duration: 1.2,
+                    opacity: 1,
+                    ease: 'power3.out'
+                }, '-=0.8');
+
+                tl.from('.nav-logo', {
+                    duration: 1.2,
+                    scale: 2.5,
+                    y: '45vh',
+                    ease: 'power3.out'
+                }, '<');
+
+                tl.to(['.nav-links-left a', '.nav-links-right a'], {
+                    duration: 0.4, 
+                    opacity: 1
+                }, '-=0.5');
+
+                tl.to('.image-column', {
+                    duration: 1,
+                    opacity: 1,
+                    stagger: 0.2,
+                    ease: 'power2.inOut'
+                }, '<');
+            }
+        });
+    </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -137,13 +194,13 @@
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     const href = this.getAttribute('href');
-                    const targetSection = document.querySelector(href); // On vise la section
+                    const targetSection = document.querySelector(href); 
 
                     if (targetSection) {
                         gsap.to(window, {
                             duration: 1.2,
                             scrollTo: {
-                                y: targetSection, // Cible corrigée
+                                y: targetSection, 
                                 offsetY: 70
                             },
                             ease: "power2.inOut"
@@ -153,9 +210,6 @@
             });
         });
     </script>
-
-
-
     <!--<link rel="stylesheet" href="{% static 'pages/style_header.css' %}">-->
 </body>
 </html>
