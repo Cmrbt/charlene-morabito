@@ -7,74 +7,148 @@
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'pages/style_header_2.css' %}">
+    
     <style>
-        main.product-canvas {
-            position: relative;
+        /* --- STYLES GLOBAUX & CONTENU DE LA PAGE UNIQUEMENT --- */
+        html, body {
+            margin: 0;
+            padding: 0;
             width: 100%;
-            min-height: 100vh;
+            font-family: 'Raleway', sans-serif;
+            color: #1c1c1c;
+            background-color: #f7f7f7;
+        }
+
+        /* --- PARTIE 1 : SECTION HERO AVEC L'IMAGE SEULE --- */
+        .hero-image-section {
+            height: 100vh;
             display: flex;
+            align-items: center;
             justify-content: center;
+            background-color: #f7f7f7;
+        }
+        .hero-image-section img {
+            max-height: 80vh;
+            width: auto;
+            max-width: 90%;
+        }
+
+        /* --- PARTIE 2 : SECTION DÉTAILS AVEC LES 2 COLONNES --- */
+        .product-details-section {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 80px;
+            padding: 20px 40px;
+    
+            margin: 0 auto;
+            background-color: #ffffff;
+        }
+
+        /* Colonne de Gauche */
+        .details-left-column .info-header {
+            padding-bottom: 10px;
+        }
+        .details-left-column .info-header h1 {
+            font-size: 1.2rem;
+            font-weight: 400;
+            text-transform: none;
+            margin: 0 0 8px 0;
+        }
+        .details-left-column .info-header .price {
+            font-size: 1.2rem;
+        }
+
+        .static-description {
+            padding: 25px 0;
+        }
+        .static-description h2 {
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin: 0 0 15px 0;
+        }
+        .static-description p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #555;
+            margin: 0px 0;
+            margin-top: -10px;
+        }
+
+        .accordion-item {
+            border-top: 1px solid #e0e0e0;
+            padding: 20px 0;
+        }
+        .details-left-column .accordion-item:last-of-type {
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .accordion-item summary {
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
         }
+        .accordion-item summary::-webkit-details-marker {
+            display: none;
+        }
+        .accordion-item summary::after {
+            content: '+';
+            font-size: 1.8rem;
+            font-weight: 300;
+            transition: transform 0.2s ease;
+        }
+        .accordion-item[open] > summary::after {
+            transform: rotate(45deg);
+        }
 
-        .hero-image-container {
-            height: 75vh; 
-            max-height: 700px; 
-        }
-        .hero-image-container img {
-            height: 100%; 
-            width: auto; 
-        }
-
-        .info-bottom-left {
-            position: absolute;
-            bottom: 40px;
-            left: 40px;
-        }
-        .info-bottom-left h1 {
+        .accordion-content {
+            padding-top: 15px;
             font-size: 0.9rem;
-            font-weight: 400;
-            margin: 0 0 5px 0;
+            line-height: 1.6;
+            color: #555;
         }
-        .info-bottom-left .price {
-            font-size: 0.9rem;
-            margin: 0;
+        
+        /* Colonne de Droite */
+        .details-right-column {
+            text-align: left;
         }
-
-        .actions-bottom-right {
-            position: absolute;
-            bottom: 40px;
-            right: 40px;
-            width: 300px;
-            text-align: right;
-        }
-        .actions-bottom-right .info-text {
+        .details-right-column .info-text {
             font-size: 0.7rem;
             color: #666;
             margin-bottom: 8px;
         }
         .product-thumbnails {
             display: flex;
-            justify-content: flex-end;
             gap: 8px;
             margin-bottom: 15px;
         }
         .thumbnail-item {
-            width: 40px;
+            width: 60px;
             height: auto;
             cursor: pointer;
             border: 1px solid #ccc;
         }
+        .thumbnail-item.active {
+            border-color: #000;
+        }
+
         .size-selector select {
             width: 100%;
             padding: 12px;
             border: 1px solid #999;
-            background-color: transparent;
+            background-color: #fff;
             font-size: 0.8rem;
             margin-bottom: 10px;
-            -webkit-appearance: none; appearance: none;
+            -webkit-appearance: none;
+            appearance: none;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat; background-position: right 14px center;
+            background-repeat: no-repeat;
+            background-position: right 14px center;
         }
         .add-to-cart-btn {
             width: 100%;
@@ -88,15 +162,32 @@
             text-transform: uppercase;
             letter-spacing: 1.5px;
         }
+        .service-links {
+            margin-top: 30px;
+            font-size: 0.85rem;
+        }
+        .service-item {
+            padding: 20px 0;
+            border-top: 1px solid #e0e0e0;
+        }
+        .service-links p {
+            color: #555;
+            margin: 5px 0 20px 0;
+        }
+        .service-links a {
+            color: #1c1c1c;
+            text-decoration: underline;
+            display: flex;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
+    
     <header class="minimalist-header">
         <div class="header-left">
             <a href="{% url 'pret-a-porter' %}" class="back-button" aria-label="Retour au catalogue">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
             </a>
         </div>
         <div class="header-center">
@@ -105,65 +196,64 @@
         <div class="header-right">
             <a href="#">Nous Contacter</a>
             <a href="#" aria-label="Panier">
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <path d="M16 10a4 4 0 0 1-8 0"></path>
-                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
             </a>
         </div>
     </header>
- 
 
-    <main class="product-canvas">
-        <div class="hero-image-container">
+    <main>
+        <div class="hero-image-section">
             <img id="main-product-image" src="{% static 'pages/images/robes/mini-jupe-a-pli-imprime-guepards-et-palmettes--5E0343DSDE-worn-1-0-0-800-800_g (1).webp' %}" alt="Robe plissée Charlène Morabito">
         </div>
 
-        <div class="info-bottom-left">
-            <h1>Robe plissée à Monogram délavé</h1>
-            <p class="price">380,00 €</p>
-        </div>
-
-        <div class="actions-bottom-right">
-            <div class="product-thumbnails">
-                <img class="thumbnail-item active" src="{% static 'pages/images/robes/mini-jupe-a-pli-imprime-guepards-et-palmettes--5E0343DSDE-worn-1-0-0-800-800_g (1).webp' %}" alt="Thumbnail 1">
-                <img class="thumbnail-item" src="{% static 'pages/images/robes/mini-jupe-a-pli-imprime-guepards-et-palmettes--5E0343DSDE-worn-2-0-0-800-800_g.webp' %}" alt="Thumbnail 2">
+        <section class="product-details-section">
+            <div class="details-left-column">
+                <div class="info-header">
+                    <h1>Robe plissée à Monogram délavé</h1>
+                    <p class="price">380,00 €</p>
+                </div>
+                <div class="static-description" style="margin-top: -30px;">
+                    <h2>Description Produit</h2>
+                    <p>L'imprimé Flora issu des archives des années 60 prend vie sur les pièces de prêt-à-porter, explorant les teintes fraîches et les dégradés de la collection Pre-Fall 2025 avec une touche romantique.</p>
+                </div>
+                <details class="accordion-item">
+                    <summary>Détails du produit</summary>
+                    <div class="accordion-content"><p>Contenu à venir...</p></div>
+                </details>
+                <details class="accordion-item">
+                    <summary>Notre engagement</summary>
+                    <div class="accordion-content"><p>Contenu à venir...</p></div>
+                </details>
             </div>
-             <p class="info-text">Sélectionnez la taille de l'article pour afficher la date de livraison prévue.</p>
-            <div class="size-selector">
-                <select name="size" id="size">
-                    <option value="">Sélectionner une taille</option>
-                    <option value="34">34</option>
-                    <option value="36">36</option>
-                    <option value="38">38</option>
-                </select>
+            
+            <div class="details-right-column">
+                <div class="product-thumbnails">
+                    <img class="thumbnail-item active" src="{% static 'pages/images/robes/mini-jupe-a-pli-imprime-guepards-et-palmettes--5E0343DSDE-worn-1-0-0-800-800_g (1).webp' %}" alt="Thumbnail 1">
+                    <img class="thumbnail-item" src="{% static 'pages/images/robes/mini-jupe-a-pli-imprime-guepards-et-palmettes--5E0343DSDE-worn-2-0-0-800-800_g.webp' %}" alt="Thumbnail 2">
+                </div>
+                <p class="info-text">Sélectionnez la taille de l'article pour afficher la date de livraison prévue.</p>
+                <div class="size-selector">
+                    <select name="size" id="size">
+                        <option value="">Sélectionner une taille</option>
+                        <option value="34">34</option>
+                        <option value="36">36</option>
+                        <option value="38">38</option>
+                    </select>
+                </div>
+                <button class="add-to-cart-btn">Ajouter au panier</button>
+                <div class="service-links">
+                    <div class="service-item">
+                        <a href="#"><strong>Nous contacter</strong></a>
+                        <p>Nos conseillers sont à votre disposition pour vous aider.</p>
+                    </div>
+                </div>
             </div>
-            <button class="add-to-cart-btn">Sélectionner une taille</button>
-        </div>
+        </section>
     </main>
-
-    <p class="info-text">Sélectionnez la taille de l'article pour afficher la date de livraison prévue.</p>
-    <p class="info-text">Sélectionnez la taille de l'article pour afficher la date de livraison prévue.</p>
-    <p class="info-text">Sélectionnez la taille de l'article pour afficher la date de livraison prévue.</p>
-    <p class="info-text">Sélectionnez la taille de l'article pour afficher la date de livraison prévue.</p>
-    <p class="info-text">Sélectionnez la taille de l'article pour afficher la date de livraison prévue.</p>
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const thumbnails = document.querySelectorAll('.thumbnail-item');
-            thumbnails.forEach(thumbnail => {
-                thumbnail.addEventListener('click', function() {
-                    thumbnails.forEach(item => item.classList.remove('active'));
-                    this.classList.add('active');
-                });
-            });
-        });
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Votre code existant pour les miniatures
+            // Script pour la galerie de miniatures
             const thumbnails = document.querySelectorAll('.thumbnail-item');
             thumbnails.forEach(thumbnail => {
                 thumbnail.addEventListener('click', function() {
@@ -172,20 +262,17 @@
                 });
             });
 
-            // --- SCRIPT À AJOUTER CI-DESSOUS ---
-
+            // Script pour l'en-tête au défilement
             const header = document.querySelector('.minimalist-header');
-
-            window.addEventListener('scroll', function() {
-                // Si l'utilisateur a fait défiler de plus de 10 pixels vers le bas
-                if (window.scrollY > 10) {
-                    // On ajoute la classe 'scrolled' à l'en-tête
-                    header.classList.add('scrolled');
-                } else {
-                    // Sinon, on la retire
-                    header.classList.remove('scrolled');
-                }
-            });
+            if (header) {
+                window.addEventListener('scroll', function() {
+                    if (window.scrollY > 10) {
+                        header.classList.add('scrolled');
+                    } else {
+                        header.classList.remove('scrolled');
+                    }
+                });
+            }
         });
     </script>
 </body>
