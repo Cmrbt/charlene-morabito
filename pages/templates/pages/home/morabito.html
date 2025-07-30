@@ -24,6 +24,27 @@
         body::-webkit-scrollbar {
             display: none;
         }
+
+        .preloader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background-color: #000; display: flex; justify-content: center;
+            align-items: center; z-index: 9999;
+        }
+        .preloader-logo {
+            color: #fff; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 1.8rem; font-weight: bolder; text-transform: uppercase;
+            letter-spacing: 2px; padding-bottom: 10px;
+            background-image: linear-gradient(to right, #009246 33.3%, #FFFFFF 33.3%, #FFFFFF 66.6%, #CE2B37 66.6%);
+            background-repeat: no-repeat; background-size: 80% 2px;
+            background-position: bottom center; opacity: 0;
+        }
+
+        .nav-logo,
+        .nav-links-left a,
+        .nav-links-right a,
+        .hero-section .image-column {
+            opacity: 0;
+        }
     </style>
 </head>
 <body>
@@ -37,9 +58,9 @@
     <header class="main-header">
         <nav class="main-nav">
             <div class="nav-links-left">
+                <a href="#SUR-MESURE">SUR-MESURE</a>
                 <a href="#nouvelle-collection">NOUVEAUTÉS</a>
-                <a href="#ready-to-wear">PRÊT-À-PORTER</a>
-                <a href="#la-maison">Sur-Mesure</a>
+                <a href="#ready-to-wear" onclick="event.preventDefault(); window.location.href='{% url 'pret-a-porter' %}'">PRÊT-À-PORTER</a>
             </div>
             <div class="nav-logo">
                 <a href="/">
