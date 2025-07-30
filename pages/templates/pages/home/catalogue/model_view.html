@@ -214,15 +214,29 @@
                 </div>
                 <div class="static-description" style="margin-top: -30px;">
                     <h2>Description Produit</h2>
-                    <p>L'imprimé Flora issu des archives des années 60 prend vie sur les pièces de prêt-à-porter, explorant les teintes fraîches et les dégradés de la collection Pre-Fall 2025 avec une touche romantique.</p>
+                    <p>
+                        Réalisée en crêpe de Chine en soie infroissable dans une teinte douce de la saison, cette robe plissée s'agrémente d'un motif Monogram interprété avec une finition délavée graphique. La partie principale mise sur les lignes épurées d'une coupe droite, tandis que des plis creux ajoutent un volume romantique à la jupe. Le dos de cette pièce révèle une demi-fermeture à glissière apparente.
+                    </p>
                 </div>
                 <details class="accordion-item">
                     <summary>Détails du produit</summary>
-                    <div class="accordion-content"><p>Contenu à venir...</p></div>
+                    <div class="accordion-content"><p>
+                        <ul>
+                            <li>100% Soie</li>
+                            <li>Bordure en dentelle festonnée</li>
+                            <li>Fines bretelles ajustables</li>
+                            <li>Fabriqué en Italie</li>
+                            <li>Coupe ajustée</li>
+                            <li>Couleur : Vert olive</li>
+                        </ul>
+                    </p></div>
                 </details>
                 <details class="accordion-item">
-                    <summary>Notre engagement</summary>
-                    <div class="accordion-content"><p>Contenu à venir...</p></div>
+                    <summary>Livraison et Retours</summary>
+                    <div class="accordion-content"><p>
+                        <p>Livraison standard offerte. Les délais de livraison sont estimés au moment du paiement.</p>
+                        <p>Nous acceptons les retours sous 30 jours pour un échange ou un remboursement. Les articles doivent être retournés dans leur état d'origine. Pour initier un retour, veuillez contacter notre service client.</p>
+                    </p></div>
                 </details>
             </div>
             
@@ -230,14 +244,21 @@
                 <div class="product-thumbnails">
                     <img class="thumbnail-item active" src="{% static 'pages/images/robes/mini-jupe-a-pli-imprime-guepards-et-palmettes--5E0343DSDE-worn-1-0-0-800-800_g (1).webp' %}" alt="Thumbnail 1">
                     <img class="thumbnail-item" src="{% static 'pages/images/robes/mini-jupe-a-pli-imprime-guepards-et-palmettes--5E0343DSDE-worn-2-0-0-800-800_g.webp' %}" alt="Thumbnail 2">
+                    <img class="thumbnail-item" src="{% static 'pages/images/robes/mini-jupe-a-pli-imprime-guepards-et-palmettes--5E0343DSDE-worn-3-0-0-800-800_g.webp' %}" alt="Thumbnail 2">
+                    <img class="thumbnail-item" src="{% static 'pages/images/robes/mini-jupe-a-pli-imprime-guepards-et-palmettes--5E0343DSDE-worn-4-0-0-800-800_g.webp' %}" alt="Thumbnail 2">
                 </div>
                 <p class="info-text">Sélectionnez la taille de l'article pour afficher la date de livraison prévue.</p>
                 <div class="size-selector">
                     <select name="size" id="size">
                         <option value="">Sélectionner une taille</option>
+                        <option value="32">32</option>
                         <option value="34">34</option>
                         <option value="36">36</option>
                         <option value="38">38</option>
+                        <option value="40">40</option>
+                        <option value="42">42</option>
+                        <option value="44">44</option>
+                        <option value="46">46</option>
                     </select>
                 </div>
                 <button class="add-to-cart-btn">Ajouter au panier</button>
@@ -263,6 +284,32 @@
             });
 
             // Script pour l'en-tête au défilement
+            const header = document.querySelector('.minimalist-header');
+            if (header) {
+                window.addEventListener('scroll', function() {
+                    if (window.scrollY > 10) {
+                        header.classList.add('scrolled');
+                    } else {
+                        header.classList.remove('scrolled');
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mainImage = document.getElementById('main-product-image');
+            const thumbnails = document.querySelectorAll('.thumbnail-item');
+            if (mainImage && thumbnails.length > 0) {
+                thumbnails.forEach(thumbnail => {
+                    thumbnail.addEventListener('click', function() {
+                        mainImage.src = this.src;
+                        thumbnails.forEach(item => item.classList.remove('active'));
+                        this.classList.add('active');
+                    });
+                });
+            }
             const header = document.querySelector('.minimalist-header');
             if (header) {
                 window.addEventListener('scroll', function() {
