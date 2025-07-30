@@ -16,52 +16,26 @@
                 color: #fff;
             }
 
-            /* --- Catalogue Page --- */
-            .catalog-container {
-                padding: 120px 40px 60px 40px;
-                max-width: 1600px;
-                margin: 0 auto;
+            html {
+                scrollbar-width: none;
             }
-            .catalog-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                border-bottom: 1px solid #e0e0e0;
-                padding-bottom: 20px;
-                margin-bottom: 40px;
+
+            body::-webkit-scrollbar {
+                display: none;
             }
-            .catalog-title h1 {
-                font-family: 'Raleway', sans-serif;
-                font-size: 1.2rem;
-                font-weight: 500;
-                text-transform: uppercase;
-                letter-spacing: 2px;
-                margin: 0;
-            }
-            .catalog-title p {
-                margin: 5px 0 0 0;
-                color: #888;
-                font-size: 0.9rem;
-            }
-            .filter-button {
-                background: none;
-                border: 1px solid #ccc;
-                padding: 8px 16px;
-                font-size: 0.8rem;
-                cursor: pointer;
-                text-transform: uppercase;
-                letter-spacing: 1px;
-            }
+
             .product-grid {
                 display: grid;
                 grid-template-columns: repeat(3, 1fr);
                 gap: 30px;
             }
+
             .product-item a {
                 text-decoration: none;
                 color: #333;
                 display: block;
             }
+            
             .product-item img {
                 width: 100%;
                 height: auto;
@@ -70,26 +44,220 @@
                 background-color: #f5f5f5;
                 margin-bottom: 10px;
             }
+
             .product-info h2 {
                 font-family: 'Raleway', sans-serif;
                 font-size: 0.9rem;
                 font-weight: 600;
                 margin: 0 0 5px 0;
             }
+
             .product-info .price {
                 font-size: 0.9rem;
                 margin: 0;
             }
+
             @media (max-width: 992px) {
                 .product-grid { grid-template-columns: repeat(2, 1fr); }
             }
+
             @media (max-width: 768px) {
                 .product-grid { grid-template-columns: 1fr; }
                 .catalog-container { padding: 100px 20px 40px 20px; }
             }
+
+            .catalog-container {
+                padding: 90px 60px 60px 60px;
+                max-width: 1600px;
+                margin: 0 auto;
+            }
+
+            .catalog-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding-bottom: 15px; 
+                margin-bottom: 50px;
+                background-image: linear-gradient(to right, #009246 33.3%, #1c1c1c 33.3%, #1c1c1c 66.6%, #CE2B37 66.6%);
+                background-repeat: no-repeat;
+                background-size: 100% 1px;
+                background-position: bottom;
+            }
+
+            .catalog-path {
+                font-family: 'Raleway', sans-serif;
+                font-size: 0.9rem;
+                color: #1c1c1c;
+            }
+
+            .catalog-path a {
+                color: #888;
+                text-decoration: none;
+                transition: color 0.3s ease;
+            }
+
+            .catalog-path a:hover {
+                color: #1c1c1c;
+            }
+
+            .catalog-path .separator {
+                margin: 0 8px;
+                color: #ccc;
+            }
+
+            .catalog-path .item-count {
+                margin-left: 8px;
+                color: #888;
+                font-size: 0.85rem;
+            }
+
+            .filter-button {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                background: none;
+                border: none;
+                padding: 8px;
+                font-size: 0.9rem;
+                font-family: 'Raleway', sans-serif;
+                color: #1c1c1c;
+                cursor: pointer;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                transition: color 0.3s ease;
+            }
+
+            .filter-button:hover {
+                color: #888;
+            }
+
+            .filter-button svg {
+                stroke: currentColor;
+            }
+        </style>
+        <style>
+            /* Style du panneau de filtre superposé */
+            .filter-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: #fff;
+                z-index: 2000;
+                overflow-y: auto;
+                
+                /* Caché par défaut et préparation à l'animation */
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.4s ease, visibility 0.4s ease;
+            }
+
+            /* Classe ajoutée par JavaScript pour afficher le panneau */
+            .filter-overlay.is-open {
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .filter-overlay-close {
+                position: absolute;
+                top: 35px;
+                right: 45px;
+                background: none;
+                border: none;
+                font-size: 3rem;
+                font-weight: 300;
+                color: #1c1c1c;
+                cursor: pointer;
+            }
+
+            .filter-overlay-content {
+                max-width: 1400px;
+                margin: 0 auto;
+                padding: 120px 40px;
+            }
+
+            .filter-columns {
+                display: flex;
+                justify-content: space-between;
+                gap: 40px;
+            }
+
+            .filter-column h4 {
+                font-family: 'Raleway', sans-serif;
+                font-size: 1rem;
+                text-transform: uppercase;
+                letter-spacing: 1.5px;
+                margin-bottom: 25px;
+                color: #1c1c1c;
+            }
+
+            .filter-column ul {
+                list-style: none;
+                padding: 0;
+                margin: 0 0 40px 0;
+            }
+
+            .filter-column li {
+                margin-bottom: 12px;
+            }
+
+            .filter-column a {
+                text-decoration: none;
+                color: #555;
+                font-size: 0.9rem;
+                transition: color 0.3s ease;
+            }
+
+            .filter-column a:hover {
+                color: #1c1c1c;
+            }
+        </style>
+        <style>
+            .product-item .product-slider {
+                position: relative;
+                margin-bottom: 10px;
+            }
+
+            .product-slider .swiper-button-next,
+            .product-slider .swiper-button-prev {
+                color: #fff;
+                background-color: rgba(0, 0, 0, 0.2);
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+
+            .product-item:hover .swiper-button-next,
+            .product-item:hover .swiper-button-prev {
+                opacity: 1;
+            }
+
+            .product-slider .swiper-button-next::after,
+            .product-slider .swiper-button-prev::after {
+                font-size: 14px;
+                font-weight: bold;
+            }
+
+            .product-slider .swiper-pagination {
+                bottom: 10px;
+            }
+
+            .product-slider .swiper-pagination-bullet {
+                background-color: rgba(255, 255, 255, 0.5);
+                width: 6px;
+                height: 6px;
+                opacity: 1;
+            }
+
+            .product-slider .swiper-pagination-bullet-active {
+                background-color: #fff;
+            }
         </style>
     </head>
-    <body>
+    <body >
         <header class="main-header scrolled">
             <nav class="main-nav">
                 <div class="nav-links-left">
@@ -114,18 +282,43 @@
         <main>
             <div class="catalog-container">
                 <header class="catalog-header">
-                    <div class="catalog-title">
-                        <h1>Prêt-à-porter</h1>
-                        <p>6 articles</p>
+                    <div class="catalog-path">
+                        <a href="{% url 'home' %}">Accueil</a>
+                        <span class="separator">/</span>
+                        <span>Prêt-à-porter</span>
+                        <span class="item-count">(6 articles)</span>
                     </div>
-                    <button class="filter-button">Filtrer</button>
+
+                    <button id="open-filter-btn" class="filter-button">
+                        <span>Filtrer</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                        </svg>
+                    </button>
                 </header>
-            
+
                 <div class="product-grid">
 
                     <article class="product-item">
                         <a href="#">
-                            <img src="{% static 'pages/images/robes/louis-vuitton-robe-boutonnee-en-denim--FTDR40GOW610_PM1_Worn view.avif' %}" alt="Robe à bretelles et mousquetons">
+                            <div class="swiper product-slider">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide">
+                                        <img src="{% static 'pages/images/robes/louis-vuitton-robe-boutonnee-en-denim--FTDR40GOW610_PM1_Worn view.avif' %}" alt="Robe à bretelles - Vue 1">
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <img src="{% static 'pages/images/robes/louis-vuitton-robe-boutonnee-en-denim--FTDR40GOW610_PM2_Front view.avif' %}" alt="Robe à bretelles - Vue 2">
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <img src="{% static 'pages/images/robes/louis-vuitton-robe-boutonnee-en-denim--FTDR40GOW610_PM1_Ambiance view.avif' %}" alt="Robe à bretelles - Vue 3">
+                                    </div>
+                                    </div>
+                                
+                                <div class="swiper-pagination"></div>
+
+                                <div class="swiper-button-prev"></div>
+                                <div class="swiper-button-next"></div>
+                            </div>
                             <div class="product-info">
                                 <h2>Robe à bretelles et mousquetons</h2>
                                 <p class="price">250,00 €</p>
@@ -187,10 +380,79 @@
             </div>
         </main>
 
+
+
+        <div id="filter-overlay" class="filter-overlay">
+            <button id="close-filter-btn" class="filter-overlay-close">&times;</button>
+
+            <div class="filter-overlay-content">
+                <div class="filter-columns">
+                    
+                    <div class="filter-column">
+                        <h4>Prêt-à-porter</h4>
+                        <ul>
+                            <li><a href="#">Collection Printemps-Été 2025</a></li>
+                            <li><a href="#">Collection Automne-Hiver 2025</a></li>
+                            <li><a href="#">Manteaux et vestes</a></li>
+                            <li><a href="#">Robes et jupes</a></li>
+                            <li><a href="#">Hauts et chemises</a></li>
+                            <li><a href="#">Pantalons et shorts</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="filter-column">
+                        <h4>Sacs</h4>
+                        <ul>
+                            <li><a href="#">Sacs et pochettes</a></li>
+                            <li><a href="#">Sacs de voyage</a></li>
+                            <li><a href="#">Accessoires en cuir</a></li>
+                        </ul>
+                        <h4>Accessoires</h4>
+                        <ul>
+                            <li><a href="#">Ceintures</a></li>
+                            <li><a href="#">Bijouterie fantaisie</a></li>
+                            <li><a href="#">Accessoires cheveux</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="filter-column">
+                        <h4>Chaussures</h4>
+                        <ul>
+                            <li><a href="#">Sandales</a></li>
+                            <li><a href="#">Sneakers</a></li>
+                            <li><a href="#">Ballerines et escarpins</a></li>
+                            <li><a href="#">Mules</a></li>
+                            <li><a href="#">Mocassins et derbies</a></li>
+                        </ul>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const openFilterButton = document.getElementById('open-filter-btn');
+            const closeFilterButton = document.getElementById('close-filter-btn');
+            const filterOverlay = document.getElementById('filter-overlay');
+
+            openFilterButton.addEventListener('click', function() {
+                filterOverlay.classList.add('is-open');
+            });
+
+            closeFilterButton.addEventListener('click', function() {
+                filterOverlay.classList.remove('is-open');
+            });
+        </script>
+
+
+
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+
 
     </body>
 </html>

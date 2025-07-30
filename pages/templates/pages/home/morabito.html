@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="{% static 'pages/fonts/stylesheet.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="{% static 'pages/style_header.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap" rel="stylesheet">
+
+
+
     <style>
         body, html {
             margin: 0;
@@ -64,7 +68,8 @@
             <a href="#" class="hero-button">DÉCOUVRIR LA COLLECTION</a>
         </div>
     </main>
-
+    
+    {% include "pages/home/section/creation.html" %}
     {% include "pages/home/section/page.html" %}
     {% include "pages/home/section/ready-to-wear.html" %}
     {% include "pages/home/section/la-maison.html" %}
