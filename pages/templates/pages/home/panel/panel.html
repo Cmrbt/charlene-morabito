@@ -1,0 +1,118 @@
+
+
+<style>
+    .panel_data {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(17, 24, 39, 0.6);
+        backdrop-filter: blur(4px);
+        z-index: 10000;
+    }
+
+    .panel_data-content {
+        background-color: #ffffff;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        width: 90%;
+        max-width: 480px;
+        animation: slideUp 0.3s ease-out;
+    }
+
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .panel_data-content .form-group {
+        margin-bottom: 1.25rem;
+    }
+
+    .panel_data-content label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        font-size: 0.875rem;
+        color: #374151;
+    }
+
+    .panel_data-content .form-control {
+        width: 100%;
+        padding: 10px 12px;
+        font-size: 1rem;
+        color: #111827;
+        background-color: #fff;
+        border: 1px solid #d1d5db;
+        border-radius: 6px;
+        box-sizing: border-box;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .panel_data-content .form-control:focus {
+        outline: none;
+        border-color: #1f2937;
+        box-shadow: 0 0 0 2px rgba(55, 65, 81, 0.2);
+    }
+
+    .panel_data-content .full-width-button {
+        width: 100%;
+        padding: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #ffffff;
+        background-color: #111827;
+        border: 1px solid #111827;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+    }
+
+    .panel_data-content .full-width-button:hover {
+        background-color: #374151;
+        border-color: #374151;
+    }
+
+    .panel_data-content .full-width-button:active {
+        background-color: #1f2937;
+    }
+</style>
+
+<script>
+    function openModal(serviceId) {
+        var modal = document.getElementById(serviceId);
+        if (modal) {
+            modal.style.display = 'flex';
+            console.log('Modal opened:', serviceId);
+
+            document.removeEventListener('click', closeModal);
+
+            setTimeout(function() {
+                document.addEventListener('click', closeModal);
+                console.log('Click event attached to close the modal:', serviceId);
+            }, 100);
+        } else {
+            console.error('Modal not found for id:', serviceId);
+        }
+
+        function closeModal(event) {
+            var formContent = modal.querySelector('.panel_data-content');
+            if (!formContent.contains(event.target)) {
+                modal.style.display = 'none';
+                console.log('Modal closed:', serviceId);
+                document.removeEventListener('click', closeModal);
+            }
+        }
+    }
+</script>

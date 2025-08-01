@@ -1,0 +1,145 @@
+<div id="update_first_section" class="panel_data" style="z-index: 10000; display: none;">
+    <div class="panel panel_data-content">
+        <form id="update_first_section_form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="update_first_section_info"/>
+            <input type="hidden" name="section_id" value="{{ first_section.id }}"/>
+
+            <div class="form-group">
+                <label><strong><em>Titre :</em></strong></label>
+                <input type="text" class="form-control" name="title" value="{{ first_section.title|default:"Savoir-Faire d'Exception" }}">
+            </div>
+
+            <div class="form-group">
+                <label><strong><em>Description :</em></strong></label>
+                <textarea class="form-control" name="description">{{ first_section.description|default:"Au cœur de nos ateliers italiens, chaque création est façonnée à la main par nos artisans, gardiens d'une tradition et d'une excellence uniques." }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label><strong><em>Texte du lien :</em></strong></label>
+                <input type="text" class="form-control" name="link_text" value="{{ first_section.link_text|default:"Découvrir nos pièces" }}">
+            </div>
+
+            <div class="form-group">
+                <label><strong><em>URL du lien :</em></strong></label>
+                <input type="url" class="form-control" name="link_url" value="{{ first_section.link_url|default:'' }}">
+            </div>
+
+            <div class="form-group">
+                <label><strong><em>Image :</em></strong></label>
+                <input type="file" name="image">
+            </div>
+
+            <button type="submit" class="full-width-button">Valider</button>
+            <button type="button" id="reset_first_section_button" style="background: none; border: none; color: #c0392b; font-size: 13px; text-decoration: underline; margin: 10px auto 0; display: block; cursor: pointer;">
+                Réinitialiser cette section
+            </button>
+
+
+        </form>
+    </div>
+</div>
+
+
+
+
+<script>
+    $('#update_first_section_form').submit(function(e) {
+        e.preventDefault();
+        const form = $(this)[0];
+        const formData = new FormData(form);
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "brand_action_handler" %}',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                if (response.status === 'success') {
+                    location.reload();
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+    });
+</script>
+
+
+<script>
+    $('#reset_first_section_button').click(function() {
+        if (!confirm("Êtes-vous sûr de vouloir réinitialiser cette section ?")) return;
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "brand_action_handler" %}',
+            data: {
+                'action': 'reset_first_section',
+                'section_id': '{{ first_section.id }}',
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function(response) {
+                if (response.status === 'success') {
+                    location.reload();
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+    });
+</script>
+
+
+
+
+<div id="update_brand_name" class="panel_data" style="z-index: 10000; display: none;">
+    <div class="panel panel_data-content">
+        <form id="update_brand_form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="update_brand_info"/>
+            <input type="hidden" name="brand_id" value="{{ brand.id }}"/>
+
+            <div class="form-group">
+                <label for="name"><strong><em>Nom de la marque :</em></strong></label>
+                <input type="text" class="form-control" name="name" value="{{ brand.name|default:'CHARLÈNE MORABITO' }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="slogan"><strong><em>Slogan :</em></strong></label>
+                <input type="text" class="form-control" name="slogan" value="{{ brand.slogan|default:'SAVOIR-FAIRE ITALIEN, ALLURE PARISIENNE' }}">
+            </div>
+
+            <div class="form-group">
+                <label for="call_to_action"><strong><em>Call to Action :</em></strong></label>
+                <input type="text" class="form-control" name="call_to_action" value="{{ brand.call_to_action|default:'DÉCOUVRIR LA COLLECTION' }}">
+            </div>
+
+            <button type="submit" class="full-width-button">Valider</button>
+        </form>
+    </div>
+</div>
+
+
+<script>
+$('#update_brand_form').submit(function(e) {
+    e.preventDefault();
+    const form = $(this)[0];
+    const formData = new FormData(form);
+
+    $.ajax({
+        type: 'POST',
+        url: '{% url "brand_action_handler" %}',  // ou ton endpoint approprié
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            if (response.status === 'error') {
+                alert(response.message);
+            } else {
+                location.reload();  // ou maj DOM si tu veux éviter un reload
+            }
+        }
+    });
+});
+</script>

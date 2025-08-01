@@ -3,13 +3,20 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Charlène Morabito - Accueil</title>
+    <title> 
+        {% if brand %}
+            {{ brand.name|upper }}
+        {% else %}
+            CHARLÈNE MORABITO
+        {% endif %}
+    </title>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'pages/fonts/stylesheet.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="{% static 'pages/style_header.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap" rel="stylesheet">
-
+    <link rel="stylesheet" href="{% static 'pages/style_header_2.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
     <style>
         body, html {
@@ -51,7 +58,7 @@
         .nav-logo,
         .nav-links-left a,
         .nav-links-right a,
-        .hero-section .image-column {
+        .hero-video { 
             opacity: 0;
         }
     </style>
@@ -60,7 +67,11 @@
 
     <div class="preloader">
         <div class="preloader-logo">
-            CHARLÈNE MORABITO
+            {% if brand %}
+                {{ brand.name|upper }}
+            {% else %}
+                CHARLÈNE MORABITO
+            {% endif %}
         </div>
     </div>
 
@@ -72,23 +83,28 @@
                 <a href="#ready-to-wear" onclick="event.preventDefault(); window.location.href='{% url 'pret-a-porter' %}'">PRÊT-À-PORTER</a>
             </div>
             <div class="nav-logo">
-                <a href="/">
-                    CHARLÈNE MORABITO
+                <a>
+                    <span onclick="openModal('update_brand_name')" style="cursor: pointer;">
+                        {% if brand %}
+                            {{ brand.name|upper }}
+                        {% else %}
+                            CHARLÈNE MORABITO
+                        {% endif %}
+                    </span>
                 </a>
             </div>
             <div class="nav-links-right">
                 <a href="#la-maison">La Maison</a>
                 <a href="#footer">CONTACT</a>
                 <a href="#">SE CONNECTER</a>
-                <a href="#" class="cart-icon" aria-label="Panier">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-                    <span class="cart-counter">0</span>
+                <a href="{% url 'cart' %}" aria-label="Panier" class="cart-icon-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
                 </a>
             </div>
         </nav>
     </header>
 
-
+    <!--
     <main class="hero-section">
         <div class="image-column">
             <img src="{% static 'pages/images/Morabito4.JPG' %}" alt="Troisième tenue">
@@ -101,16 +117,104 @@
         </div>
         <div class="hero-content">
             <h2>SAVOIR-FAIRE ITALIEN, ALLURE PARISIENNE</h2>
-            <a href="#" class="hero-button">DÉCOUVRIR LA COLLECTION</a>
+            <a href="#nouvelle-collection" class="hero-button">DÉCOUVRIR LA COLLECTION</a>
         </div>
     </main>
     
+    
+    <style>
+        /* Section Hero (Accueil) */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            z-index: 2;
+        }
+
+        .image-column {
+            flex: 1;
+            position: relative;
+        }
+
+        .image-column img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+    </style>
+    -->
+
+    <main class="hero-section">
+        <video autoplay loop muted playsinline class="hero-video">
+            <source src="{% static 'pages/images/main.mp4' %}" type="video/mp4">
+            Votre navigateur ne supporte pas la lecture de vidéos.
+        </video>
+
+        <div class="hero-content">
+            <h2>
+                {% if brand and brand.slogan %}
+                    {{ brand.slogan|upper }}
+                {% else %}
+                    SAVOIR-FAIRE ITALIEN, ALLURE PARISIENNE
+                {% endif %}
+            </h2>
+            <a href="#nouvelle-collection" class="hero-button">
+                {% if brand and brand.call_to_action %}
+                    {{ brand.call_to_action|upper }}
+                {% else %}
+                    DÉCOUVRIR LA COLLECTION
+                {% endif %}
+            </a>
+        </div>
+    </main>
+
+    <style>
+        .hero-section {
+            position: relative; 
+            height: 100vh; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; 
+            color: white; 
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: cover;
+            z-index: 1;
+        }
+    </style>
+        
     {% include "pages/home/section/creation.html" %}
     {% include "pages/home/section/page.html" %}
     {% include "pages/home/section/ready-to-wear.html" %}
     {% include "pages/home/section/la-maison.html" %}
     {% include "pages/home/section/lookbook.html" %}
     {% include "pages/home/section/footer.html" %}
+
+
+    {% include "pages/home/panel/panel_morabito.html" %}
+    {% include "pages/home/panel/panel.html" %}
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -159,10 +263,18 @@
                     opacity: 1
                 }, '-=0.5');
 
+                /* --- AVANT --- 
                 tl.to('.image-column', {
                     duration: 1,
                     opacity: 1,
                     stagger: 0.2,
+                    ease: 'power2.inOut'
+                }, '<');*/
+
+                /* --- APRÈS --- */
+                tl.to('.hero-video', { /* <-- On change '.image-column' en '.hero-video' */
+                    duration: 1,
+                    opacity: 1,
                     ease: 'power2.inOut'
                 }, '<');
             }

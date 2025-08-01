@@ -3,28 +3,49 @@
 
     <div class="story-block">
         <div class="story-image">
-            <img src="{% static 'pages/images/give_haute_couture_cover_5127.webp' %}" alt="Croquis d'une création de mode">
+            {% if first_section.image %}
+                <img src="{{ first_section.image.url }}" alt="{{ first_section.title }}">
+            {% else %}
+                <img src="{% static 'pages/images/give_haute_couture_cover_5127.webp' %}" alt="Croquis d'une création de mode">
+            {% endif %}
         </div>
         <div class="story-text">
-            <h3 class="titre-luxe">Savoir-Faire d'Exception</h3>
+            <h3 class="titre-luxe">
+                <span onclick="openModal('update_first_section')" style="cursor: pointer;">
+                    {{ first_section.title|default:"Savoir-Faire d'Exception" }}
+                </span>
+            </h3>
             <p>
-                Au cœur de nos ateliers italiens, chaque création est façonnée à la main par nos artisans, gardiens d'une tradition et d'une excellence uniques.
+                {{ first_section.description|default:"Au cœur de nos ateliers italiens, chaque création est façonnée à la main par nos artisans, gardiens d'une tradition et d'une excellence uniques." }}
             </p>
-            <a href="{% url 'pret-a-porter' %}" class="story-link">Découvrir nos pièces</a>
-
+            {% if first_section.link_text and first_section.link_url %}
+                <a href="{{ first_section.link_url }}" class="story-link">{{ first_section.link_text }}</a>
+            {% else %}
+                <a href="{% url 'pret-a-porter' %}" class="story-link">Découvrir nos pièces</a>
+            {% endif %}
         </div>
     </div>
 
     <div class="story-block reversed">
         <div class="story-image">
-            <img src="{% static 'pages/images/depositphotos_533804942-stock-photo-fashion-sketch-models-wearing-stylish.jpg' %}" alt="Séance d'essayage sur-mesure avec une créatrice">
+            {% if second_section.image %}
+                <img src="{{ second_section.image.url }}" alt="{{ second_section.title }}">
+            {% else %}
+                <img src="{% static 'pages/images/depositphotos_533804942-stock-photo-fashion-sketch-models-wearing-stylish.jpg' %}" alt="Séance d'essayage sur-mesure avec une créatrice">
+            {% endif %}
         </div>
         <div class="story-text">
-            <h3 class="titre-luxe">L'Expérience Sur-Mesure</h3>
+            <h3 class="titre-luxe">
+                {{ second_section.title|default:"L'Expérience Sur-Mesure" }}
+            </h3>
             <p>
-                Pour une occasion spéciale ou le désir d'une pièce qui n'appartient qu'à vous, nous vous invitons à co-créer un vêtement d'exception, parfaitement ajusté à votre silhouette et vos envies.
+                {{ second_section.description|default:"Pour une occasion spéciale ou le désir d'une pièce qui n'appartient qu'à vous, nous vous invitons à co-créer un vêtement d'exception, parfaitement ajusté à votre silhouette et vos envies." }}
             </p>
-            <a href="#" class="story-link">Prendre rendez-vous</a>
+            {% if second_section.link_text and second_section.link_url %}
+                <a href="{{ second_section.link_url }}" class="story-link">{{ second_section.link_text }}</a>
+            {% else %}
+                <a href="#" class="story-link">Prendre rendez-vous</a>
+            {% endif %}
         </div>
     </div>
 

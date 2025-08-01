@@ -11,6 +11,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="{% static 'pages/style_header_2.css' %}">
+        <link rel="stylesheet" href="{% static 'pages/style_commun.css' %}">
         <style>
             .product-grid {
                 display: grid;
@@ -309,17 +310,17 @@
                 <a href="{% url 'home' %}">Charlène Morabito</a>
             </div>
             <div class="header-right">
-                <a href="#">Nous Contacter</a>
-                <a href="#" aria-label="Panier">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                        <line x1="3" y1="6" x2="21" y2="6"></line>
-                        <path d="M16 10a4 4 0 0 1-8 0"></path>
-                    </svg>
+                <a href="#footer">Nous Contacter</a>
+                <a href="{% url 'cart' %}" aria-label="Panier" class="cart-icon-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                    <span class="cart-badge">
+                        <span class="badge-number">3</span>
+                    </span>
                 </a>
             </div>
         </header>
- 
+        
+
         <main>
             <div class="catalog-container">
                 <header class="catalog-header">
@@ -341,7 +342,7 @@
                 <div class="product-grid">
 
                     <article id="product-item-1" class="product-item">
-                        <a href="#">
+                        <a href="{% url 'model' %}">
                             <div id="product-slider-1" class="swiper product-slider">
                                 <div class="swiper-wrapper">
                                     <div class="swiper-slide"><img src="{% static 'pages/images/robes/louis-vuitton-robe-boutonnee-en-denim--FTDR40GOW610_PM1_Worn view.avif' %}" alt="Robe à bretelles - Vue 1"></div>
@@ -360,7 +361,7 @@
                     </article>
 
                     <article id="product-item-2" class="product-item">
-                        <a href="#">
+                        <a href="{% url 'model' %}">
                             <div id="product-slider-2" class="swiper product-slider">
                                 <div class="swiper-wrapper">
                                     <div class="swiper-slide"><img src="{% static 'pages/images/robes/louis-vuitton-robe-polo-en-gabardine-technique--FTDS43G72900_PM1_Worn view.avif' %}" alt="Robe polo en gabardine technique"></div>
@@ -379,7 +380,7 @@
                     </article>
 
                     <article id="product-item-3" class="product-item">
-                        <a href="#">
+                        <a href="{% url 'model' %}">
                             <div id="product-slider-3" class="swiper product-slider">
                                 <div class="swiper-wrapper">
                                     <div class="swiper-slide"><img src="{% static 'pages/images/robes/mini-jupe-a-pli-imprime-guepards-et-palmettes--5E0343DSDE-worn-1-0-0-800-800_g (1).webp' %}" alt="Robe plissée à Monogram délavé"></div>
@@ -563,7 +564,7 @@
                 </div>
             </div>
         </div>
-
+        {% include "pages/home/section/footer.html" %}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>

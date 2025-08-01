@@ -1,0 +1,997 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Panier - Charlène Morabito</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'pages/style_header_2.css' %}">
+</head>
+<body>
+    
+    <header class="minimalist-header">
+        <div class="header-left">
+            <a href="{% url 'pret-a-porter' %}" class="back-button" aria-label="Retour au catalogue">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+            </a>
+        </div>
+        <div class="header-center">
+            <a href="{% url 'home' %}">Charlène Morabito</a>
+        </div>
+        <div class="header-right">
+            <a href="#">Nous Contacter</a>
+        </div>
+    </header>
+
+    <main class="cart-page">
+        <!-- Barre de progression mise à jour avec 4 étapes -->
+        <div class="progress-stepper">
+            <div class="step active" data-step="1">Panier</div>
+            <div class="step disabled" data-step="2">Livraison</div>
+            <div class="step disabled" data-step="3">Paiement</div>
+            <div class="step disabled" data-step="4">Confirmation</div>
+        </div>
+
+        <!-- ÉTAPE 1 : PANIER (Basé sur ton code initial) -->
+        <section id="step-1" class="step-content active">
+            <div class="cart-grid">
+                <section class="cart-details">
+                    <p class="cart-item-count">Vous avez 1 objet dans votre panier.</p>
+                    <div class="cart-item-list">
+                        <div class="cart-item">
+                            <div class="item-image">
+                                <img src="{% static 'pages/images/robes/mini-jupe-a-pli-imprime-guepards-et-palmettes--5E0343DSDE-worn-1-0-0-800-800_g (1).webp' %}" alt="Robe plissée à Monogram délavé">
+                            </div>
+                            <div class="item-info">
+                                <h3>Robe plissée à Monogram délavé</h3>
+                                <p>Couleur : Vert olive</p>
+                                <p>Taille : 38</p>
+                                <p>Réf : CM-ROBE-002</p>
+                            </div>
+                            <div class="item-quantity">
+                                <div class="quantity-selector">
+                                    <button type="button" aria-label="Réduire la quantité">-</button>
+                                    <input type="text" value="1" aria-label="Quantité">
+                                    <button type="button" aria-label="Augmenter la quantité">+</button>
+                                </div>
+                            </div>
+                            <div class="item-price">380,00 €</div>
+                            <div class="item-remove">
+                                <button type="button" aria-label="Supprimer l'article">×</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div class="cart-item-list">
+                        <div class="cart-item">
+                            <div class="item-image">
+                                <img src="{% static 'pages/images/robes/louis-vuitton-robe-chemise-a-monogram-graphique--FTDR63WVD002_PM2_Front view.avif' %}" alt="Robe plissée à Monogram délavé">
+                            </div>
+                            <div class="item-info">
+                                <h3>Robe chemise à Monogram graphique</h3>
+                                <p>Couleur : Vert olive</p>
+                                <p>Taille : 38</p>
+                                <p>Réf : CM-ROBE-002</p>
+                            </div>
+                            <div class="item-quantity">
+                                <div class="quantity-selector">
+                                    <button type="button" aria-label="Réduire la quantité">-</button>
+                                    <input type="text" value="1" aria-label="Quantité">
+                                    <button type="button" aria-label="Augmenter la quantité">+</button>
+                                </div>
+                            </div>
+                            <div class="item-price">333,00 €</div>
+                            <div class="item-remove">
+                                <button type="button" aria-label="Supprimer l'article">×</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="cart-item-list">
+                        <div class="cart-item">
+                            <div class="item-image">
+                                <img src="{% static 'pages/images/robes/louis-vuitton-robe-chemise-a-imprime-monogram-foulard--FSDR29SDK700_PM1_Worn view.avif' %}" alt="Robe plissée à Monogram délavé">
+                            </div>
+                            <div class="item-info">
+                                <h3>Robe chemise à imprimé Monogram Foulard</h3>
+                                <p>Couleur : Vert olive</p>
+                                <p>Taille : 38</p>
+                                <p>Réf : CM-ROBE-002</p>
+                            </div>
+                            <div class="item-quantity">
+                                <div class="quantity-selector">
+                                    <button type="button" aria-label="Réduire la quantité">-</button>
+                                    <input type="text" value="1" aria-label="Quantité">
+                                    <button type="button" aria-label="Augmenter la quantité">+</button>
+                                </div>
+                            </div>
+                            <div class="item-price">400,00 €</div>
+                            <div class="item-remove">
+                                <button type="button" aria-label="Supprimer l'article">×</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="shipping-info">
+                        <p>ⓘ Cet article aura un délai d'expédition de 7-10 jours ouvrés.</p>
+                    </div>
+                    <div class="cart-summary">
+                        <div class="summary-line">
+                            <span>Sous-total</span>
+                            <span>1113,00 €</span>
+                        </div>
+                        <div class="summary-line">
+                            <span>Livraison</span>
+                            <span>Les frais de port seront calculés au moment du paiement.</span>
+                        </div>
+                        <div class="summary-line total">
+                            <span>Total</span>
+                            <span>1113,00 €</span>
+                        </div>
+                    </div>
+                    <div class="gift-option">
+                        <label for="gift"><input type="checkbox" id="gift" name="gift"> Offrir un cadeau</label>
+                    </div>
+                    <div class="cart-actions">
+                        <button type="button" class="btn-primary next-step">Commander</button>
+                    </div>
+                </section>
+                <aside class="cart-sidebar">
+                    <div class="info-box">
+                        <h4>Service Client</h4>
+                        <p><strong>Whatsapp France</strong> : +33 1 40 17 47 00.<br>Du lundi au samedi de 9h à 18h30.</p>
+                        <p><strong>Magasins et commandes en ligne</strong> : +33 (0)1 40 17 47 00.<br>Du lundi au samedi 10h - 19h.</p>
+                    </div>
+                </aside>
+            </div>
+        </section>
+
+        <!-- ÉTAPE 2 : LIVRAISON -->
+        <section id="step-2" class="step-content">
+            <div class="cart-grid">
+                <section class="cart-details">
+                    <form class="shipping-and-payment-form">
+                        <h2>Adresse de livraison</h2>
+                        <div class="form-row">
+                            <div class="form-group"><label for="firstname">Prénom</label><input type="text" id="firstname" name="firstname" required></div>
+                            <div class="form-group"><label for="lastname">Nom</label><input type="text" id="lastname" name="lastname" required></div>
+                        </div>
+                        <div class="form-group"><label for="address1">Adresse</label><input type="text" id="address1" name="address1" placeholder="Numéro et nom de rue" required></div>
+                        <div class="form-group"><label for="address2">Appartement, suite, etc. (facultatif)</label><input type="text" id="address2" name="address2"></div>
+                        <div class="form-row">
+                            <div class="form-group"><label for="zipcode">Code postal</label><input type="text" id="zipcode" name="zipcode" required></div>
+                            <div class="form-group"><label for="city">Ville</label><input type="text" id="city" name="city" required></div>
+                        </div>
+                        <div class="form-group"><label for="country">Pays</label><select id="country" name="country"><option value="france" selected>France</option><option value="belgique">Belgique</option><option value="suisse">Suisse</option><option value="luxembourg">Luxembourg</option></select></div>
+                        <div class="form-group"><label for="phone">Téléphone (facultatif)</label><input type="tel" id="phone" name="phone" placeholder="Pour les mises à jour de livraison"></div>
+                        <div class="cart-actions nav-buttons">
+                            <button type="button" class="btn-secondary prev-step">Retour au panier</button>
+                            <button type="button" class="btn-primary next-step">Valider la livraison</button>
+                        </div>
+                    </form>
+                </section>
+                <aside class="cart-sidebar">
+                    <div class="order-summary-box">
+                        <h4>Récapitulatif</h4>
+
+                        <div class="summary-item">
+                            <img src="{% static 'pages/images/robes/mini-jupe-a-pli-imprime-guepards-et-palmettes--5E0343DSDE-worn-1-0-0-800-800_g (1).webp' %}" alt="Robe plissée à Monogram délavé">
+                            <div class="summary-item-info">
+                                <span>Robe plissée...</span>
+                                <span>Qté: 1</span>
+                            </div>
+                            <span class="summary-item-price">380,00 €</span>
+                        </div>
+
+                        <div class="summary-item">
+                            <img src="{% static 'pages/images/robes/louis-vuitton-robe-chemise-a-monogram-graphique--FTDR63WVD002_PM2_Front view.avif' %}" alt="Robe chemise à Monogram graphique">
+                            <div class="summary-item-info">
+                                <span>Robe chemise...</span>
+                                <span>Qté: 1</span>
+                            </div>
+                            <span class="summary-item-price">333,00 €</span>
+                        </div>
+
+                        <div class="summary-item">
+                            <img src="{% static 'pages/images/robes/louis-vuitton-robe-chemise-a-imprime-monogram-foulard--FSDR29SDK700_PM1_Worn view.avif' %}" alt="Robe chemise à imprimé Monogram Foulard">
+                            <div class="summary-item-info">
+                                <span>Robe chemise...</span>
+                                <span>Qté: 1</span>
+                            </div>
+                            <span class="summary-item-price">400,00 €</span>
+                        </div>
+
+                        <div class="summary-totals">
+                            <div class="summary-line">
+                                <span>Sous-total</span>
+                                <span>1113,00 €</span>
+                            </div>
+                            <div class="summary-line">
+                                <span>Livraison</span>
+                                <span>Gratuite</span>
+                            </div>
+                            <div class="summary-line total">
+                                <span>Total</span>
+                                <span>1113,00 €</span>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </section>
+
+        <!-- ÉTAPE 3 : PAIEMENT -->
+        <section id="step-3" class="step-content">
+            <div class="cart-grid">
+                <section class="cart-details">
+                    <form class="shipping-and-payment-form">
+                        <div class="payment-section">
+                            <h2>Paiement</h2>
+                            <div class="credit-card-form" style="margin-left: 10px; margin-top: 10px;">
+                                <div class="form-group"><label for="card-number">Numéro de carte</label><input type="text" id="card-number" name="card-number" placeholder="•••• •••• •••• ••••" required></div>
+                                <div class="form-row">
+                                    <div class="form-group"><label for="expiry-date">Date d'expiration (MM/AA)</label><input type="text" id="expiry-date" name="expiry-date" placeholder="MM/AA" required></div>
+                                    <div class="form-group"><label for="cvc">Cryptogramme (CVC)</label><input type="text" id="cvc" name="cvc" placeholder="CVC" required></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cart-actions nav-buttons">
+                            <button type="button" class="btn-secondary prev-step">Retour</button>
+                            <button type="button" class="btn-primary next-step">Payer 1113,00 €</button>
+                        </div>
+                    </form>
+                </section>
+                <aside class="cart-sidebar">
+                    <div class="order-summary-box">
+                        <h4>Récapitulatif</h4>
+
+                        <div class="summary-item">
+                            <img src="{% static 'pages/images/robes/mini-jupe-a-pli-imprime-guepards-et-palmettes--5E0343DSDE-worn-1-0-0-800-800_g (1).webp' %}" alt="Robe plissée à Monogram délavé">
+                            <div class="summary-item-info">
+                                <span>Robe plissée...</span>
+                                <span>Qté: 1</span>
+                            </div>
+                            <span class="summary-item-price">380,00 €</span>
+                        </div>
+
+                        <div class="summary-item">
+                            <img src="{% static 'pages/images/robes/louis-vuitton-robe-chemise-a-monogram-graphique--FTDR63WVD002_PM2_Front view.avif' %}" alt="Robe chemise à Monogram graphique">
+                            <div class="summary-item-info">
+                                <span>Robe chemise...</span>
+                                <span>Qté: 1</span>
+                            </div>
+                            <span class="summary-item-price">333,00 €</span>
+                        </div>
+
+                        <div class="summary-item">
+                            <img src="{% static 'pages/images/robes/louis-vuitton-robe-chemise-a-imprime-monogram-foulard--FSDR29SDK700_PM1_Worn view.avif' %}" alt="Robe chemise à imprimé Monogram Foulard">
+                            <div class="summary-item-info">
+                                <span>Robe chemise...</span>
+                                <span>Qté: 1</span>
+                            </div>
+                            <span class="summary-item-price">400,00 €</span>
+                        </div>
+
+                        <div class="summary-totals">
+                            <div class="summary-line">
+                                <span>Sous-total</span>
+                                <span>1113,00 €</span>
+                            </div>
+                            <div class="summary-line">
+                                <span>Livraison</span>
+                                <span>Gratuite</span>
+                            </div>
+                            <div class="summary-line total">
+                                <span>Total</span>
+                                <span>1113,00 €</span>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </section>
+
+        <section id="step-4" class="step-content">
+            <div class="confirmation-letter">
+                <hr class="animated-divider" />
+                
+                <h2>Merci, Ali, votre commande est confirmée.</h2>
+                
+                <p>
+                    Un récapitulatif complet, incluant la facture et les informations de suivi, vient d'être envoyé à votre adresse e-mail : <strong>A@gmail.com</strong>.
+                </p>
+
+                <div class="order-highlight">
+                    <span>Numéro de commande</span>
+                    <strong>#CM-10789</strong>
+                </div>
+
+                <div class="order-summary-box">
+                    <h4>Récapitulatif</h4>
+                    
+                    <div class="summary-item">
+                        <img src="{% static 'pages/images/robes/mini-jupe-a-pli-imprime-guepards-et-palmettes--5E0343DSDE-worn-1-0-0-800-800_g (1).webp' %}" alt="Robe plissée...">
+                        <div class="summary-item-info">
+                            <span>Robe plissée...</span>
+                            <span>Qté: 1</span>
+                        </div>
+                        <span class="summary-item-price">380,00 €</span>
+                    </div>
+
+                    <div class="summary-item">
+                        <img src="{% static 'pages/images/robes/louis-vuitton-robe-chemise-a-monogram-graphique--FTDR63WVD002_PM2_Front view.avif' %}" alt="Robe chemise...">
+                        <div class="summary-item-info">
+                            <span>Robe chemise...</span>
+                            <span>Qté: 1</span>
+                        </div>
+                        <span class="summary-item-price">333,00 €</span>
+                    </div>
+
+                    <div class="summary-item">
+                        <img src="{% static 'pages/images/robes/louis-vuitton-robe-chemise-a-imprime-monogram-foulard--FSDR29SDK700_PM1_Worn view.avif' %}" alt="Robe chemise...">
+                        <div class="summary-item-info">
+                            <span>Robe chemise...</span>
+                            <span>Qté: 1</span>
+                        </div>
+                        <span class="summary-item-price">400,00 €</span>
+                    </div>
+
+                    <div class="summary-totals">
+                        <div class="summary-line">
+                            <span>Sous-total</span>
+                            <span>1113,00 €</span>
+                        </div>
+                        <div class="summary-line">
+                            <span>Livraison</span>
+                            <span>Gratuite</span>
+                        </div>
+                        <div class="summary-line total">
+                            <span>Total</span>
+                            <span>1113,00 €</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cart-actions">
+                    <button type="button" class="btn-primary" onclick="window.location.reload()">Continuer mes achats</button>
+                </div>
+
+                <div class="info-box">
+                    <h4>Besoin d'aide ?</h4>
+                    <p>Contactez notre <strong>Service Client</strong> au +33 1 40 17 47 00.</p>
+                </div>
+            </div>
+        </section>
+                
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                let currentStep = 1;
+                const steps = document.querySelectorAll('.progress-stepper .step');
+                const stepContents = document.querySelectorAll('.step-content');
+                
+                function goToStep(stepNumber) {
+                    currentStep = stepNumber;
+                    steps.forEach((step, index) => {
+                        const stepIndex = index + 1;
+                        step.classList.remove('active', 'completed', 'disabled');
+                        if (stepIndex < currentStep) {
+                            step.classList.add('completed');
+                        } else if (stepIndex === currentStep) {
+                            step.classList.add('active');
+                        } else {
+                            step.classList.add('disabled');
+                        }
+                    });
+                    stepContents.forEach(content => content.classList.remove('active'));
+                    document.getElementById(`step-${currentStep}`).classList.add('active');
+                    window.scrollTo(0, 0);
+                }
+
+                document.querySelectorAll('.next-step').forEach(button => {
+                    button.addEventListener('click', () => goToStep(currentStep + 1));
+                });
+                document.querySelectorAll('.prev-step').forEach(button => {
+                    button.addEventListener('click', () => goToStep(currentStep - 1));
+                });
+                steps.forEach(step => {
+                    step.addEventListener('click', (e) => {
+                        if (!e.currentTarget.classList.contains('disabled')) {
+                            goToStep(parseInt(e.currentTarget.getAttribute('data-step')));
+                        }
+                    });
+                });
+                goToStep(1);
+            });
+        </script>
+    </main>
+
+
+    <style>
+        #step-1 .cart-actions .btn-primary {
+            background: linear-gradient(145deg, #2c2c2c, #1a1a1a);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 18px 30px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            width: 100%;
+            text-align: center;
+            position: relative;
+        }
+
+        #step-1 .cart-actions .btn-primary::after {
+            content: '→';
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        #step-1 .cart-actions .btn-primary:hover {
+            background: linear-gradient(145deg, #383838, #222);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+            transform: translateY(-2px);
+            padding-right: 60px;
+        }
+
+        #step-1 .cart-actions .btn-primary:hover::after {
+            opacity: 1;
+            right: 25px;
+        }
+
+        #step-1 .cart-actions {
+            display: flex;
+            width: 100%;
+        }
+
+        #step-1 .cart-actions .btn-apple-pay {
+            display: none;
+        }
+
+        :root {
+            --color-brand-primary: #1a1a1a;
+            --color-text-primary: #222;
+            --color-text-muted: #666;
+            --color-border-soft: #e0e0e0;
+            --color-border-input: #ccc;
+            --color-background-input: #f5f5f5;
+            --color-white: #fff;
+            --font-primary: 'Raleway', sans-serif;
+            --font-secondary: 'Tenor Sans', sans-serif;
+            --spacing-unit: 8px;
+        }
+
+        .cart-page {
+            max-width: 1300px;
+            margin: 100px auto 40px;
+            padding: 0 20px;
+            font-family: var(--font-primary);
+            color: var(--color-text-primary);
+        }
+
+        .progress-stepper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid transparent; 
+            border-image: linear-gradient(to right, #009246, #333333, #CE2B37) 1;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .progress-stepper .step {
+            position: relative;
+            padding: 0 20px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .progress-stepper .step.active {
+            font-weight: 600;
+            color: var(--color-text-primary);
+        }
+        .progress-stepper .step.completed {
+            color: var(--color-text-primary);
+        }
+        .progress-stepper .step.disabled {
+            cursor: not-allowed;
+            color: #aaa;
+        }
+        .progress-stepper .step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -25px;
+            width: 50px;
+            height: 1px;
+            background-color: var(--color-border-soft);
+        }
+
+        /* --- Logique d'affichage des étapes --- */
+        .step-content {
+            display: none;
+        }
+        .step-content.active {
+            display: block;
+        }
+
+        /* --- Grille Principale --- */
+        .cart-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 50px;
+            align-items: flex-start;
+        }
+
+        /* --- Étape 1 : Panier --- */
+        .cart-details .cart-item-count {
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px 0;
+            border-top: 1px solid var(--color-border-soft);
+        }
+        .cart-item:last-of-type {
+            border-bottom: 1px solid var(--color-border-soft);
+        }
+        .cart-item .item-image img {
+            width: 80px;
+        }
+        .cart-item .item-info {
+            flex-grow: 1;
+        }
+        .cart-item .item-info h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0;
+        }
+        .cart-item .item-info p {
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+            margin: 4px 0 0;
+        }
+        .quantity-selector {
+            display: flex;
+            border: 1px solid var(--color-border-input);
+        }
+        .quantity-selector input {
+            width: 40px;
+            text-align: center;
+            border: none;
+            font-size: 1rem;
+            -moz-appearance: textfield;
+        }
+        .quantity-selector input::-webkit-outer-spin-button, 
+        .quantity-selector input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .quantity-selector button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px 10px;
+            font-size: 1rem;
+        }
+        .item-price {
+            font-weight: 600;
+            width: 120px;
+            text-align: right;
+        }
+        .item-remove button {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #888;
+        }
+        .shipping-info {
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+            margin-top: 20px;
+        }
+        .cart-summary {
+            margin-top: 30px;
+            border-top: 1px solid var(--color-border-soft);
+        }
+        .summary-line {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--color-border-soft);
+        }
+        .summary-line span:first-child {
+            font-weight: 600;
+        }
+        .summary-line.total {
+            font-size: 1.2rem;
+        }
+        .gift-option {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--color-border-soft);
+        }
+        .gift-option label {
+            cursor: pointer;
+        }
+        
+        /* --- Étapes 2 & 3 : Formulaires --- */
+        .shipping-and-payment-form h2, 
+        .payment-section h2 {
+            font-family: var(--font-secondary);
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin: 0 0 calc(var(--spacing-unit) * 5);
+        }
+
+        .payment-section p {
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+            margin-bottom: calc(var(--spacing-unit) * 3);
+        }
+        .form-row {
+            display: flex;
+            gap: calc(var(--spacing-unit) * 3);
+        }
+        .form-row .form-group {
+            flex: 1;
+        }
+        .form-group {
+            margin-bottom: calc(var(--spacing-unit) * 3);
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-unit);
+            color: var(--color-text-primary);
+        }
+        
+        /* CORRECTION DU STYLE DES INPUTS */
+        .form-group input, 
+        .form-group select {
+            width: 100%;
+            font-family: var(--font-primary);
+            font-size: 1rem;
+            color: var(--color-brand-primary);
+            box-sizing: border-box;
+            background-color: var(--color-background-input);
+            border: 1px solid var(--color-background-input); /* Bordure de la même couleur que le fond */
+            border-bottom: 1px solid #ddd; /* Ligne inférieure subtile */
+            border-radius: 4px;
+            padding: 12px;
+            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            appearance: none;
+        }
+
+        .form-group select {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right var(--spacing-unit) center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 32px;
+        }
+                
+
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #333;
+            box-shadow: 0 0 10px 2px rgba(232, 232, 227, 0.7); 
+        }
+        .form-group input, 
+        .form-group select {
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .form-group input:focus::before {
+            transform: scaleY(1);
+        }
+
+
+        .payment-options {
+            display: flex;
+            border: 1px solid var(--color-border-input);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+        .payment-option {
+            flex: 1;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            background-color: var(--color-white);
+            color: var(--color-text-muted);
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+        .payment-option:not(:last-child) {
+            border-right: 1px solid var(--color-border-input);
+        }
+        .payment-option.active {
+            background-color: var(--color-background-input);
+            color: var(--color-brand-primary);
+        }
+
+        /* --- Boutons ---
+        .cart-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        .cart-actions.nav-buttons {
+            justify-content: space-between;
+            align-items: center;
+        }
+        .cart-actions .btn-primary, 
+        .cart-actions .btn-apple-pay, 
+        .cart-actions .btn-secondary {
+            padding: 15px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+            border: 1px solid var(--color-text-primary);
+            transition: background-color 0.2s, color 0.2s;
+        } */
+
+        /* --- Style de base commun et amélioré --- */
+        .cart-actions .btn-primary,
+        .cart-actions .btn-apple-pay,
+        .cart-actions .btn-secondary {
+            padding: 16px 30px;
+            font-size: 0.95rem;          /* Typographie affinée : plus lisible */
+            font-weight: 500;            /* Moins gras, plus élégant */
+            text-transform: none;        /* On enlève les majuscules pour un style plus doux */
+            letter-spacing: 0.5px;       /* On aère légèrement le texte */
+            cursor: pointer;
+            border-radius: 50px;         /* Finition adoucie : forme "pilule" moderne */
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* --- Amélioration du bouton principal (noir) --- */
+        .cart-actions .btn-primary {
+            background-color: #2c2c2c;
+            color: white;
+            border: 1px solid transparent;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-actions .btn-primary:hover {
+            background-color: #383838;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* --- Amélioration du bouton secondaire (style "ghost") --- */
+        .cart-actions .btn-secondary {
+            background-color: transparent;
+            color: var(--color-text-muted);
+            border: 1px solid #ccc;
+        }
+
+        .cart-actions .btn-secondary:hover {
+            background-color: #f5f5f5;
+            border-color: #aaa;
+            color: var(--color-text-primary);
+        }
+        .cart-actions.nav-buttons {
+            display: flex;
+            justify-content: flex-end;
+            align-items: baseline;
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .btn-primary {
+            background-color: var(--color-text-primary);
+            color: var(--color-white);
+            flex-grow: 1;
+        }
+        .btn-primary:hover {
+            background-color: #555;
+            border-color: #555;
+        }
+        .btn-apple-pay {
+            background-color: var(--color-white);
+            color: var(--color-text-primary);
+            flex-grow: 1;
+        }
+        .btn-apple-pay:hover {
+            background-color: #f7f7f7;
+        }
+        .btn-secondary {
+            border: none;
+            background: none;
+            color: var(--color-text-muted);
+            padding: 0;
+            text-transform: none;
+        }
+        .btn-secondary:hover {
+            color: var(--color-text-primary);
+        }
+
+        .cart-sidebar .info-box {
+            background-color: #f7f7f7;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 8px; 
+        }
+
+        .info-box h4 {
+            margin: 0 0 15px 0;
+            font-size: 1rem;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        .info-box p {
+            font-size: 0.8rem;
+            color: #555;
+            margin: 0 0 10px 0;
+            line-height: 1.5;
+        }
+
+        .order-summary-box {
+            border: 1px solid var(--color-border-soft);
+            padding: 32px;
+            position: sticky;
+            top: 40px;
+            /* Ajout pour arrondir les coins de ce bloc */
+            border-radius: 8px;
+        }
+
+        .order-summary-box h4 {
+            margin: 0 0 24px 0;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--color-border-soft);
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        .summary-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .summary-item img {
+            width: 65px;
+            height: auto;
+            border: 1px solid var(--color-border-soft);
+        }
+        .summary-item-info {
+            flex-grow: 1;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        .summary-item-info span:last-child {
+            color: var(--color-text-muted);
+            font-size: 0.85rem;
+            margin-top: 4px;
+            display: block;
+        }
+        .summary-item-price {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .summary-totals {
+            border-top: 1px solid var(--color-border-soft);
+            padding-top: 20px;
+            font-size: 0.9rem;
+        }
+
+
+        .confirmation-letter {
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 0 20px;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Animation de la ligne de séparation */
+        .animated-divider {
+            width: 100px;
+            height: 1px;
+            background-color: #333;
+            border: none;
+            margin: 0 auto 40px;
+            animation: expandWidth 1s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+        }
+
+        @keyframes expandWidth {
+            from { width: 0; }
+            to { width: 100px; }
+        }
+
+        .confirmation-letter h2 {
+            font-family: var(--font-secondary);
+            font-size: 2.2rem;
+            font-weight: 400;
+            margin-bottom: 15px;
+        }
+
+        .confirmation-letter > p {
+            font-size: 1.1rem;
+            color: var(--color-text-muted);
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        /* Bloc pour le numéro de commande */
+        .order-highlight {
+            background-color: #f9f9f9;
+            border: 1px solid #eee;
+            padding: 15px 25px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            font-size: 1rem;
+        }
+        .order-highlight strong {
+            font-family: monospace;
+            font-size: 1.1rem;
+            color: #000;
+        }
+
+        /* On adapte le style des boîtes pour qu'elles soient centrées */
+        .confirmation-letter .order-summary-box,
+        .confirmation-letter .info-box {
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 40px;
+            text-align: left; /* Le contenu des boîtes reste aligné à gauche */
+        }
+
+        .confirmation-letter .cart-actions {
+            margin-bottom: 40px;
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Script pour la galerie de miniatures
+            const thumbnails = document.querySelectorAll('.thumbnail-item');
+            thumbnails.forEach(thumbnail => {
+                thumbnail.addEventListener('click', function() {
+                    thumbnails.forEach(item => item.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // Script pour l'en-tête au défilement
+            const header = document.querySelector('.minimalist-header');
+            if (header) {
+                window.addEventListener('scroll', function() {
+                    if (window.scrollY > 10) {
+                        header.classList.add('scrolled');
+                    } else {
+                        header.classList.remove('scrolled');
+                    }
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
