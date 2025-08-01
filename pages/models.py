@@ -64,3 +64,41 @@ class LookbookImage(models.Model):
         return f"Image {self.pk} - {self.section.subtitle}"
 
 
+
+
+class HeritageIntro(models.Model):
+    title = models.CharField(max_length=200, blank=True)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.title or "Introduction Héritage"
+
+
+class HeritageBlockOne(models.Model):
+    title = models.CharField(max_length=200, blank=True)
+    description = models.TextField(blank=True)
+    image = models.ImageField(upload_to='home/heritage_block_one/', blank=True, null=True)
+
+    def __str__(self):
+        return self.title or "Bloc 1 – Calabre"
+
+
+class HeritageBlockTwo(models.Model):
+    title = models.CharField(max_length=200, blank=True)
+    description = models.TextField(blank=True)
+    image = models.ImageField(upload_to='home/heritage_block_two/', blank=True, null=True)
+
+    def __str__(self):
+        return self.title or "Bloc 2 – Cannes"
+
+
+class HeritageBlockThree(models.Model):
+    title = models.CharField(max_length=200, blank=True)
+    description = models.TextField(blank=True)
+    image = models.ImageField(upload_to='home/heritage_block_three/', blank=True, null=True)
+
+    def __str__(self):
+        return self.title or "Bloc 3 – Paris"
+    
+
+    

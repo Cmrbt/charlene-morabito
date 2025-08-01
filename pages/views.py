@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Brand, FirstHomeSection, SecondHomeSection, ReadyToWearSection, LookbookSection, LookbookImage
+from .models import Brand, FirstHomeSection, SecondHomeSection, ReadyToWearSection, LookbookSection, LookbookImage, HeritageIntro, HeritageBlockOne, HeritageBlockThree, HeritageBlockTwo
 from django.http import HttpResponse
 from django.templatetags.static import static
 from django.shortcuts import get_object_or_404
@@ -7,25 +7,15 @@ from django.http import JsonResponse
 
 
 def morabito_home_view(request):
-    brand = Brand.objects.first()
-    if not brand:
-        brand = Brand.objects.create()
-
-    first_section = FirstHomeSection.objects.first()
-    if not first_section:
-        first_section = FirstHomeSection.objects.create()
-
-    second_section = SecondHomeSection.objects.first()
-    if not second_section:
-        second_section = SecondHomeSection.objects.create()
-
-    ready_section = ReadyToWearSection.objects.first()
-    if not ready_section:
-        ready_section = ReadyToWearSection.objects.create()
-
-    lookbook_section = LookbookSection.objects.first()
-    if not lookbook_section:
-        lookbook_section = LookbookSection.objects.create()
+    brand = Brand.objects.first() or Brand.objects.create()
+    first_section = FirstHomeSection.objects.first() or FirstHomeSection.objects.create()
+    second_section = SecondHomeSection.objects.first() or SecondHomeSection.objects.create()
+    ready_section = ReadyToWearSection.objects.first() or ReadyToWearSection.objects.create()
+    lookbook_section = LookbookSection.objects.first() or LookbookSection.objects.create()
+    heritage_intro = HeritageIntro.objects.first() or HeritageIntro.objects.create()
+    block_one = HeritageBlockOne.objects.first() or HeritageBlockOne.objects.create()
+    block_two = HeritageBlockTwo.objects.first() or HeritageBlockTwo.objects.create()
+    block_three = HeritageBlockThree.objects.first() or HeritageBlockThree.objects.create()
 
     lookbook_images = lookbook_section.images.all()
 
@@ -36,6 +26,10 @@ def morabito_home_view(request):
         'ready_section': ready_section,
         'lookbook_section': lookbook_section,
         'lookbook_images': lookbook_images,
+        'heritage_intro': heritage_intro,
+        'heritage_block_one': block_one,
+        'heritage_block_two': block_two,
+        'heritage_block_three': block_three,
     }
     return render(request, 'pages/home/morabito.html', context)
 
@@ -73,10 +67,138 @@ def brand_action_handler(request):
 
     if action == 'delete_lookbook_image':
         return delete_lookbook_image(request)
+
+    if action == 'update_heritage_intro_info':
+        return update_heritage_intro_info(request)
     
+    if action == 'reset_heritage_intro':
+        return reset_heritage_intro(request)
+
+    if action == 'update_heritage_block_one_info':
+        return update_heritage_block_one_info(request)
+      
+    if action == 'reset_heritage_block_one':
+        return reset_heritage_block_one(request)
+    
+
+    if action == 'update_heritage_block_two_info':
+        return update_heritage_block_two_info(request)
+
+    if action == 'reset_heritage_block_two':
+        return reset_heritage_block_two(request)
+
+    if action == 'update_heritage_block_three_info':
+        return update_heritage_block_three_info(request)
+
+    if action == 'reset_heritage_block_three':
+        return reset_heritage_block_three(request)
+
     return JsonResponse({'status': 'error', 'message': 'Action non reconnue.'})
 
 
+
+def update_heritage_block_three_info(request):
+    section_id = request.POST.get('section_id')
+    section = get_object_or_404(HeritageBlockThree, id=section_id)
+
+    section.title = request.POST.get('title', section.title)
+    section.description = request.POST.get('description', section.description)
+
+    if 'image' in request.FILES:
+        section.image = request.FILES['image']
+
+    section.save()
+    return JsonResponse({'status': 'success', 'message': 'Bloc patrimoine 3 mis à jour.'})
+
+
+def reset_heritage_block_three(request):
+    section_id = request.POST.get('section_id')
+    section = get_object_or_404(HeritageBlockThree, id=section_id)
+
+    section.title = ''
+    section.description = ''
+    section.image.delete(save=False)
+    section.image = None
+
+    section.save()
+    return JsonResponse({'status': 'success', 'message': 'Bloc patrimoine 3 réinitialisé.'})
+
+
+
+def update_heritage_block_two_info(request):
+    section_id = request.POST.get('section_id')
+    section = get_object_or_404(HeritageBlockTwo, id=section_id)
+
+    section.title = request.POST.get('title', section.title)
+    section.description = request.POST.get('description', section.description)
+
+    if 'image' in request.FILES:
+        section.image = request.FILES['image']
+
+    section.save()
+    return JsonResponse({'status': 'success', 'message': 'Bloc patrimoine 2 mis à jour.'})
+
+
+def reset_heritage_block_two(request):
+    section_id = request.POST.get('section_id')
+    section = get_object_or_404(HeritageBlockTwo, id=section_id)
+
+    section.title = ''
+    section.description = ''
+    section.image.delete(save=False)
+    section.image = None
+
+    section.save()
+    return JsonResponse({'status': 'success', 'message': 'Bloc patrimoine 2 réinitialisé.'})
+
+
+def update_heritage_block_one_info(request):
+    section_id = request.POST.get('section_id')
+    section = get_object_or_404(HeritageBlockOne, id=section_id)
+
+    section.title = request.POST.get('title', section.title)
+    section.description = request.POST.get('description', section.description)
+
+    if 'image' in request.FILES:
+        section.image = request.FILES['image']
+
+    section.save()
+    return JsonResponse({'status': 'success', 'message': 'Bloc patrimoine 1 mis à jour.'})
+
+
+def reset_heritage_block_one(request):
+    section_id = request.POST.get('section_id')
+    section = get_object_or_404(HeritageBlockOne, id=section_id)
+
+    section.title = ''
+    section.description = ''
+    section.image.delete(save=False)
+    section.image = None
+
+    section.save()
+    return JsonResponse({'status': 'success', 'message': 'Bloc patrimoine 1 réinitialisé.'})
+
+
+
+def update_heritage_intro_info(request):
+    section_id = request.POST.get('section_id')
+    section = get_object_or_404(HeritageIntro, id=section_id)
+
+    section.title = request.POST.get('title', section.title)
+    section.description = request.POST.get('description', section.description)
+    section.save()
+
+    return JsonResponse({'status': 'success', 'message': 'Intro mise à jour.'})
+
+def reset_heritage_intro(request):
+    section_id = request.POST.get('section_id')
+    section = get_object_or_404(HeritageIntro, id=section_id)
+
+    section.title = ''
+    section.description = ''
+    section.save()
+
+    return JsonResponse({'status': 'success', 'message': 'Intro réinitialisée.'})
 
 def update_lookbook_section_info(request):
     section_id = request.POST.get('section_id')

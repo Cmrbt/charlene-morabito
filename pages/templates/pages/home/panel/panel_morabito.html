@@ -566,3 +566,357 @@ $('#update_brand_form').submit(function(e) {
         });
     });
 </script>
+
+
+
+
+<div id="update_heritage_intro" class="panel_data" style="z-index: 10000; display: none;">
+    <div class="panel panel_data-content">
+        <form id="update_heritage_intro_form" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="update_heritage_intro_info">
+            <input type="hidden" name="section_id" value="{{ heritage_intro.id }}">
+
+            <div class="form-group">
+                <label><strong><em>Titre :</em></strong></label>
+                <textarea class="form-control" name="title" rows="2">{{ heritage_intro.title|default:"Charlène Morabito L'Artisanat Italien au Cœur, l'Allure Parisienne pour Signature" }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label><strong><em>Description :</em></strong></label>
+                <textarea class="form-control" name="description" rows="5">{{ heritage_intro.description|default:"Née de la vision de Charlène Morabito, la maison incarne la fusion de deux cultures : la richesse d'un savoir-faire artisanal hérité de Calabre et l'élégance intemporelle de la France, de la lumière de Cannes à l'effervescence de Paris. Chaque création est une célébration de cette dualité, conçue pour une femme libre, solaire et résolument moderne." }}</textarea>
+            </div>
+
+            <button type="submit" class="full-width-button">Valider</button>
+            <button type="button" id="reset_heritage_intro_button" style="background: none; border: none; color: #c0392b; font-size: 13px; text-decoration: underline; margin: 10px auto 0; display: block; cursor: pointer;">
+                Réinitialiser cette section
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+    $('#update_heritage_intro_form').submit(function(e) {
+        e.preventDefault();
+        const form = $(this)[0];
+        const formData = new FormData(form);
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "brand_action_handler" %}',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                if (response.status === 'success') {
+                    location.reload();
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+    });
+
+    $('#reset_heritage_intro_button').click(function() {
+        if (!confirm("Êtes-vous sûr de vouloir réinitialiser cette section ?")) return;
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "brand_action_handler" %}',
+            data: {
+                'action': 'reset_heritage_intro',
+                'section_id': '{{ heritage_intro.id }}',
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function(response) {
+                if (response.status === 'success') {
+                    location.reload();
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+    });
+</script>
+
+
+
+<div id="update_heritage_block_one" class="panel_data" style="z-index: 10000; display: none;">
+    <div class="panel panel_data-content">
+        <form id="update_heritage_block_one_form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="update_heritage_block_one_info"/>
+            <input type="hidden" name="section_id" value="{{ heritage_block_one.id }}"/>
+
+            <div class="form-group">
+                <label><strong><em>Titre :</em></strong></label>
+                <textarea class="form-control" name="title" rows="2">{{ heritage_block_one.title|default:"Les Racines Calabraises" }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label><strong><em>Description :</em></strong></label>
+                <textarea class="form-control" name="description" rows="5">{{ heritage_block_one.description|default:"C'est en Calabre, terre de caractère et de traditions, que l'histoire de la maison prend racine. Cet héritage italien, transmis avec passion, insuffle à chaque pièce une âme unique. Le culte des belles matières, la précision du geste et le sens du détail sont les piliers d'un artisanat d'exception qui défie le temps." }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label><strong><em>Image :</em></strong></label>
+                <input type="file" id="heritage_block_one_image_input" name="image">
+                <p id="heritage_block_one_filename" style="font-size: 13px; color: #555; margin-top: 5px; display: none;">
+                    Fichier sélectionné : <span id="heritage_block_one_selected_name"></span>
+                </p>
+            </div>
+
+            <button type="submit" class="full-width-button">Valider</button>
+            <button type="button" id="reset_heritage_block_one_button" style="background: none; border: none; color: #c0392b; font-size: 13px; text-decoration: underline; margin: 10px auto 0; display: block; cursor: pointer;">
+                Réinitialiser ce bloc
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+    $('#update_heritage_block_one_form').submit(function(e) {
+        e.preventDefault();
+        const form = this;
+        const formData = new FormData(form);
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "brand_action_handler" %}',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                if (response.status === 'success') {
+                    location.reload();
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+    });
+
+    const heritageInput = document.getElementById('heritage_block_one_image_input');
+    const heritageText = document.getElementById('heritage_block_one_filename');
+    const heritageName = document.getElementById('heritage_block_one_selected_name');
+
+    heritageInput.addEventListener('change', function () {
+        if (this.files.length > 0) {
+            heritageName.textContent = this.files[0].name;
+            heritageText.style.display = 'block';
+        } else {
+            heritageName.textContent = '';
+            heritageText.style.display = 'none';
+        }
+    });
+
+    $('#reset_heritage_block_one_button').click(function () {
+        if (!confirm("Êtes-vous sûr de vouloir réinitialiser ce bloc ?")) return;
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "brand_action_handler" %}',
+            data: {
+                'action': 'reset_heritage_block_one',
+                'section_id': '{{ heritage_block_one.id }}',
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function (response) {
+                if (response.status === 'success') {
+                    location.reload();
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+    });
+</script>
+
+
+
+
+<div id="update_heritage_block_two" class="panel_data" style="z-index: 10000; display: none;">
+    <div class="panel panel_data-content">
+        <form id="update_heritage_block_two_form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="update_heritage_block_two_info"/>
+            <input type="hidden" name="section_id" value="{{ heritage_block_two.id }}"/>
+
+            <div class="form-group">
+                <label><strong><em>Titre :</em></strong></label>
+                <textarea class="form-control" name="title" rows="2">{{ heritage_block_two.title|default:"L'Élégance Cannoise" }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label><strong><em>Description :</em></strong></label>
+                <textarea class="form-control" name="description" rows="5">{{ heritage_block_two.description|default:"Baignée par la lumière de la Côte d'Azur, Charlène Morabito développe à Cannes son amour pour une silhouette à la fois chic et décontractée. Le glamour de la Croisette et l'art de vivre méditerranéen inspirent des collections fluides et solaires, qui subliment le corps en mouvement et célèbrent une féminité naturelle." }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label><strong><em>Image :</em></strong></label>
+                <input type="file" id="heritage_block_two_image_input" name="image">
+                <p id="heritage_block_two_filename" style="font-size: 13px; color: #555; margin-top: 5px; display: none;">
+                    Fichier sélectionné : <span id="heritage_block_two_selected_name"></span>
+                </p>
+            </div>
+
+            <button type="submit" class="full-width-button">Valider</button>
+            <button type="button" id="reset_heritage_block_two_button" style="background: none; border: none; color: #c0392b; font-size: 13px; text-decoration: underline; margin: 10px auto 0; display: block; cursor: pointer;">
+                Réinitialiser ce bloc
+            </button>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    $('#update_heritage_block_two_form').submit(function(e) {
+        e.preventDefault();
+        const form = this;
+        const formData = new FormData(form);
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "brand_action_handler" %}',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                if (response.status === 'success') {
+                    location.reload();
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+    });
+
+    const heritageInputTwo = document.getElementById('heritage_block_two_image_input');
+    const heritageTextTwo = document.getElementById('heritage_block_two_filename');
+    const heritageNameTwo = document.getElementById('heritage_block_two_selected_name');
+
+    heritageInputTwo.addEventListener('change', function () {
+        if (this.files.length > 0) {
+            heritageNameTwo.textContent = this.files[0].name;
+            heritageTextTwo.style.display = 'block';
+        } else {
+            heritageNameTwo.textContent = '';
+            heritageTextTwo.style.display = 'none';
+        }
+    });
+
+    $('#reset_heritage_block_two_button').click(function () {
+        if (!confirm("Êtes-vous sûr de vouloir réinitialiser ce bloc ?")) return;
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "brand_action_handler" %}',
+            data: {
+                'action': 'reset_heritage_block_two',
+                'section_id': '{{ heritage_block_two.id }}',
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function (response) {
+                if (response.status === 'success') {
+                    location.reload();
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+    });
+</script>
+
+
+
+
+<div id="update_heritage_block_three" class="panel_data" style="z-index: 10000; display: none;">
+    <div class="panel panel_data-content">
+        <form id="update_heritage_block_three_form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="update_heritage_block_three_info"/>
+            <input type="hidden" name="section_id" value="{{ heritage_block_three.id }}"/>
+
+            <div class="form-group">
+                <label><strong><em>Titre :</em></strong></label>
+                <textarea class="form-control" name="title" rows="2">{{ heritage_block_three.title|default:"La Consécration Parisienne" }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label><strong><em>Description :</em></strong></label>
+                <textarea class="form-control" name="description" rows="5">{{ heritage_block_three.description|default:"C'est à Paris, capitale incontestée de la mode, que la vision de la créatrice s'affirme pleinement. La silhouette Morabito y gagne en structure et en audace. L'énergie de la ville, son exigence et son avant-gardisme poussent à la réinvention constante, donnant naissance à des pièces fortes qui marient à la perfection force et douceur." }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label><strong><em>Image :</em></strong></label>
+                <input type="file" id="heritage_block_three_image_input" name="image">
+                <p id="heritage_block_three_filename" style="font-size: 13px; color: #555; margin-top: 5px; display: none;">
+                    Fichier sélectionné : <span id="heritage_block_three_selected_name"></span>
+                </p>
+            </div>
+
+            <button type="submit" class="full-width-button">Valider</button>
+            <button type="button" id="reset_heritage_block_three_button" style="background: none; border: none; color: #c0392b; font-size: 13px; text-decoration: underline; margin: 10px auto 0; display: block; cursor: pointer;">
+                Réinitialiser ce bloc
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+    $('#update_heritage_block_three_form').submit(function(e) {
+        e.preventDefault();
+        const form = this;
+        const formData = new FormData(form);
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "brand_action_handler" %}',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                if (response.status === 'success') {
+                    location.reload();
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+    });
+
+    const heritageInputThree = document.getElementById('heritage_block_three_image_input');
+    const heritageTextThree = document.getElementById('heritage_block_three_filename');
+    const heritageNameThree = document.getElementById('heritage_block_three_selected_name');
+
+    heritageInputThree.addEventListener('change', function () {
+        if (this.files.length > 0) {
+            heritageNameThree.textContent = this.files[0].name;
+            heritageTextThree.style.display = 'block';
+        } else {
+            heritageNameThree.textContent = '';
+            heritageTextThree.style.display = 'none';
+        }
+    });
+
+    $('#reset_heritage_block_three_button').click(function () {
+        if (!confirm("Êtes-vous sûr de vouloir réinitialiser ce bloc ?")) return;
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "brand_action_handler" %}',
+            data: {
+                'action': 'reset_heritage_block_three',
+                'section_id': '{{ heritage_block_three.id }}',
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function (response) {
+                if (response.status === 'success') {
+                    location.reload();
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+    });
+</script>

@@ -2,48 +2,66 @@
 <section id="la-maison" class="maison-section">
 
     <div class="maison-intro">
-        <h2>Charlène Morabito <br> L'Artisanat Italien au Cœur, l'Allure Parisienne pour Signature</h2>
+        <h2 onclick="openModal('update_heritage_intro')" style="cursor: pointer;">
+            {{ heritage_intro.title|default:"Charlène Morabito <br> L'Artisanat Italien au Cœur, l'Allure Parisienne pour Signature" }}
+        </h2>
         <p>
-            Née de la vision de Charlène Morabito, la maison incarne la fusion de deux cultures : la richesse d'un savoir-faire artisanal hérité de Calabre et l'élégance intemporelle de la France, de la lumière de Cannes à l'effervescence de Paris. Chaque création est une célébration de cette dualité, conçue pour une femme libre, solaire et résolument moderne.
+            {{ heritage_intro.description|default:"Née de la vision de Charlène Morabito, la maison incarne la fusion de deux cultures : la richesse d'un savoir-faire artisanal hérité de Calabre et l'élégance intemporelle de la France, de la lumière de Cannes à l'effervescence de Paris. Chaque création est une célébration de cette dualité, conçue pour une femme libre, solaire et résolument moderne." }}
         </p>
     </div>
 
     <div class="story-block">
         <div class="story-text">
-            <h3>Les Racines Calabraises</h3>
+            <h3 onclick="openModal('update_heritage_block_one')" style="cursor: pointer;">
+                {{ heritage_block_one.title|default:"Les Racines Calabraises" }}
+            </h3>
             <p>
-                C'est en Calabre, terre de caractère et de traditions, que l'histoire de la maison prend racine. Cet héritage italien, transmis avec passion, insuffle à chaque pièce une âme unique. Le culte des belles matières, la précision du geste et le sens du détail sont les piliers d'un artisanat d'exception qui défie le temps.
+                {{ heritage_block_one.description|default:"C'est en Calabre, terre de caractère et de traditions, que l'histoire de la maison prend racine. Cet héritage italien, transmis avec passion, insuffle à chaque pièce une âme unique. Le culte des belles matières, la précision du geste et le sens du détail sont les piliers d'un artisanat d'exception qui défie le temps." }}
             </p>
         </div>
         <div class="story-image">
-            <img src="{% static 'pages/images/maison/CAZA_AZZURRA_CALABRIA.jpg' %}"  alt="Paysage inspiré de la Calabre">
+            {% if heritage_block_one.image %}
+                <img src="{{ heritage_block_one.image.url }}" alt="{{ heritage_block_one.title }}">
+            {% else %}
+                <img src="{% static 'pages/images/maison/CAZA_AZZURRA_CALABRIA.jpg' %}" alt="Paysage inspiré de la Calabre">
+            {% endif %}
         </div>
     </div>
 
     <div class="story-block layout-reversed">
-        <div class="story-text" style="text-align: right;"> <h3>L'Élégance Cannoise</h3>
+        <div class="story-text" style="text-align: right;">
+            <h3 onclick="openModal('update_heritage_block_two')" style="cursor: pointer;">{{ heritage_block_two.title|default:"L'Élégance Cannoise" }}</h3>
             <p>
-                Baignée par la lumière de la Côte d'Azur, Charlène Morabito développe à Cannes son amour pour une silhouette à la fois chic et décontractée. Le glamour de la Croisette et l'art de vivre méditerranéen inspirent des collections fluides et solaires, qui subliment le corps en mouvement et célèbrent une féminité naturelle.
+                {{ heritage_block_two.description|default:"Baignée par la lumière de la Côte d'Azur, Charlène Morabito développe à Cannes son amour pour une silhouette à la fois chic et décontractée. Le glamour de la Croisette et l'art de vivre méditerranéen inspirent des collections fluides et solaires, qui subliment le corps en mouvement et célèbrent une féminité naturelle." }}
             </p>
         </div>
         <div class="story-image">
-            <img src="{% static 'pages/images/maison/ffff.jpg' %}"  alt="Paysage inspiré de Cannes">
+            {% if heritage_block_two.image %}
+                <img src="{{ heritage_block_two.image.url }}" alt="{{ heritage_block_two.title }}">
+            {% else %}
+                <img src="{% static 'pages/images/maison/ffff.jpg' %}" alt="Paysage inspiré de Cannes">
+            {% endif %}
         </div>
     </div>
     
     <div class="story-block">
         <div class="story-text">
-            <h3>La Consécration Parisienne</h3>
+            <h3 onclick="openModal('update_heritage_block_three')" style="cursor: pointer;">{{ heritage_block_three.title|default:"La Consécration Parisienne" }}</h3>
             <p>
-                C'est à Paris, capitale incontestée de la mode, que la vision de la créatrice s'affirme pleinement. La silhouette Morabito y gagne en structure et en audace. L'énergie de la ville, son exigence et son avant-gardisme poussent à la réinvention constante, donnant naissance à des pièces fortes qui marient à la perfection force et douceur.
+                {{ heritage_block_three.description|default:"C'est à Paris, capitale incontestée de la mode, que la vision de la créatrice s'affirme pleinement. La silhouette Morabito y gagne en structure et en audace. L'énergie de la ville, son exigence et son avant-gardisme poussent à la réinvention constante, donnant naissance à des pièces fortes qui marient à la perfection force et douceur." }}
             </p>
         </div>
         <div class="story-image">
-            <img src="{% static 'pages/images/maison/Paris.jpg' %}"  alt="Paysage inspiré de Cannes">
+            {% if heritage_block_three.image %}
+                <img src="{{ heritage_block_three.image.url }}" alt="{{ heritage_block_three.title }}">
+            {% else %}
+                <img src="{% static 'pages/images/maison/Paris.jpg' %}" alt="Paysage inspiré de Paris">
+            {% endif %}
         </div>
     </div>
 
 </section>
+
 
 
 
