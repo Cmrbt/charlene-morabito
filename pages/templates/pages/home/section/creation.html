@@ -36,7 +36,9 @@
         </div>
         <div class="story-text">
             <h3 class="titre-luxe">
-                {{ second_section.title|default:"L'Expérience Sur-Mesure" }}
+                <span onclick="openModal('update_second_section')" style="cursor: pointer;">
+                    {{ second_section.title|default:"L'Expérience Sur-Mesure" }}
+                </span>
             </h3>
             <p>
                 {{ second_section.description|default:"Pour une occasion spéciale ou le désir d'une pièce qui n'appartient qu'à vous, nous vous invitons à co-créer un vêtement d'exception, parfaitement ajusté à votre silhouette et vos envies." }}

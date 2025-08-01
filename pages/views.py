@@ -40,7 +40,43 @@ def brand_action_handler(request):
     if action == 'reset_first_section':
         return reset_first_section(request)
 
+    if action == 'update_second_section_info':
+        return update_second_section_info(request)
+
+    if action == 'reset_second_section':
+        return reset_second_section(request)
+
     return JsonResponse({'status': 'error', 'message': 'Action non reconnue.'})
+
+
+
+def update_second_section_info(request):
+    section_id = request.POST.get('section_id')
+    section = get_object_or_404(SecondHomeSection, id=section_id)
+
+    section.title = request.POST.get('title', section.title)
+    section.description = request.POST.get('description', section.description)
+    section.link_text = request.POST.get('link_text', section.link_text)
+    section.link_url = request.POST.get('link_url', section.link_url)
+
+    if 'image' in request.FILES:
+        print("IMAGE 2 REÇUE :", request.FILES['image'])
+        section.image = request.FILES['image']
+    else:
+        print("AUCUNE IMAGE 2 REÇUE")
+
+    section.save()
+    return JsonResponse({'status': 'success', 'message': 'Deuxième section mise à jour.'})
+
+
+def reset_second_section(request):
+    section_id = request.POST.get('section_id')
+    section = get_object_or_404(SecondHomeSection, id=section_id)
+    section.delete()
+    return JsonResponse({'status': 'success', 'message': 'Deuxième section supprimée.'})
+
+
+
 
 def reset_first_section(request):
     section_id = request.POST.get('section_id')
