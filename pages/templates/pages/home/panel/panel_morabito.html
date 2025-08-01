@@ -268,3 +268,301 @@ $('#update_brand_form').submit(function(e) {
     });
 });
 </script>
+
+
+
+
+<div id="update_ready_section" class="panel_data" style="z-index: 10000; display: none;">
+    <div class="panel panel_data-content">
+        <form id="update_ready_section_form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="update_ready_section_info"/>
+            <input type="hidden" name="section_id" value="{{ ready_section.id }}"/>
+
+            <div class="form-group">
+                <label><strong><em>Sous-titre :</em></strong></label>
+                <input type="text" class="form-control" name="subtitle" value="{{ ready_section.subtitle|default:'Collection' }}">
+            </div>
+
+            <div class="form-group">
+                <label><strong><em>Titre :</em></strong></label>
+                <input type="text" class="form-control" name="title" value="{{ ready_section.title|default:'Haute Couture' }}">
+            </div>
+
+            <div class="form-group">
+                <label><strong><em>Texte du lien :</em></strong></label>
+                <input type="text" class="form-control" name="link_text" value="{{ ready_section.link_text|default:'Découvrir' }}">
+            </div>
+
+            <div class="form-group">
+                <label><strong><em>URL du lien :</em></strong></label>
+                <input type="url" class="form-control" name="link_url" value="{{ ready_section.link_url|default:'' }}">
+            </div>
+
+            <div class="form-group">
+                <label><strong><em>Image de fond :</em></strong></label>
+                <input type="file" name="background">
+                <p id="image_selected_text_ready" style="font-size: 13px; color: #555; margin-top: 5px; display: none;">
+                    Fichier sélectionné : <span id="selected_filename_ready"></span>
+                </p>
+            </div>
+
+            <button type="submit" class="full-width-button">Valider</button>
+            <button type="button" id="reset_ready_section_button" style="background: none; border: none; color: #c0392b; font-size: 13px; text-decoration: underline; margin: 10px auto 0; display: block; cursor: pointer;">
+                Réinitialiser cette section
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+    $('#update_ready_section_form').submit(function(e) {
+        e.preventDefault();
+        const form = $(this)[0];
+        const formData = new FormData(form);
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "brand_action_handler" %}',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                if (response.status === 'success') {
+                    location.reload();
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+    });
+
+    const inputImageReady = document.querySelector('#update_ready_section_form input[name="background"]');
+    const textContainerReady = document.getElementById('image_selected_text_ready');
+    const filenameSpanReady = document.getElementById('selected_filename_ready');
+
+    inputImageReady.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            filenameSpanReady.textContent = file.name;
+            textContainerReady.style.display = 'block';
+        } else {
+            filenameSpanReady.textContent = '';
+            textContainerReady.style.display = 'none';
+        }
+    });
+
+    $('#reset_ready_section_button').click(function() {
+        if (!confirm("Êtes-vous sûr de vouloir réinitialiser cette section ?")) return;
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "brand_action_handler" %}',
+            data: {
+                'action': 'reset_ready_section',
+                'section_id': '{{ ready_section.id }}',
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function(response) {
+                if (response.status === 'success') {
+                    location.reload();
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+    });
+</script>
+
+
+<div id="update_lookbook_section" class="panel_data" style="z-index: 10000; display: none;">
+    <div class="panel panel_data-content">
+        <form id="update_lookbook_section_form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="update_lookbook_section_info"/>
+            <input type="hidden" name="section_id" value="{{ lookbook_section.id }}"/>
+
+            <div class="form-group">
+                <label><strong><em>Sous-titre :</em></strong></label>
+                <input type="text" class="form-control" name="subtitle" value="{{ lookbook_section.subtitle|default:'Collection 2025' }}">
+            </div>
+
+            <div class="form-group">
+                <label><strong><em>Images à ajouter :</em></strong></label>
+                <input type="file" id="lookbook_images_input" name="images" multiple>
+                <div id="lookbook_preview_container" style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 10px;"></div>
+            </div>
+
+            <div class="form-group">
+                <label><strong><em>Images déjà enregistrées :</em></strong></label>
+                <div id="existing_lookbook_images" style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 10px;">
+                    {% for img in lookbook_section.images.all %}
+                        <div class="lookbook-img-box" data-id="{{ img.id }}">
+                            <img src="{{ img.image.url }}" style="width: 100px; height: auto; border: 1px solid #ccc;">
+                            <button type="button" class="delete-lookbook-image" data-id="{{ img.id }}" style="display: block; margin: 5px auto; font-size: 11px; color: #c0392b;">Supprimer</button>
+                        </div>
+                    {% empty %}
+                        <p>Aucune image enregistrée.</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <button type="submit" class="full-width-button">Valider</button>
+            <button type="button" id="reset_lookbook_section_button" style="background: none; border: none; color: #c0392b; font-size: 13px; text-decoration: underline; margin: 10px auto 0; display: block; cursor: pointer;">
+                Réinitialiser cette section
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+    const input = document.getElementById('lookbook_images_input');
+    const previewContainer = document.getElementById('lookbook_preview_container');
+    let selectedFiles = [];
+
+    input.addEventListener('change', function () {
+        const newFiles = Array.from(this.files);
+        selectedFiles = selectedFiles.concat(newFiles);
+
+        previewContainer.innerHTML = '';
+        selectedFiles.forEach((file, index) => {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const div = document.createElement('div');
+                div.style.position = 'relative';
+                div.style.width = '100px';
+
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.style.width = '100%';
+                img.style.border = '1px solid #ccc';
+
+                const removeBtn = document.createElement('button');
+                removeBtn.innerText = '✖';
+                removeBtn.type = 'button';
+                removeBtn.style.position = 'absolute';
+                removeBtn.style.top = '0';
+                removeBtn.style.right = '0';
+                removeBtn.style.background = '#c0392b';
+                removeBtn.style.color = '#fff';
+                removeBtn.style.border = 'none';
+                removeBtn.style.cursor = 'pointer';
+                removeBtn.onclick = () => {
+                    selectedFiles.splice(index, 1);
+                    updatePreview();
+                };
+
+                div.appendChild(img);
+                div.appendChild(removeBtn);
+                previewContainer.appendChild(div);
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // Clear input to allow selecting same file again
+        this.value = '';
+    });
+
+    function updatePreview() {
+        previewContainer.innerHTML = '';
+        selectedFiles.forEach((file, index) => {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const div = document.createElement('div');
+                div.style.position = 'relative';
+                div.style.width = '100px';
+
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.style.width = '100%';
+                img.style.border = '1px solid #ccc';
+
+                const removeBtn = document.createElement('button');
+                removeBtn.innerText = '✖';
+                removeBtn.type = 'button';
+                removeBtn.style.position = 'absolute';
+                removeBtn.style.top = '0';
+                removeBtn.style.right = '0';
+                removeBtn.style.background = '#c0392b';
+                removeBtn.style.color = '#fff';
+                removeBtn.style.border = 'none';
+                removeBtn.style.cursor = 'pointer';
+                removeBtn.onclick = () => {
+                    selectedFiles.splice(index, 1);
+                    updatePreview();
+                };
+
+                div.appendChild(img);
+                div.appendChild(removeBtn);
+                previewContainer.appendChild(div);
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    $('#update_lookbook_section_form').submit(function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        selectedFiles.forEach(file => formData.append('images', file));
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "brand_action_handler" %}',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                if (response.status === 'success') {
+                    location.reload();
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+    });
+
+    $(document).on('click', '.delete-lookbook-image', function () {
+        const imageId = $(this).data('id');
+        const token = '{{ csrf_token }}';
+
+        if (!confirm("Supprimer cette image ?")) return;
+
+        $.ajax({
+            url: '{% url "brand_action_handler" %}',
+            method: 'POST',
+            data: {
+                'action': 'delete_lookbook_image',
+                'image_id': imageId,
+                'csrfmiddlewaretoken': token
+            },
+            success: function (response) {
+                if (response.status === 'success') {
+                    $('.lookbook-img-box[data-id="' + imageId + '"]').remove();
+                } else {
+                    alert(response.message || 'Erreur');
+                }
+            }
+        });
+    });
+
+    $('#reset_lookbook_section_button').click(function () {
+        if (!confirm("Êtes-vous sûr de vouloir réinitialiser cette section ?")) return;
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "brand_action_handler" %}',
+            data: {
+                'action': 'reset_lookbook_section',
+                'section_id': '{{ lookbook_section.id }}',
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function (response) {
+                if (response.status === 'success') {
+                    location.reload();
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+    });
+</script>

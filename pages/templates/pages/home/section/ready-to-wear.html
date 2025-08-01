@@ -1,12 +1,42 @@
 {% load static %}
-<section id="ready-to-wear" class="invitation-section">
+<section id="ready-to-wear" class="invitation-section" style="background-image: url(
+        {% if ready_section.background %}
+            {{ ready_section.background.url }}
+        {% else %}
+            {% static 'pages/images/Morabito4.JPG' %}
+        {% endif %}
+    );">
     <div class="invitation-content">
-        <p class="invitation-subtitle">Collection</p>
-        <h2 class="invitation-title">Haute Couture</h2>
-        <a href="{% url 'pret-a-porter' %}" class="invitation-button">Découvrir</a>
+        <p class="invitation-subtitle" onclick="openModal('update_ready_section')" style="cursor: pointer;">
+            {{ ready_section.subtitle|default:"Collection" }}
+        </p>
+        <h2 class="invitation-title">
+            {{ ready_section.title|default:"Haute Couture" }}
+        </h2>
+        {% if ready_section.button_url and ready_section.button_text %}
+            <a href="{{ ready_section.button_url }}" class="invitation-button">{{ ready_section.button_text }}</a>
+        {% else %}
+            <a href="{% url 'pret-a-porter' %}" class="invitation-button">Découvrir</a>
+        {% endif %}
     </div>
 </section>
+
 <style>
+    .invitation-section {
+        height: 90vh;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: #fff;
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+
+
+    @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;500&display=swap');
     .invitation-subtitle {
         font-family: 'Raleway', sans-serif;
         font-size: 1rem;
@@ -14,8 +44,6 @@
         text-transform: uppercase;
         margin-bottom: 15px;
     }
-
-    @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;500&display=swap');
 
     .invitation-title {
         font-family: 'Raleway', sans-serif;
@@ -35,21 +63,6 @@
         margin: 25px auto 0;
         background-image: linear-gradient(to right, #009246 33.3%, #ffffff 33.3%, #ffffff 66.6%, #CE2B37 66.6%);
     }
-
-    .invitation-section {
-        height: 90vh; 
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        color: #fff;
-        background-image: url("{% static 'pages/images/Morabito4.JPG' %}");
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed; /* Effet de parallaxe simple */
-    }
-
     .invitation-section::before {
         content: '';
         position: absolute;

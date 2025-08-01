@@ -3,17 +3,26 @@
 <section id="lookbook" class="lookbook-section">
     <div class="swiper-container">
         <div class="swiper-wrapper">
-            <div class="swiper-slide" style="background-image: url('{% static 'pages/images/swiper-slide/WOMEN_035_DENIM-GRIS-ROSE_LVCOM_2048x1152_DI3.webp' %}');"></div>
-            <div class="swiper-slide" style="background-image: url('{% static 'pages/images/swiper-slide/WOMEN_DREAM_MISTY_DI3.webp' %}');"></div>
-            <div class="swiper-slide" style="background-image: url('{% static 'pages/images/swiper-slide/WOMEN_CREATORS_WORN_2_DI3.jpg' %}');"></div>
-            <div class="swiper-slide" style="background-image: url('{% static 'pages/images/swiper-slide/W_BC_LG_CARRYALLBB_WORN_DEC24_01_DI3.webp' %}');"></div>
+            {% if lookbook_images %}
+                {% for image in lookbook_images %}
+                    <div class="swiper-slide" style="background-image: url('{{ image.image.url }}');"></div>
+                {% endfor %}
+            {% else %}
+                <div class="swiper-slide" style="background-image: url('{% static 'pages/images/swiper-slide/WOMEN_035_DENIM-GRIS-ROSE_LVCOM_2048x1152_DI3.webp' %}');"></div>
+                <div class="swiper-slide" style="background-image: url('{% static 'pages/images/swiper-slide/WOMEN_DREAM_MISTY_DI3.webp' %}');"></div>
+                <div class="swiper-slide" style="background-image: url('{% static 'pages/images/swiper-slide/WOMEN_CREATORS_WORN_2_DI3.jpg' %}');"></div>
+                <div class="swiper-slide" style="background-image: url('{% static 'pages/images/swiper-slide/W_BC_LG_CARRYALLBB_WORN_DEC24_01_DI3.webp' %}');"></div>
+            {% endif %}
         </div>
     </div>
 
     <div class="lookbook-content">
-        <p class="lookbook-subtitle">Collection 2025</p>
+        <p class="lookbook-subtitle" onclick="openModal('update_lookbook_section')" style="cursor: pointer;">
+            {{ lookbook_section.subtitle|default:"Collection 2025" }}
+        </p>
     </div>
 </section>
+
 
 <style>
     .lookbook-section {
