@@ -12,6 +12,8 @@
         <link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="{% static 'pages/style_header_2.css' %}">
         <link rel="stylesheet" href="{% static 'pages/style_commun.css' %}">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
         <style>
             .product-grid {
                 display: grid;
@@ -327,7 +329,7 @@
                     <div class="catalog-path">
                         <a href="{% url 'home' %}">Accueil</a>
                         <span class="separator">/</span>
-                        <span>Prêt-à-porter</span>
+                        <span onclick="openModal('create_product_title_panel')" style="cursor: pointer;">Prêt-à-porter</span>
                         <span class="item-count">(6 articles)</span>
                     </div>
 
@@ -516,6 +518,8 @@
                 </div>
             </div>
         </main>
+
+        {% include "pages/home/panel/panel.html" %}
 
         <div id="filter-overlay" class="filter-overlay">
             <button id="close-filter-btn" class="filter-overlay-close">&times;</button>

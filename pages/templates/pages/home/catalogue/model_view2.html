@@ -1,0 +1,467 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Robe plissée à Monogram délavé - Charlène Morabito</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'pages/style_header_2.css' %}">
+    <link rel="stylesheet" href="{% static 'pages/style_commun.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        /* --- STYLES GLOBAUX & CONTENU DE LA PAGE UNIQUEMENT --- 
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            font-family: 'Raleway', sans-serif;
+            color: #1c1c1c;
+            background-color: #f7f7f7;
+        }*/
+
+        /* --- PARTIE 1 : SECTION HERO AVEC L'IMAGE SEULE --- */
+        .hero-image-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f7f7f7;
+        }
+        .hero-image-section img {
+            max-height: 80vh;
+            width: auto;
+            max-width: 90%;
+        }
+
+        /* --- PARTIE 2 : SECTION DÉTAILS AVEC LES 2 COLONNES --- */
+        .product-details-section {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 80px;
+            padding: 50px 40px 20px 40px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 30px;
+        }
+
+        /* Colonne de Gauche */
+        .details-left-column .info-header {
+            padding-bottom: 10px;
+        }
+        .details-left-column .info-header h1 {
+            font-size: 1.2rem;
+            font-weight: 400;
+            text-transform: none;
+            margin: 0 0 8px 0;
+        }
+        .details-left-column .info-header .price {
+            font-size: 1.2rem;
+        }
+
+        .static-description {
+            padding: 25px 0;
+        }
+        .static-description h2 {
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin: 0 0 15px 0;
+        }
+        .static-description p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #555;
+            margin: 0px 0;
+            margin-top: -10px;
+        }
+
+        .accordion-item {
+            border-top: 1px solid #e0e0e0;
+            padding: 20px 0;
+        }
+        .details-left-column .accordion-item:last-of-type {
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .accordion-item summary {
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .accordion-item summary::-webkit-details-marker {
+            display: none;
+        }
+        .accordion-item summary::after {
+            content: '+';
+            font-size: 1.8rem;
+            font-weight: 300;
+            transition: transform 0.2s ease;
+        }
+        .accordion-item[open] > summary::after {
+            transform: rotate(45deg);
+        }
+
+        .accordion-content {
+            padding-top: 15px;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #555;
+        }
+        
+        /* Colonne de Droite */
+        .details-right-column {
+            text-align: left;
+        }
+        .details-right-column .info-text {
+            font-size: 0.7rem;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        .product-thumbnails {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        .thumbnail-item {
+            width: 60px;
+            height: auto;
+            cursor: pointer;
+            border: 1px solid #ccc;
+        }
+        .thumbnail-item.active {
+            border-color: #000;
+        }
+
+        .size-selector select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #999;
+            background-color: #fff;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+            -webkit-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+        }
+        .add-to-cart-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #000;
+            color: #fff;
+            border: 1px solid #000;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+        .service-links {
+            margin-top: 30px;
+            font-size: 0.85rem;
+        }
+        .service-item {
+            padding: 20px 0;
+            border-top: 1px solid #e0e0e0;
+        }
+        .service-links p {
+            color: #555;
+            margin: 5px 0 20px 0;
+        }
+        .service-links a {
+            color: #1c1c1c;
+            text-decoration: underline;
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    
+    <header class="minimalist-header">
+        <div class="header-left">
+            <a href="{% url 'pret-a-porter' %}" class="back-button" aria-label="Retour au catalogue">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+            </a>
+        </div>
+        <div class="header-center">
+            <a href="{% url 'home' %}">Charlène Morabito</a>
+        </div>
+        <div class="header-right">
+            <a href="#footer">Nous Contacter</a>
+            <a href="{% url 'cart' %}" aria-label="Panier" class="cart-icon-container">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                <span class="cart-badge">
+                    <span class="badge-number">3</span>
+                </span>
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <div class="hero-image-section">
+            <img
+                id="main-product-image"
+                src="{% if product.main_image %}{{ product.main_image.url }}{% else %}{% static 'pages/images/robes/mini-jupe-a-pli-imprime-guepards-et-palmettes--5E0343DSDE-worn-1-0-0-800-800_g (1).webp' %}{% endif %}"
+                alt="{{ product.name }}"
+                style="cursor: pointer;"
+                onclick="openModal('product_images_panel')"
+            >
+        </div>
+
+        <section class="product-details-section">
+            <div class="details-left-column">
+                <div class="info-header">
+                    <h1>Robe plissée à Monogram délavé</h1>
+                    <p class="price">380,00 €</p>
+                </div>
+                <div class="static-description" style="margin-top: -30px;">
+                    <h2>Description Produit</h2>
+                    <p>
+                        Réalisée en crêpe de Chine en soie infroissable dans une teinte douce de la saison, cette robe plissée s'agrémente d'un motif Monogram interprété avec une finition délavée graphique. La partie principale mise sur les lignes épurées d'une coupe droite, tandis que des plis creux ajoutent un volume romantique à la jupe. Le dos de cette pièce révèle une demi-fermeture à glissière apparente.
+                    </p>
+                </div>
+                <details class="accordion-item">
+                    <summary>Détails du produit</summary>
+                    <div class="accordion-content"><p>
+                        <ul>
+                            <li>100% Soie</li>
+                            <li>Bordure en dentelle festonnée</li>
+                            <li>Fines bretelles ajustables</li>
+                            <li>Fabriqué en Italie</li>
+                            <li>Coupe ajustée</li>
+                            <li>Couleur : Vert olive</li>
+                        </ul>
+                    </p></div>
+                </details>
+                <details class="accordion-item">
+                    <summary>Livraison et Retours</summary>
+                    <div class="accordion-content"><p>
+                        <p>Livraison standard offerte. Les délais de livraison sont estimés au moment du paiement.</p>
+                        <p>Nous acceptons les retours sous 30 jours pour un échange ou un remboursement. Les articles doivent être retournés dans leur état d'origine. Pour initier un retour, veuillez contacter notre service client.</p>
+                    </p></div>
+                </details>
+            </div>
+            
+            <div class="details-right-column">
+                <div class="product-thumbnails">
+                    {% if product.main_image %}
+                        <img class="thumbnail-item active" src="{{ product.main_image.url }}" alt="Image principale">
+                    {% endif %}
+
+                    {% for image in product.images.all %}
+                        <img class="thumbnail-item" src="{{ image.image.url }}" alt="Image supplémentaire">
+                    {% endfor %}
+                </div>
+                <p class="info-text">Sélectionnez la taille de l'article pour afficher la date de livraison prévue.</p>
+                <div class="size-selector">
+                    <select name="size" id="size">
+                        <option value="">Sélectionner une taille</option>
+                        <option value="32">32</option>
+                        <option value="34">34</option>
+                        <option value="36">36</option>
+                        <option value="38">38</option>
+                        <option value="40">40</option>
+                        <option value="42">42</option>
+                        <option value="44">44</option>
+                        <option value="46">46</option>
+                    </select>
+                </div>
+                <button class="add-to-cart-btn">Ajouter au panier</button>
+                <div class="service-links">
+                    <div class="service-item">
+                        <a href="#"><strong>Nous contacter</strong></a>
+                        <p>Nos conseillers sont à votre disposition pour vous aider.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    
+    {% include "pages/home/panel/panel_model.html" %}
+    {% include "pages/home/panel/panel.html" %}
+<style>
+    .fly-to-cart {
+        position: fixed;
+        top: var(--start-y);
+        left: var(--start-x);
+        width: 150px;
+        height: auto;
+        z-index: 1000;
+        border-radius: 50%;
+        animation: flyAndRotate 1.5s cubic-bezier(0.2, 0.5, 0.8, 1) forwards;
+    }
+
+    @keyframes flyAndRotate {
+        0% {
+            transform: scale(0);
+            opacity: 0;
+        }
+        20% {
+            transform: scale(1);
+            opacity: 1;
+        }
+        100% {
+            transform: translate(var(--dest-x), var(--dest-y)) scale(0.45) rotate(360deg);
+            opacity: 0;
+        }
+    }
+
+    .shake {
+        animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+    }
+    @keyframes shake {
+      10%, 90% { transform: translate3d(-1px, 0, 0); }
+      20%, 80% { transform: translate3d(2px, 0, 0); }
+      30%, 50%, 70% { transform: translate3d(-3px, 0, 0); }
+      40%, 60% { transform: translate3d(3px, 0, 0); }
+    }
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const mainImage = document.getElementById('main-product-image');
+    const thumbnails = document.querySelectorAll('.thumbnail-item');
+    
+    if (mainImage && thumbnails.length > 0) {
+        thumbnails.forEach(thumbnail => {
+            thumbnail.addEventListener('click', function() {
+                mainImage.src = this.src;
+                thumbnails.forEach(item => item.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    }
+
+    const header = document.querySelector('.minimalist-header');
+    if (header) {
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 10) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    }
+
+    const addToCartBtn = document.querySelector('.add-to-cart-btn');
+    const cartIconContainer = document.querySelector('.cart-icon-container');
+    
+    if (addToCartBtn && mainImage && cartIconContainer) {
+        
+        const startFlyAnimation = () => {
+            const mainImageRect = mainImage.getBoundingClientRect();
+            const cartIconRect = cartIconContainer.getBoundingClientRect();
+
+            const startX = mainImageRect.left + (mainImageRect.width / 2) - 60;
+            const startY = mainImageRect.top + (mainImageRect.height / 2) - 60;
+            const endX = cartIconRect.left + (cartIconRect.width / 2);
+            const endY = cartIconRect.top + (cartIconRect.height / 2);
+
+            const deltaX = endX - startX;
+            const deltaY = endY - startY;
+
+            const imgClone = mainImage.cloneNode(true);
+            
+            imgClone.style.setProperty('--start-x', startX + 'px');
+            imgClone.style.setProperty('--start-y', startY + 'px');
+            imgClone.style.setProperty('--dest-x', deltaX + 'px');
+            imgClone.style.setProperty('--dest-y', deltaY + 'px');
+
+            document.body.appendChild(imgClone);
+            imgClone.classList.add('fly-to-cart');
+            
+            imgClone.addEventListener('animationend', function() {
+                imgClone.remove();
+                cartIconContainer.classList.add('shake');
+                setTimeout(() => cartIconContainer.classList.remove('shake'), 500);
+                const badge = document.querySelector('.badge-number');
+                if (badge) {
+                    let currentCount = parseInt(badge.textContent, 10);
+                    badge.textContent = currentCount + 1;
+                }
+            });
+        };
+
+        addToCartBtn.addEventListener('click', function() {
+            if (window.scrollY === 0) {
+                startFlyAnimation();
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                const observer = new IntersectionObserver((entries) => {
+                    if (entries[0].isIntersecting) {
+                        startFlyAnimation();
+                        observer.disconnect();
+                    }
+                }, { threshold: 0.9 });
+                observer.observe(mainImage);
+            }
+        });
+    }
+});
+</script>
+
+
+    
+    {% include "pages/home/catalogue/plus.html" %}
+    {% include "pages/home/section/footer.html" %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Script pour la galerie de miniatures
+            const thumbnails = document.querySelectorAll('.thumbnail-item');
+            thumbnails.forEach(thumbnail => {
+                thumbnail.addEventListener('click', function() {
+                    thumbnails.forEach(item => item.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // Script pour l'en-tête au défilement
+            const header = document.querySelector('.minimalist-header');
+            if (header) {
+                window.addEventListener('scroll', function() {
+                    if (window.scrollY > 10) {
+                        header.classList.add('scrolled');
+                    } else {
+                        header.classList.remove('scrolled');
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mainImage = document.getElementById('main-product-image');
+            const thumbnails = document.querySelectorAll('.thumbnail-item');
+            if (mainImage && thumbnails.length > 0) {
+                thumbnails.forEach(thumbnail => {
+                    thumbnail.addEventListener('click', function() {
+                        mainImage.src = this.src;
+                        thumbnails.forEach(item => item.classList.remove('active'));
+                        this.classList.add('active');
+                    });
+                });
+            }
+            const header = document.querySelector('.minimalist-header');
+            if (header) {
+                window.addEventListener('scroll', function() {
+                    if (window.scrollY > 10) {
+                        header.classList.add('scrolled');
+                    } else {
+                        header.classList.remove('scrolled');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

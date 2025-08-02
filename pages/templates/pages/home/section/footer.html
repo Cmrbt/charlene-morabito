@@ -3,17 +3,17 @@
 
         <div class="footer-main">
             <div class="footer-col">
-                <h4>SERVICE CLIENT</h4>
+                 <h4 onclick="openModal('update_brand_contact_info')" style="cursor: pointer;">SERVICE CLIENT</h4>
                 <p>
                     Une question ? Notre équipe est à votre écoute.
                 </p>
                 <p>
                     Du lundi au samedi, de 9h à 18h.
-                    <a href="tel:+33123456789">+33 1 23 45 67 89</a>
+                    <a href="tel:{{ brand.phone|default:'+33123456789' }}">{{ brand.phone|default:"+33 1 23 45 67 89" }}</a>
                 </p>
                 <p>
                     Pour toute demande concernant la maison ou les partenariats :<br>
-                    <a href="mailto:contact@charlenemorabito.fr" class="email-link">Envoyer un e-mail</a>
+                    <a href="mailto:{{ brand.email|default:'contact@charlenemorabito.fr' }}" class="email-link">{{ brand.email|default:'contact@charlenemorabito.fr' }}</a>
                 </p>
             </div>
 
@@ -43,9 +43,6 @@
         </div>
 
         <div class="footer-bottom">
-            <div class="footer-location">
-                <span>VOTRE EMPLACEMENT : FRANCE</span> <span class="arrow">></span>
-            </div>
             <div class="footer-copyright">
                 <p>© Charlène Morabito 2025. Tous droits réservés.</p>
             </div>

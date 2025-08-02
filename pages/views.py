@@ -1,9 +1,15 @@
 from django.shortcuts import render
-from .models import Brand, FirstHomeSection, SecondHomeSection, ReadyToWearSection, LookbookSection, LookbookImage, HeritageIntro, HeritageBlockOne, HeritageBlockThree, HeritageBlockTwo
+from .models import ( 
+        Brand, FirstHomeSection, SecondHomeSection, 
+        ReadyToWearSection, LookbookSection, LookbookImage, 
+        HeritageIntro, HeritageBlockOne, HeritageBlockThree, 
+        HeritageBlockTwo, Product , ProductImage
+    )
 from django.http import HttpResponse
 from django.templatetags.static import static
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
+from django.utils.text import slugify
 
 
 def morabito_home_view(request):
@@ -93,7 +99,71 @@ def brand_action_handler(request):
     if action == 'reset_heritage_block_three':
         return reset_heritage_block_three(request)
 
+    if action == 'update_brand_contact_info':
+        return update_brand_contact_info(request)
+
+    if action == 'create_product_title':
+        return create_product_title(request)
+
+    if action == 'update_product_images':
+        return update_product_images(request)
+
+    if action == 'delete_product_image':
+        return delete_product_image(request)
+
+
     return JsonResponse({'status': 'error', 'message': 'Action non reconnue.'})
+
+
+def update_product_images(request):
+    product_id = request.POST.get('product_id')
+    product = get_object_or_404(Product, id=product_id)
+    print(f"Produit ciblé : {product.name} (ID: {product.id})")
+
+    if 'main_image' in request.FILES:
+        product.main_image = request.FILES['main_image']
+        product.save()
+        print(f"Image principale enregistrée : {product.main_image.name}")
+
+    extra_images = request.FILES.getlist('extra_images')
+    if extra_images:
+        for img in extra_images:
+            ProductImage.objects.create(product=product, image=img)
+            print(f"Image associée ajoutée : {img.name}")
+
+    return JsonResponse({'status': 'success'})
+
+
+def delete_product_image(request):
+    image_id = request.POST.get('image_id')
+    image = get_object_or_404(ProductImage, id=image_id)
+    image.image.delete(save=False)
+    image.delete()
+    return JsonResponse({'status': 'success'})
+
+
+
+
+def create_product_title(request):
+    name = request.POST.get('name')
+    if not name:
+        return JsonResponse({'status': 'error', 'message': 'Nom requis.'})
+
+    product = Product.objects.create(name=name, slug=slugify(name), price=0)
+    return JsonResponse({'status': 'success', 'message': 'Produit créé.', 'product_id': product.id})
+
+
+
+def update_brand_contact_info(request):
+    brand = Brand.objects.first()
+    if not brand:
+        brand = Brand.objects.create()
+
+    brand.email = request.POST.get('email', brand.email)
+    brand.phone = request.POST.get('phone', brand.phone)
+    brand.save()
+
+    return JsonResponse({'status': 'success', 'message': 'Coordonnées mises à jour.'})
 
 
 
@@ -343,12 +413,22 @@ def product_catalog_view(request):
     return render(request, 'pages/home/catalogue/product_catalog.html', context)
 
 
+
+def cart_view(request):
+
+    return render(request, 'pages/home/catalogue/cart_view.html')
+
+
 def model_view(request):
 
     return render(request, 'pages/home/catalogue/model_view.html')
 
 
 
-def cart_view(request):
-
-    return render(request, 'pages/home/catalogue/cart_view.html')
+def model_view2(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    
+    context = {
+        'product': product
+    }
+    return render(request, 'pages/home/catalogue/model_view2.html', context)

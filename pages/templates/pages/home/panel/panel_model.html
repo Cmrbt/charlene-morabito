@@ -1,0 +1,152 @@
+<div id="product_images_panel" class="panel_data" style="display: none;">
+    <div class="panel panel_data-content">
+        <form id="update_product_images_form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="update_product_images"/>
+            <input type="hidden" name="product_id" value="{{ product.id }}"/>
+
+            <div class="form-group">
+                <label><strong>Image principale :</strong></label>
+                <input type="file" id="main_image_input" name="main_image">
+                <div id="main_image_preview" style="margin-top: 10px;">
+                    {% if product.main_image %}
+                        <img src="{{ product.main_image.url }}" style="max-width: 150px; border: 1px solid #ccc;">
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label><strong>Images associées :</strong></label>
+                <input type="file" id="extra_images_input" multiple>
+                <input type="hidden" name="extra_images_placeholder" value="1">
+                <div id="extra_images_preview" style="margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap;"></div>
+                <div id="existing_extra_images" style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap;">
+                    {% for image in product.images.all %}
+                        <div class="image-box" data-id="{{ image.id }}">
+                            <img src="{{ image.image.url }}" style="width: 100px; border: 1px solid #ccc;">
+                            <button type="button" class="delete-product-image" data-id="{{ image.id }}" style="display:block;margin-top:5px;font-size:11px;color:#c0392b;">Supprimer</button>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <button type="submit" class="full-width-button">Enregistrer</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    const mainInput = document.getElementById('main_image_input');
+    const mainPreview = document.getElementById('main_image_preview');
+    mainInput.addEventListener('change', function () {
+        mainPreview.innerHTML = '';
+        if (this.files.length > 0) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.style.maxWidth = '150px';
+                img.style.border = '1px solid #ccc';
+                mainPreview.appendChild(img);
+            };
+            reader.readAsDataURL(this.files[0]);
+        }
+    });
+
+    let extraFiles = [];
+    const extraInput = document.getElementById('extra_images_input');
+    const extraPreview = document.getElementById('extra_images_preview');
+
+    extraInput.addEventListener('change', function () {
+        for (let i = 0; i < this.files.length; i++) {
+            const file = this.files[i];
+            extraFiles.push(file);
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const container = document.createElement('div');
+                container.style.position = 'relative';
+
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.style.maxWidth = '100px';
+                img.style.border = '1px solid #ccc';
+                img.style.marginRight = '10px';
+
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.textContent = 'X';
+                btn.style.position = 'absolute';
+                btn.style.top = '0';
+                btn.style.right = '0';
+                btn.style.background = '#c0392b';
+                btn.style.color = '#fff';
+                btn.style.border = 'none';
+                btn.style.cursor = 'pointer';
+                btn.style.fontSize = '11px';
+                btn.style.padding = '2px 5px';
+
+                btn.addEventListener('click', function () {
+                    const index = Array.from(extraPreview.children).indexOf(container);
+                    extraFiles.splice(index, 1);
+                    container.remove();
+                });
+
+                container.appendChild(img);
+                container.appendChild(btn);
+                extraPreview.appendChild(container);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        this.value = '';
+    });
+
+    $('#update_product_images_form').submit(function(e) {
+        e.preventDefault();
+        const form = this;
+        const formData = new FormData(form);
+
+        for (let i = 0; i < extraFiles.length; i++) {
+            formData.append('extra_images', extraFiles[i]);
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "brand_action_handler" %}',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                if (response.status === 'success') {
+                    location.reload();
+                } else {
+                    alert(response.message || 'Erreur');
+                }
+            }
+        });
+    });
+
+    $(document).on('click', '.delete-product-image', function () {
+        const imageId = $(this).data('id');
+        const token = '{{ csrf_token }}';
+        if (!confirm("Supprimer cette image ?")) return;
+
+        $.ajax({
+            url: '{% url "brand_action_handler" %}',
+            method: 'POST',
+            data: {
+                'action': 'delete_product_image',
+                'image_id': imageId,
+                'csrfmiddlewaretoken': token
+            },
+            success: function (response) {
+                if (response.status === 'success') {
+                    $('.image-box[data-id="' + imageId + '"]').remove();
+                } else {
+                    alert(response.message || 'Erreur');
+                }
+            }
+        });
+    });
+</script>

@@ -1,3 +1,86 @@
+<div id="create_product_title_panel" class="panel_data" style="z-index: 10000; display: none;">
+    <div class="panel panel_data-content">
+        <form id="create_product_title_form" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="create_product_title"/>
+
+            <div class="form-group">
+                <label><strong><em>Nom de la création :</em></strong></label>
+                <input type="text" class="form-control" name="name" placeholder="Nom de l'article">
+            </div>
+
+            <button type="submit" class="full-width-button">Valider</button>
+        </form>
+    </div>
+</div>
+<script>
+    $('#create_product_title_form').submit(function(e) {
+        e.preventDefault();
+        const form = this;
+        const formData = new FormData(form);
+        $.ajax({
+            type: 'POST',
+            url: '{% url "brand_action_handler" %}',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                if (response.status === 'success') {
+                    window.location.href = `/model2/${response.product_id}/`;
+                } else {
+                    alert(response.message);
+                }
+
+            }
+        });
+    });
+</script>
+
+
+
+<div id="update_brand_contact_info" class="panel_data" style="z-index: 10000; display: none;">
+    <div class="panel panel_data-content">
+        <form id="update_brand_contact_info_form" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="update_brand_contact_info"/>
+
+            <div class="form-group">
+                <label><strong><em>Email :</em></strong></label>
+                <input type="email" class="form-control" name="email" value="{{ brand.email|default:'contact@charlenemorabito.fr' }}">
+            </div>
+
+            <div class="form-group">
+                <label><strong><em>Téléphone :</em></strong></label>
+                <input type="text" class="form-control" name="phone" value="{{ brand.phone|default:'+33 1 23 45 67 89' }}">
+            </div>
+
+            <button type="submit" class="full-width-button">Valider</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    $('#update_brand_contact_info_form').submit(function(e) {
+        e.preventDefault();
+        const form = this;
+        const formData = new FormData(form);
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "brand_action_handler" %}',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                if (response.status === 'success') {
+                    location.reload();
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+    });
+</script>
 
 
 <style>

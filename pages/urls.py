@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import morabito_home_view, product_catalog_view, model_view, cart_view, brand_action_handler
+from .views import morabito_home_view, product_catalog_view, model_view, cart_view, brand_action_handler, model_view2
 
 urlpatterns = [
     path('', morabito_home_view, name='home'),
@@ -7,4 +7,5 @@ urlpatterns = [
     path('model/', model_view, name='model'),
     path('cart/', cart_view, name='cart'),
     path('brand/action/', brand_action_handler, name='brand_action_handler'),
+    path('model2/<int:product_id>/', model_view2, name='model2'),
 ]
