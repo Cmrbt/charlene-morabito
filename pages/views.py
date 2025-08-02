@@ -3,7 +3,8 @@ from .models import (
         Brand, FirstHomeSection, SecondHomeSection, 
         ReadyToWearSection, LookbookSection, LookbookImage, 
         HeritageIntro, HeritageBlockOne, HeritageBlockThree, 
-        HeritageBlockTwo, Product , ProductImage
+        HeritageBlockTwo, Product , ProductImage,
+        ProductDetail, ProductSize,  DeliveryReturnInfo
     )
 from django.http import HttpResponse
 from django.templatetags.static import static
@@ -111,8 +112,100 @@ def brand_action_handler(request):
     if action == 'delete_product_image':
         return delete_product_image(request)
 
+    if action == 'update_product_info':
+        return update_product_info(request)
+    
+    if action == 'update_product_details':
+        return update_product_details(request)
 
+    if action == 'delete_product_detail':
+        return delete_product_detail(request)
+
+    if action == 'edit_product_sizes':
+        return edit_product_sizes(request)
+
+    if action == 'update_delivery_info':
+        return update_delivery_info(request)
+
+    
     return JsonResponse({'status': 'error', 'message': 'Action non reconnue.'})
+
+def update_delivery_info(request):
+    title = request.POST.get('title', '').strip()
+    content = request.POST.get('content', '').strip()
+    info = DeliveryReturnInfo.objects.first() or DeliveryReturnInfo.objects.create()
+
+    print("Titre reçu :", title)
+    print("Contenu reçu :", content)
+
+    info.title = title or "Livraison standard offerte. Les délais de livraison sont estimés au moment du paiement."
+    info.content = content or "Nous acceptons les retours sous 30 jours pour un échange ou un remboursement. Les articles doivent être retournés dans leur état d'origine. Pour initier un retour, veuillez contacter notre service client."
+    info.save()
+
+    print("Info enregistrée :", info.title, "|", info.content)
+
+    return JsonResponse({'status': 'success'})
+
+
+
+
+
+def edit_product_sizes(request):
+    product_id = request.POST.get('product_id')
+    product = get_object_or_404(Product, id=product_id)
+
+    product.sizes.all().delete()
+
+    sizes = []
+    for key in request.POST:
+        if key.startswith('sizes[') and key.endswith('][size]'):
+            index = key.split('[')[1].split(']')[0]
+            size = request.POST.get(f'sizes[{index}][size]')
+            quantity = request.POST.get(f'sizes[{index}][quantity]', 0)
+            is_out_of_stock = request.POST.get(f'sizes[{index}][is_out_of_stock]') == 'on'
+
+            if size:
+                sizes.append(ProductSize(
+                    product=product,
+                    size=size.strip(),
+                    quantity=int(quantity),
+                    is_out_of_stock=is_out_of_stock
+                ))
+
+    ProductSize.objects.bulk_create(sizes)
+    return JsonResponse({'status': 'success'})
+
+
+def update_product_details(request):
+    product_id = request.POST.get('product_id')
+    content = request.POST.get('new_detail', '').strip()
+
+    if not content:
+        return JsonResponse({'status': 'error', 'message': 'Le détail est vide.'})
+
+    product = get_object_or_404(Product, id=product_id)
+    ProductDetail.objects.create(product=product, content=content)
+
+    return JsonResponse({'status': 'success'})
+
+def delete_product_detail(request):
+    detail_id = request.POST.get('detail_id')
+    detail = get_object_or_404(ProductDetail, id=detail_id)
+    detail.delete()
+    return JsonResponse({'status': 'success'})
+
+
+
+def update_product_info(request):
+    product_id = request.POST.get('product_id')
+    product = get_object_or_404(Product, id=product_id)
+
+    product.name = request.POST.get('name', product.name)
+    product.price = request.POST.get('price', product.price)
+    product.description = request.POST.get('description', product.description)
+
+    product.save()
+    return JsonResponse({'status': 'success'})
 
 
 def update_product_images(request):
@@ -402,14 +495,14 @@ def update_brand_info(request):
 
 
 def product_catalog_view(request):
-    product_list = [
-    ]
-    for product in product_list:
-        product['image_url'] = static(product['image_path'])
+    products = Product.objects.filter(is_displayed=True)
+    non_displayed_products = Product.objects.filter(is_displayed=False).order_by('-id')
 
     context = {
-        'products': product_list
+        'products': products,
+        'non_displayed_products': non_displayed_products
     }
+
     return render(request, 'pages/home/catalogue/product_catalog.html', context)
 
 
@@ -427,8 +520,37 @@ def model_view(request):
 
 def model_view2(request, product_id):
     product = get_object_or_404(Product, id=product_id)
-    
+    brand = Brand.objects.first() or Brand.objects.create()
+    delivery_info = DeliveryReturnInfo.objects.first() or DeliveryReturnInfo.objects.create(content='')
+
     context = {
-        'product': product
+        'product': product,
+        'brand': brand,
+        'delivery_info': delivery_info,
     }
     return render(request, 'pages/home/catalogue/model_view2.html', context)
+
+
+def toggle_display_status(request):
+    product_id = request.POST.get('product_id')
+    product = get_object_or_404(Product, id=product_id)
+    product.is_displayed = not product.is_displayed
+    product.save()
+    return JsonResponse({'status': 'success', 'is_displayed': product.is_displayed})
+
+
+
+def toggle_product_catalog_visibility(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    product.is_displayed = not product.is_displayed
+    product.save()
+    return JsonResponse({'status': 'success', 'is_displayed': product.is_displayed})
+
+
+def delete_product(request, product_id):
+    try:
+        product = Product.objects.get(id=product_id)
+        product.delete()
+        return JsonResponse({'status': 'success'})
+    except Product.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Produit introuvable'})

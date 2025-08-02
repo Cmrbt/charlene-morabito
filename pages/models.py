@@ -104,12 +104,13 @@ class HeritageBlockThree(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=255)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(unique=False, blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField(blank=True)
     main_image = models.ImageField(upload_to='products/main/')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    is_displayed = models.BooleanField(default=False) 
 
     def __str__(self):
         return self.name
@@ -134,6 +135,16 @@ class ProductDetail(models.Model):
 class ProductSize(models.Model):
     product = models.ForeignKey(Product, related_name='sizes', on_delete=models.CASCADE)
     size = models.CharField(max_length=20)
+    quantity = models.PositiveIntegerField(default=0)
+    is_out_of_stock = models.BooleanField(default=False)
 
     def __str__(self):
         return f"Taille {self.size} pour {self.product.name}"
+    
+
+class DeliveryReturnInfo(models.Model):
+    title = models.CharField(max_length=255, default="Livraison et Retours")
+    content = models.TextField()
+
+    def __str__(self):
+        return self.title

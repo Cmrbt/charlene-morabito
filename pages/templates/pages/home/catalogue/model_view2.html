@@ -220,35 +220,47 @@
         <section class="product-details-section">
             <div class="details-left-column">
                 <div class="info-header">
-                    <h1>Robe plissée à Monogram délavé</h1>
-                    <p class="price">380,00 €</p>
+                    <h1 onclick="openModal('edit_product_info')" style="cursor: pointer;">
+                        {{ product.name|default:"Nom du produit" }}
+                    </h1>
+                    <p class="price">{{ product.price|default:"0,00 €" }}</p>
                 </div>
+
                 <div class="static-description" style="margin-top: -30px;">
                     <h2>Description Produit</h2>
-                    <p>
-                        Réalisée en crêpe de Chine en soie infroissable dans une teinte douce de la saison, cette robe plissée s'agrémente d'un motif Monogram interprété avec une finition délavée graphique. La partie principale mise sur les lignes épurées d'une coupe droite, tandis que des plis creux ajoutent un volume romantique à la jupe. Le dos de cette pièce révèle une demi-fermeture à glissière apparente.
+                    <p onclick="openModal('edit_product_info')" style="cursor: pointer;">
+                        {{ product.description|default:"Aucune description pour ce produit." }}
                     </p>
                 </div>
                 <details class="accordion-item">
                     <summary>Détails du produit</summary>
-                    <div class="accordion-content"><p>
+                    <div class="accordion-content">
                         <ul>
-                            <li>100% Soie</li>
-                            <li>Bordure en dentelle festonnée</li>
-                            <li>Fines bretelles ajustables</li>
-                            <li>Fabriqué en Italie</li>
-                            <li>Coupe ajustée</li>
-                            <li>Couleur : Vert olive</li>
+                            {% for detail in product.details.all %}
+                                <li>{{ detail.content }}</li>
+                            {% empty %}
+                                <li>Aucun détail renseigné.</li>
+                            {% endfor %}
                         </ul>
-                    </p></div>
+
+                        <button onclick="openModal('edit_product_details')" style="margin-top: 10px; background: none; border: none; color: #007BFF; font-size: 13px; text-decoration: underline; cursor: pointer;">
+                            Modifier les détails
+                        </button>
+                    </div>
                 </details>
+
+
+
                 <details class="accordion-item">
                     <summary>Livraison et Retours</summary>
-                    <div class="accordion-content"><p>
-                        <p>Livraison standard offerte. Les délais de livraison sont estimés au moment du paiement.</p>
-                        <p>Nous acceptons les retours sous 30 jours pour un échange ou un remboursement. Les articles doivent être retournés dans leur état d'origine. Pour initier un retour, veuillez contacter notre service client.</p>
-                    </p></div>
+                    <div class="accordion-content">
+                        <p>{{ delivery_info.title|default:"Livraison standard offerte. Les délais de livraison sont estimés au moment du paiement." }}</p>
+                        <p>{{ delivery_info.content|default:"Nous acceptons les retours sous 30 jours pour un échange ou un remboursement. Les articles doivent être retournés dans leur état d'origine. Pour initier un retour, veuillez contacter notre service client." }}</p>
+                        <button onclick="openModal('edit_delivery_info')" style="margin-top: 10px; background: none; border: none; color: #007BFF; font-size: 13px; text-decoration: underline; cursor: pointer;">Modifier</button>
+                    </div>
                 </details>
+
+
             </div>
             
             <div class="details-right-column">
@@ -261,32 +273,71 @@
                         <img class="thumbnail-item" src="{{ image.image.url }}" alt="Image supplémentaire">
                     {% endfor %}
                 </div>
-                <p class="info-text">Sélectionnez la taille de l'article pour afficher la date de livraison prévue.</p>
+                <p class="info-text" onclick="openModal('edit_product_sizes')" style="cursor: pointer;">
+                    Sélectionnez la taille de l'article pour afficher la date de livraison prévue.
+                </p>
+
                 <div class="size-selector">
                     <select name="size" id="size">
                         <option value="">Sélectionner une taille</option>
-                        <option value="32">32</option>
-                        <option value="34">34</option>
-                        <option value="36">36</option>
-                        <option value="38">38</option>
-                        <option value="40">40</option>
-                        <option value="42">42</option>
-                        <option value="44">44</option>
-                        <option value="46">46</option>
+                        {% for size in product.sizes.all %}
+                            <option value="{{ size.size }}" {% if size.is_out_of_stock %}disabled{% endif %}>
+                                {{ size.size }}{% if size.is_out_of_stock %} (Rupture){% endif %}
+                            </option>
+                        {% endfor %}
                     </select>
                 </div>
+
                 <button class="add-to-cart-btn">Ajouter au panier</button>
                 <div class="service-links">
                     <div class="service-item">
-                        <a href="#"><strong>Nous contacter</strong></a>
-                        <p>Nos conseillers sont à votre disposition pour vous aider.</p>
+                        <a href="https://wa.me/{{ brand.phone|default:'33123456789' }}"><strong>Nous contacter</strong></a>
+                        <p style="line-height: 1.6; font-size: 15px; display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
+                            <span style="display: flex; align-items: center; gap: 5px;">
+                                <strong>Disponible sur WhatsApp :</strong>
+                                <a href="https://wa.me/{{ brand.phone|default:'33123456789' }}" style="text-decoration: none; color: #333;">
+                                    {{ brand.phone|default:'+33 1 23 45 67 89' }}
+                                </a>
+                            </span>
+                            <span style="display: flex; align-items: center; gap: 5px;">
+                                <strong>Email :</strong>
+                                <a href="mailto:{{ brand.email|default:'contact@charlenemorabito.fr' }}" style="text-decoration: none; color: #333;">
+                                    {{ brand.email|default:'contact@charlenemorabito.fr' }}
+                                </a>
+                            </span>
+                        </p>
+
                     </div>
                 </div>
+
+
             </div>
         </section>
     </main>
     
-    
+    <div id="catalog-toggle"
+        data-product-id="{{ product.id }}"
+        style="position: fixed; right: 15px; top: 50%; transform: translateY(-50%); width: 12px; height: 12px; border-radius: 50%; background-color: {% if product.is_displayed %}green{% else %}red{% endif %}; cursor: pointer; z-index: 9999; opacity: 0.7;"
+        title="Afficher/Masquer dans le catalogue">
+    </div>
+
+    <script>
+    document.getElementById('catalog-toggle').addEventListener('click', function () {
+        const el = this;
+        const productId = el.getAttribute('data-product-id');
+        $.post('{% url "toggle_display_status" %}', {
+            product_id: productId,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        }, function (response) {
+            if (response.status === 'success') {
+                el.style.backgroundColor = response.is_displayed ? 'green' : 'red';
+            } else {
+                alert('Erreur lors du changement de statut.');
+            }
+        });
+    });
+    </script>
+
     {% include "pages/home/panel/panel_model.html" %}
     {% include "pages/home/panel/panel.html" %}
 <style>

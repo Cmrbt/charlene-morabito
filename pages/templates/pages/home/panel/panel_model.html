@@ -1,3 +1,271 @@
+<div id="edit_delivery_info" class="panel_data" style="display: none;">
+    <div class="panel panel_data-content">
+        <form id="update_delivery_info_form" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="update_delivery_info">
+            <div class="form-group">
+                <label><strong>Paragraphe 1 :</strong></label>
+                <textarea name="title" rows="2" class="form-control">{{ delivery_info.title|default:"Livraison standard offerte. Les délais de livraison sont estimés au moment du paiement." }}</textarea>
+            </div>
+            <div class="form-group">
+                <label><strong>Paragraphe 2 :</strong></label>
+                <textarea name="content" rows="6" class="form-control">{{ delivery_info.content|default:"Nous acceptons les retours sous 30 jours pour un échange ou un remboursement. Les articles doivent être retournés dans leur état d'origine. Pour initier un retour, veuillez contacter notre service client." }}</textarea>
+            </div>
+            <button type="submit" class="full-width-button">Enregistrer</button>
+        </form>
+    </div>
+</div>
+
+<script>
+$('#update_delivery_info_form').submit(function(e) {
+    e.preventDefault();
+    const form = this;
+    const formData = new FormData(form);
+    $.ajax({
+        type: 'POST',
+        url: '{% url "brand_action_handler" %}',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            if (response.status === 'success') {
+                location.reload();
+            } else {
+                alert(response.message || 'Erreur');
+            }
+        }
+    });
+});
+</script>
+
+
+
+
+<div id="edit_product_sizes" class="panel_data" style="display: none;">
+    <div class="panel panel_data-content">
+        <form id="edit_product_sizes_form" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="edit_product_sizes"/>
+            <input type="hidden" name="product_id" value="{{ product.id }}"/>
+
+            <div id="sizes_container">
+                {% for size in product.sizes.all %}
+                    <div class="size-entry" style="margin-bottom: 15px;">
+                        <input type="text" name="sizes[{{ forloop.counter0 }}][size]" value="{{ size.size }}" placeholder="Taille">
+                        <input type="number" name="sizes[{{ forloop.counter0 }}][quantity]" value="{{ size.quantity }}" placeholder="Quantité">
+                        <label>
+                            <input type="checkbox" name="sizes[{{ forloop.counter0 }}][is_out_of_stock]" {% if size.is_out_of_stock %}checked{% endif %}>
+                            Rupture
+                        </label>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <button type="button" onclick="addSizeEntry()" style="margin-bottom:10px;">+ Ajouter une taille</button>
+            <button type="submit" class="full-width-button">Enregistrer</button>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    let sizeIndex = {{ product.sizes.count }};
+
+    function addSizeEntry() {
+        const container = document.getElementById('sizes_container');
+        const div = document.createElement('div');
+        div.className = 'size-entry';
+        div.style.marginBottom = '15px';
+        div.innerHTML = `
+            <input type="text" name="sizes[${sizeIndex}][size]" placeholder="Taille">
+            <input type="number" name="sizes[${sizeIndex}][quantity]" placeholder="Quantité">
+            <label>
+                <input type="checkbox" name="sizes[${sizeIndex}][is_out_of_stock]">
+                Rupture
+            </label>
+        `;
+        container.appendChild(div);
+        sizeIndex++;
+    }
+
+    $('#edit_product_sizes_form').submit(function(e) {
+        e.preventDefault();
+        const form = this;
+        const formData = new FormData(form);
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "brand_action_handler" %}',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response.status === 'success') {
+                    location.reload();
+                } else {
+                    alert(response.message || 'Erreur');
+                }
+            }
+        });
+    });
+</script>
+
+
+<script>
+    $('#edit_product_sizes_form').submit(function(e) {
+        e.preventDefault();
+        const form = this;
+        const formData = new FormData(form);
+
+        $.ajax({
+            url: '{% url "brand_action_handler" %}',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                if (response.status === 'success') {
+                    location.reload();
+                } else {
+                    alert(response.message || 'Erreur');
+                }
+            }
+        });
+    });
+</script>
+
+
+<div id="edit_product_details" class="panel_data" style="display: none;">
+    <div class="panel panel_data-content">
+        <form id="edit_product_details_form" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="update_product_details">
+            <input type="hidden" name="product_id" value="{{ product.id }}">
+
+            <div class="form-group">
+                <label><strong>Ajouter un détail :</strong></label>
+                <input type="text" name="new_detail" class="form-control">
+            </div>
+
+            <button type="submit" class="full-width-button">Ajouter</button>
+        </form>
+
+        <div class="form-group" style="margin-top: 20px;">
+            <label><strong>Détails existants :</strong></label>
+            <ul id="existing_product_details">
+                {% for detail in product.details.all %}
+                    <li data-id="{{ detail.id }}">
+                        {{ detail.content }}
+                        <button type="button" class="delete-product-detail" data-id="{{ detail.id }}" style="margin-left: 10px; font-size: 12px; color: #c0392b;">Supprimer</button>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#edit_product_details_form').submit(function(e) {
+        e.preventDefault();
+        const form = this;
+        const formData = new FormData(form);
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "brand_action_handler" %}',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                if (response.status === 'success') {
+                    location.reload();
+                } else {
+                    alert(response.message || 'Erreur');
+                }
+            }
+        });
+    });
+
+    $(document).on('click', '.delete-product-detail', function () {
+        const detailId = $(this).data('id');
+        const token = '{{ csrf_token }}';
+        if (!confirm("Supprimer ce détail ?")) return;
+
+        $.ajax({
+            url: '{% url "brand_action_handler" %}',
+            method: 'POST',
+            data: {
+                'action': 'delete_product_detail',
+                'detail_id': detailId,
+                'csrfmiddlewaretoken': token
+            },
+            success: function (response) {
+                if (response.status === 'success') {
+                    $('li[data-id="' + detailId + '"]').remove();
+                } else {
+                    alert(response.message || 'Erreur');
+                }
+            }
+        });
+    });
+</script>
+
+
+
+
+<div id="edit_product_info" class="panel_data" style="display: none;">
+    <div class="panel panel_data-content">
+        <form id="edit_product_info_form" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="update_product_info">
+            <input type="hidden" name="product_id" value="{{ product.id }}">
+
+            <div class="form-group">
+                <label><strong>Titre :</strong></label>
+                <input type="text" name="name" class="form-control" value="{{ product.name }}">
+            </div>
+
+            <div class="form-group">
+                <label><strong>Prix :</strong></label>
+                <input type="number" name="price" class="form-control" step="0.01" value="{{ product.price }}">
+            </div>
+
+            <div class="form-group">
+                <label><strong>Description :</strong></label>
+                <textarea name="description" class="form-control" rows="5">{{ product.description }}</textarea>
+            </div>
+
+            <button type="submit" class="full-width-button">Valider</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    $('#edit_product_info_form').submit(function(e) {
+        e.preventDefault();
+        const form = this;
+        const formData = new FormData(form);
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "brand_action_handler" %}',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                if (response.status === 'success') {
+                    location.reload();
+                } else {
+                    alert(response.message || 'Erreur');
+                }
+            }
+        });
+    });
+</script>
+
+
+
+
 <div id="product_images_panel" class="panel_data" style="display: none;">
     <div class="panel panel_data-content">
         <form id="update_product_images_form" method="post" enctype="multipart/form-data">

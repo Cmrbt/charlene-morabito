@@ -1,0 +1,84 @@
+<div id="manage_catalog_products_panel" class="panel_data" style="display: none;">
+    <div class="panel panel_data-content">
+        <div class="panel-header">
+            <h2>Produits non affichés</h2>
+        </div>
+
+        <div class="panel-body">
+            <ul id="non-displayed-products-list" style="list-style: none; padding: 0; margin: 0;">
+                {% for product in non_displayed_products %}
+                    <li style="padding: 12px 0; border-bottom: 1px solid #e0e0e0; display: flex; justify-content: space-between; align-items: center;">
+                        <a href="{% url 'model2' product.id %}" target="_blank" style="text-decoration: none; color: #1c1c1c; font-size: 0.95rem;">
+                            {{ product.name }}
+                        </a>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <div class="toggle-display"
+                                data-product-id="{{ product.id }}"
+                                style="width: 14px; height: 14px; border-radius: 50%; background-color: red; cursor: pointer;">
+                            </div>
+                            <div class="delete-product"
+                                data-product-id="{{ product.id }}"
+                                style="cursor: pointer; color: #c0392b; font-size: 16px;" title="Supprimer">
+                                🗑️
+                            </div>
+                        </div>
+                    </li>
+                {% empty %}
+                    <li style="padding: 12px 0; color: #888;">Aucun produit à afficher.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.toggle-display').forEach(toggle => {
+            toggle.addEventListener('click', function () {
+                const productId = this.dataset.productId;
+                fetch(`/products/${productId}/toggle-visibility/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': getCSRFToken(),
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        this.style.backgroundColor = data.is_displayed ? 'green' : 'red';
+                    }
+                });
+            });
+        });
+
+        document.querySelectorAll('.delete-product').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const productId = this.dataset.productId;
+                if (!confirm("Supprimer ce produit ?")) return;
+
+                fetch(`/products/${productId}/delete/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': getCSRFToken(),
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        this.closest('li').remove();
+                    } else {
+                        alert(data.message || "Erreur lors de la suppression");
+                    }
+                });
+            });
+        });
+    });
+
+    function getCSRFToken() {
+        return document.querySelector('[name=csrfmiddlewaretoken]').value;
+    }
+</script>

@@ -329,9 +329,18 @@
                     <div class="catalog-path">
                         <a href="{% url 'home' %}">Accueil</a>
                         <span class="separator">/</span>
-                        <span onclick="openModal('create_product_title_panel')" style="cursor: pointer;">Prêt-à-porter</span>
+                        <span>Prêt-à-porter</span>
                         <span class="item-count">(6 articles)</span>
+                        <span onclick="openModal('create_product_title_panel')"
+                            style="margin-left: 10px; cursor: pointer; font-weight: bold; font-size: 20px; line-height: 1;">+</span>
+
+                        
+                        <span onclick="openModal('manage_catalog_products_panel')"
+                            style="margin-left: 14px; cursor: pointer; font-weight: bold; font-size: 20px;">📦</span>
+
+
                     </div>
+
 
                     <button id="open-filter-btn" class="filter-button">
                         <span>Filtrer</span>
@@ -342,184 +351,37 @@
                 </header>
                 
                 <div class="product-grid">
-
-                    <article id="product-item-1" class="product-item">
-                        <a href="{% url 'model' %}">
-                            <div id="product-slider-1" class="swiper product-slider">
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide"><img src="{% static 'pages/images/robes/louis-vuitton-robe-boutonnee-en-denim--FTDR40GOW610_PM1_Worn view.avif' %}" alt="Robe à bretelles - Vue 1"></div>
-                                    <div class="swiper-slide"><img src="{% static 'pages/images/robes/louis-vuitton-robe-boutonnee-en-denim--FTDR40GOW610_PM2_Front view.avif' %}" alt="Robe à bretelles - Vue 2"></div>
-                                    <div class="swiper-slide"><img src="{% static 'pages/images/robes/louis-vuitton-robe-boutonnee-en-denim--FTDR40GOW610_PM1_Ambiance view.avif' %}" alt="Robe à bretelles - Vue 3"></div>
-                                </div>
-                                <div id="swiper-pagination-1" class="swiper-pagination"></div>
-                                <div id="swiper-button-prev-1" class="swiper-button-prev"></div>
-                                <div id="swiper-button-next-1" class="swiper-button-next"></div>
-                            </div>
-                            <div class="product-info">
-                                <h2>Robe à bretelles et mousquetons</h2>
-                                <p class="price">250,00 €</p>
-                            </div>
-                        </a>
-                    </article>
-
-                    <article id="product-item-2" class="product-item">
-                        <a href="{% url 'model' %}">
-                            <div id="product-slider-2" class="swiper product-slider">
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide"><img src="{% static 'pages/images/robes/louis-vuitton-robe-polo-en-gabardine-technique--FTDS43G72900_PM1_Worn view.avif' %}" alt="Robe polo en gabardine technique"></div>
-                                    <div class="swiper-slide"><img src="{% static 'pages/images/robes/louis-vuitton-robe-polo-en-gabardine-technique--FTDS43G72900_PM1_Side view.avif' %}" alt="Robe à bretelles - Vue 2"></div>
-                                    <div class="swiper-slide"><img src="{% static 'pages/images/robes/louis-vuitton-robe-polo-en-gabardine-technique--FTDS43G72900_PM1_Cropped worn view.avif' %}" alt="Robe à bretelles - Vue 3"></div>
-                                </div>
-                                <div id="swiper-pagination-2" class="swiper-pagination"></div>
-                                <div id="swiper-button-prev-2" class="swiper-button-prev"></div>
-                                <div id="swiper-button-next-2" class="swiper-button-next"></div>
-                            </div>
-                            <div class="product-info">
-                                <h2>Robe polo en gabardine technique</h2>
-                                <p class="price">180,00 €</p>
-                            </div>
-                        </a>
-                    </article>
-
-                    <article id="product-item-3" class="product-item">
-                        <a href="{% url 'model' %}">
-                            <div id="product-slider-3" class="swiper product-slider">
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide"><img src="{% static 'pages/images/robes/mini-jupe-a-pli-imprime-guepards-et-palmettes--5E0343DSDE-worn-1-0-0-800-800_g (1).webp' %}" alt="Robe plissée à Monogram délavé"></div>
-                                    <div class="swiper-slide"><img src="{% static 'pages/images/robes/mini-jupe-a-pli-imprime-guepards-et-palmettes--5E0343DSDE-worn-2-0-0-800-800_g.webp' %}" alt="Robe à bretelles - Vue 2"></div>
-                                </div>
-                                <div id="swiper-pagination-3" class="swiper-pagination"></div>
-                                <div id="swiper-button-prev-3" class="swiper-button-prev"></div>
-                                <div id="swiper-button-next-3" class="swiper-button-next"></div>
-                            </div>
-                            <div class="product-info">
-                                <h2>Robe plissée à Monogram délavé</h2>
-                                <p class="price">380,00 €</p>
-                            </div>
-                        </a>
-                    </article>
-
-                    <section class="promo-block">
-                        <div class="promo-block__image">
-                            <img src="{% static 'pages/images/morabito3.jpeg' %}" alt="Campagne Charlène Morabito">
-                        </div>
-                        <article id="product-item-4" class="product-item">
-                            <a href="#">
-                                <div id="product-slider-4" class="swiper product-slider">
+                    {% for product in products %}
+                        <article class="product-item">
+                            <a href="{% url 'model2' product.id %}">
+                                <div class="swiper product-slider">
                                     <div class="swiper-wrapper">
-                                        <div class="swiper-slide"><img src="{% static 'pages/images/robes/louis-vuitton-robe-chemise-a-monogram-graphique--FTDR63WVD002_PM2_Front view.avif' %}" alt="Image produit"></div>
-                                        <div class="swiper-slide"><img src="{% static 'pages/images/robes/louis-vuitton-robe-chemise-a-monogram-graphique--FTDR63WVD002_PM1_Cropped worn view.avif' %}" alt="Image produit"></div>
+                                        {% if product.main_image %}
+                                        <div class="swiper-slide"><img src="{{ product.main_image.url }}" alt="{{ product.name }}"></div>
+                                        {% endif %}
+                                        {% for image in product.images.all %}
+                                        <div class="swiper-slide"><img src="{{ image.image.url }}" alt="Image produit supplémentaire"></div>
+                                        {% endfor %}
                                     </div>
-                                    <div id="swiper-pagination-4" class="swiper-pagination"></div>
-                                    <div id="swiper-button-prev-4" class="swiper-button-prev"></div>
-                                    <div id="swiper-button-next-4" class="swiper-button-next"></div>
+                                    <div class="swiper-pagination"></div>
+                                    <div class="swiper-button-prev"></div>
+                                    <div class="swiper-button-next"></div>
                                 </div>
                                 <div class="product-info">
-                                    <h2>Robe chemise à Monogram graphique</h2>
-                                    <p class="price">333,00 €</p>
+                                    <h2>{{ product.name }}</h2>
+                                    <p class="price">{{ product.price }} €</p>
                                 </div>
                             </a>
                         </article>
-                    </section>
-                    
-                    <article id="product-item-5" class="product-item">
-                        <a href="#">
-                            <div id="product-slider-5" class="swiper product-slider">
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide"><img src="{% static 'pages/images/robes/louis-vuitton-robe-chemise-a-imprime-monogram-foulard--FSDR29SDK700_PM1_Worn view.avif' %}" alt="Robe plissée à Monogram délavé"></div>
-                                    <div class="swiper-slide"><img src="{% static 'pages/images/robes/louis-vuitton-robe-chemise-a-imprime-monogram-foulard--FSDR29SDK700_PM2_Front view.png' %}" alt="Robe à bretelles - Vue 2"></div>
-                                </div>
-                                <div id="swiper-pagination-5" class="swiper-pagination"></div>
-                                <div id="swiper-button-prev-5" class="swiper-button-prev"></div>
-                                <div id="swiper-button-next-5" class="swiper-button-next"></div>
-                            </div>
-                            <div class="product-info">
-                                <h2>Robe chemise à imprimé Monogram Foulard</h2>
-                                <p class="price">400,00 €</p>
-                            </div>
-                        </a>
-                    </article>
-
-                    <article id="product-item-6" class="product-item">
-                        <a href="#">
-                            <div id="product-slider-6" class="swiper product-slider">
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide"><img src="{% static 'pages/images/robes/louis-vuitton-robe-tee-shirt-a-nœud-et-motif-floral--FTJD29WUV002_PM1_Worn view.avif' %}" alt="Robe plissée à Monogram délavé"></div>
-                                    <div class="swiper-slide"><img src="{% static 'pages/images/robes/louis-vuitton-robe-tee-shirt-a-nœud-et-motif-floral--FTJD29WUV002_PM2_Front view.avif' %}" alt="Robe à bretelles - Vue 2"></div>
-                                </div>
-                                <div id="swiper-pagination-6" class="swiper-pagination"></div>
-                                <div id="swiper-button-prev-6" class="swiper-button-prev"></div>
-                                <div id="swiper-button-next-6" class="swiper-button-next"></div>
-                            </div>
-                            <div class="product-info">
-                                <h2>Robe tee-shirt à nœud et motif floral</h2>
-                                <p class="price">350,00 €</p>
-                            </div>
-                        </a>
-                    </article>
-                    <section class="promo-block">
-                        <article id="product-item-7" class="product-item">
-                            <a href="#">
-                                <div id="product-slider-7" class="swiper product-slider">
-                                    <div class="swiper-wrapper">
-                                        <div class="swiper-slide"><img src="{% static 'pages/images/robes/louis-vuitton-robe-chemise-a-details-monogram--FTDS05YF4000_PM1_Worn view.avif' %}" alt="Robe plissée à Monogram délavé"></div>
-                                        <div class="swiper-slide"><img src="{% static 'pages/images/robes/louis-vuitton-robe-chemise-a-details-monogram--FTDS05YF4000_PM2_Front view.avif' %}" alt="Robe à bretelles - Vue 2"></div>
-                                    </div>
-                                    <div id="swiper-pagination-7" class="swiper-pagination"></div>
-                                    <div id="swiper-button-prev-7" class="swiper-button-prev"></div>
-                                    <div id="swiper-button-next-7" class="swiper-button-next"></div>
-                                </div>
-                                <div class="product-info">
-                                    <h2>Robe chemise à détails Monogram</h2>
-                                    <p class="price">270,00 €</p>
-                                </div>
-                            </a>
-                        </article>
-                        <div class="promo-block__image">
-                            <img src="{% static 'pages/images/morabito.jpg' %}" alt="Campagne Charlène Morabito">
-                        </div>
-                    </section>
-                    <article id="product-item-8" class="product-item">
-                        <a href="#">
-                            <div id="product-slider-8" class="swiper product-slider">
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide"><img src="{% static 'pages/images/robes/louis-vuitton-robe-a-rangees-de-boutons--FTDR33NQA000_PM1_Worn view.avif' %}" alt="Robe plissée à Monogram délavé"></div>
-                                    <div class="swiper-slide"><img src="{% static 'pages/images/robes/louis-vuitton-robe-a-rangees-de-boutons--FTDR33NQA000_PM2_Front view.avif' %}" alt="Robe à bretelles - Vue 2"></div>
-                                </div>
-                                <div id="swiper-pagination-8" class="swiper-pagination"></div>
-                                <div id="swiper-button-prev-8" class="swiper-button-prev"></div>
-                                <div id="swiper-button-next-8" class="swiper-button-next"></div>
-                            </div>
-                            <div class="product-info">
-                                <h2>Robe à rangées de boutons</h2>
-                                <p class="price">250,00 €</p>
-                            </div>
-                        </a>
-                    </article>
-                    
-                    <article id="product-item-9" class="product-item">
-                        <a href="#">
-                            <div id="product-slider-9" class="swiper product-slider">
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide"><img src="{% static 'pages/images/robes/louis-vuitton-robe-plissee-a-encolure-americaine--FSDS84SLD900_PM2_Front view.avif' %}" alt="Robe plissée à Monogram délavé"></div>
-                                    <div class="swiper-slide"><img src="{% static 'pages/images/robes/louis-vuitton-robe-plissee-a-encolure-americaine--FSDS84SLD900_PM1_Back view.avif' %}" alt="Robe à bretelles - Vue 2"></div>
-                                </div>
-                                <div id="swiper-pagination-9" class="swiper-pagination"></div>
-                                <div id="swiper-button-prev-9" class="swiper-button-prev"></div>
-                                <div id="swiper-button-next-9" class="swiper-button-next"></div>
-                            </div>
-                            <div class="product-info">
-                                <h2>Robe plissée à encolure américaine</h2>
-                                <p class="price">199,00 €</p>
-                            </div>
-                        </a>
-                    </article>
-
+                    {% endfor %}
                 </div>
             </div>
         </main>
 
         {% include "pages/home/panel/panel.html" %}
+        {% include "pages/home/panel/panel_catalog.html" %}
+
+
 
         <div id="filter-overlay" class="filter-overlay">
             <button id="close-filter-btn" class="filter-overlay-close">&times;</button>
