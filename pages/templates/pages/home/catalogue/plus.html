@@ -7,72 +7,23 @@
     <section class="recommendations-section">
         <h2 class="recommendations-title">Vous aimerez aussi</h2>
         <div class="recommendations-grid">
-            
-            <article class="product-item">
-                <a href="#">
-                    <img src="{% static 'pages/images/robes/louis-vuitton-robe-boutonnee-en-denim--FTDR40GOW610_PM1_Worn view.avif' %}" alt="Robe à bretelles et mousquetons">
-                    <div class="product-info">
-                        <h3>Robe à bretelles et mousquetons</h3>
-                        <p class="price">250,00 €</p>
-                    </div>
-                </a>
-            </article>
-
-            <article class="product-item">
-                <a href="#">
-                    <img src="{% static 'pages/images/robes/louis-vuitton-robe-polo-en-gabardine-technique--FTDS43G72900_PM1_Worn view.avif' %}" alt="Robe polo en gabardine technique">
-                    <div class="product-info">
-                        <h3>Robe polo en gabardine technique</h3>
-                        <p class="price">180,00 €</p>
-                    </div>
-                </a>
-            </article>
-
-            <article class="product-item">
-                <a href="#">
-                    <img src="{% static 'pages/images/robes/louis-vuitton-robe-chemise-a-monogram-graphique--FTDR63WVD002_PM2_Front view.avif' %}" alt="Robe chemise à Monogram graphique">
-                    <div class="product-info">
-                        <h3>Robe chemise à Monogram graphique</h3>
-                        <p class="price">333,00 €</p>
-                    </div>
-                </a>
-            </article>
-
-            <article class="product-item">
-                <a href="#">
-                    <img src="{% static 'pages/images/robes/louis-vuitton-robe-a-rangees-de-boutons--FTDR33NQA000_PM1_Worn view.avif' %}" alt="Robe à rangées de boutons">
-                    <div class="product-info">
-                        <h3>Robe à rangées de boutons</h3>
-                        <p class="price">250,00 €</p>
-                    </div>
-                </a>
-            </article>
-
-            <article class="product-item">
-                <a href="#">
-                    <img src="{% static 'pages/images/robes/louis-vuitton-robe-chemise-a-imprime-monogram-foulard--FSDR29SDK700_PM1_Worn view.avif' %}" alt="Robe chemise à imprimé Monogram Foulard">
-                    <div class="product-info">
-                        <h3>Robe chemise à imprimé Monogram Foulard</h3>
-                        <p class="price">400,00 €</p>
-                    </div>
-                </a>
-            </article>
-
-            <article class="product-item">
-                <a href="#">
-                    <img src="{% static 'pages/images/robes/louis-vuitton-robe-chemise-a-details-monogram--FTDS05YF4000_PM2_Front view.avif' %}" alt="Robe chemise à détails Monogram">
-                    <div class="product-info">
-                        <h3>Robe chemise à détails Monogram</h3>
-                        <p class="price">270,00 €</p>
-                    </div>
-                </a>
-            </article>
-
+            {% for p in suggested_products %}
+                <article class="product-item">
+                    <a href="{% url 'model2' p.id %}">
+                        <img src="{% if p.main_image %}{{ p.main_image.url }}{% else %}{% static 'pages/images/placeholders/no-image.webp' %}{% endif %}" alt="{{ p.name }}">
+                        <div class="product-info">
+                            <h3>{{ p.name }}</h3>
+                            <p class="price">{{ p.price|floatformat:2 }} €</p>
+                        </div>
+                    </a>
+                </article>
+            {% endfor %}
         </div>
         <div class="progress-bar-container">
             <div class="progress-bar-thumb"></div>
         </div>
     </section>
+
 
 
     <style>

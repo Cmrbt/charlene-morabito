@@ -4,7 +4,8 @@ from .models import (
         ReadyToWearSection, LookbookSection, LookbookImage, 
         HeritageIntro, HeritageBlockOne, HeritageBlockThree, 
         HeritageBlockTwo, Product , ProductImage,
-        ProductDetail, ProductSize,  DeliveryReturnInfo
+        ProductDetail, ProductSize,  DeliveryReturnInfo,
+        FeaturedProduct
     )
 from django.http import HttpResponse
 from django.templatetags.static import static
@@ -12,7 +13,7 @@ from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from django.utils.text import slugify
 
-
+"""
 def morabito_home_view(request):
     brand = Brand.objects.first() or Brand.objects.create()
     first_section = FirstHomeSection.objects.first() or FirstHomeSection.objects.create()
@@ -23,8 +24,26 @@ def morabito_home_view(request):
     block_one = HeritageBlockOne.objects.first() or HeritageBlockOne.objects.create()
     block_two = HeritageBlockTwo.objects.first() or HeritageBlockTwo.objects.create()
     block_three = HeritageBlockThree.objects.first() or HeritageBlockThree.objects.create()
-
     lookbook_images = lookbook_section.images.all()
+
+    try:
+        featured_1 = FeaturedProduct.objects.select_related('product').get(slot=1).product
+    except FeaturedProduct.DoesNotExist:
+        featured_1 = None
+
+    try:
+        featured_2 = FeaturedProduct.objects.select_related('product').get(slot=2).product
+    except FeaturedProduct.DoesNotExist:
+        featured_2 = None
+
+    try:
+        featured_3 = FeaturedProduct.objects.select_related('product').get(slot=3).product
+    except FeaturedProduct.DoesNotExist:
+        featured_3 = None
+
+    slot_1 = FeaturedProduct.objects.filter(slot=1).first()
+    slot_2 = FeaturedProduct.objects.filter(slot=2).first()
+    slot_3 = FeaturedProduct.objects.filter(slot=3).first()
 
     context = {
         'brand': brand,
@@ -37,9 +56,88 @@ def morabito_home_view(request):
         'heritage_block_one': block_one,
         'heritage_block_two': block_two,
         'heritage_block_three': block_three,
+        'featured_1': featured_1,
+        'featured_2': featured_2,
+        'featured_3': featured_3,
+        'all_products': Product.objects.filter(is_displayed=True),
+        'slot_1': slot_1,
+        'slot_2': slot_2,
+        'slot_3': slot_3,
+        'slots': ['1', '2', '3'],
+        'slot_map': {
+            '1': FeaturedProduct.objects.filter(slot=1).first(),
+            '2': FeaturedProduct.objects.filter(slot=2).first(),
+            '3': FeaturedProduct.objects.filter(slot=3).first(),
+        }
     }
     return render(request, 'pages/home/morabito.html', context)
+"""
 
+
+
+def morabito_home_view(request):
+    brand = Brand.objects.first() or Brand.objects.create()
+    first_section = FirstHomeSection.objects.first() or FirstHomeSection.objects.create()
+    second_section = SecondHomeSection.objects.first() or SecondHomeSection.objects.create()
+    ready_section = ReadyToWearSection.objects.first() or ReadyToWearSection.objects.create()
+    lookbook_section = LookbookSection.objects.first() or LookbookSection.objects.create()
+    heritage_intro = HeritageIntro.objects.first() or HeritageIntro.objects.create()
+    block_one = HeritageBlockOne.objects.first() or HeritageBlockOne.objects.create()
+    block_two = HeritageBlockTwo.objects.first() or HeritageBlockTwo.objects.create()
+    block_three = HeritageBlockThree.objects.first() or HeritageBlockThree.objects.create()
+    lookbook_images = lookbook_section.images.all()
+
+    featured_products = {
+        fp.slot: fp.product 
+        for fp in FeaturedProduct.objects.select_related('product').filter(slot__in=[1, 2, 3])
+    }
+
+    featured_slots_data = []
+    for i in range(1, 4):
+        featured_slots_data.append({
+            'slot_num': i,
+            'product': featured_products.get(i)
+        })
+
+    context = {
+        'brand': brand,
+        'first_section': first_section,
+        'second_section': second_section,
+        'ready_section': ready_section,
+        'lookbook_section': lookbook_section,
+        'lookbook_images': lookbook_images,
+        'heritage_intro': heritage_intro,
+        'heritage_block_one': block_one,
+        'heritage_block_two': block_two,
+        'heritage_block_three': block_three,
+        'all_products': Product.objects.filter(is_displayed=True),
+        'featured_slots_data': featured_slots_data,
+        'featured_1': featured_products.get(1),
+        'featured_2': featured_products.get(2),
+        'featured_3': featured_products.get(3),
+    }
+
+    return render(request, 'pages/home/morabito.html', context)
+
+
+
+import json
+def update_featured_products(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+
+        for slot_number in ['1', '2', '3']:
+            product_id = data.get(slot_number)
+            if product_id:
+                product = get_object_or_404(Product, id=product_id)
+                FeaturedProduct.objects.update_or_create(
+                    slot=slot_number,
+                    defaults={'product': product}
+                )
+
+        return JsonResponse({'status': 'success'})
+
+    return JsonResponse({'status': 'error'}, status=400)
 
 
 def brand_action_handler(request):
@@ -522,11 +620,13 @@ def model_view2(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     brand = Brand.objects.first() or Brand.objects.create()
     delivery_info = DeliveryReturnInfo.objects.first() or DeliveryReturnInfo.objects.create(content='')
+    suggested_products = Product.objects.filter(is_displayed=True).exclude(id=product.id)[:6]
 
     context = {
         'product': product,
         'brand': brand,
         'delivery_info': delivery_info,
+        'suggested_products': suggested_products
     }
     return render(request, 'pages/home/catalogue/model_view2.html', context)
 

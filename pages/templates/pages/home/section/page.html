@@ -1,213 +1,255 @@
     {% load static %}
 
-
-
+    <div id="edit_featured_products" class="panel_data" style="display: none;">
+        <div class="panel panel_data-content">
+            <div class="panel-body" style="display: flex; flex-direction: column; gap: 20px;">
+                {% for slot in featured_slots_data %}
+                    <div class="featured-product-selector">
+                        <label for="slot_{{ slot.slot_num }}">Produit n°{{ slot.slot_num }}</label>
+                        <select class="featured-slot" id="slot_{{ slot.slot_num }}" data-slot="{{ slot.slot_num }}">
+                            <option value="">— Choisir un produit —</option>
+                            {% for p in all_products %}
+                                <option value="{{ p.id }}" {% if slot.product and slot.product.id == p.id %}selected{% endif %}>
+                                    {{ p.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                {% endfor %}
+                <button class="save-featured-btn" onclick="saveFeaturedProducts()">💾 Enregistrer</button>
+            </div>
+        </div>
+    </div>
 
     <section id="nouvelle-collection" class="featured-products">
-        <h2 class="section-title">NOUVELLE COLLECTION</h2>
+        <h2 class="section-title" onclick="openModal('edit_featured_products')" style="cursor: pointer;">NOUVELLE COLLECTION</h2>
 
-        <div class="product-layout-container" id="mise-en-avant-1"> 
-            <div class="product-image-column">
-                <img src="{% static 'pages/images/robes/louis-vuitton-robe-boutonnee-en-denim--FTDR40GOW610_PM1_Worn view.avif' %}" alt="Robe en soie vue de face" class="main-product-image">
-            </div>
-            <div class="product-text-column">
-                <h3>Robe à bretelles et mousquetons</h3>
-                <p class="description">
-                    Dotée d'une coupe près du corps, cette robe d'exception se décline en jersey crêpe léger de viscose mélangée dans une nuance intense de saison. L'avant présente une fermeture à glissière apparente à double extrémité qui va du décolleté à l'ourlet, tandis que des mousquetons oversize dorés prêtent une note rebelle aux épaules.
-                </p>
-                <p class="price">250,00 €</p>
-                <div class="size-selector-dropdown">
-                    <div class="custom-select-wrapper">
-                        <select id="size-select-1" name="size" required>
-                            <option value="" disabled selected>Sélectionner la taille</option>
-                            <option value="32">32</option>
-                            <option value="34">34</option>
-                            <option value="36">36</option>
-                            <option value="38">38</option>
-                            <option value="40">40</option>
-                            <option value="42">42</option>
-                            <option value="44">44</option>
-                            <option value="46">46</option>
-                        </select>
-                        <span class="custom-arrow"></span>
-                    </div>
+        {% if featured_1 %}
+            <div class="product-layout-container" id="mise-en-avant-1">
+                <div class="product-image-column">
+                    {% if featured_1.main_image %}
+                        <img src="{{ featured_1.main_image.url }}" alt="{{ featured_1.name }}" class="main-product-image">
+                    {% endif %}
                 </div>
-                <a href="#" class="add-to-cart-btn">Ajouter au panier</a>
-                <a href="#" class="contact-us-btn">Contactez-nous</a>
-                <div class="product-services-accordion">
-                    <div class="accordion-item">
-                        <button class="accordion-header">
-                            <span class="accordion-title">Détails du produit</span>
-                            <span class="accordion-icon">+</span>
-                        </button>
-                        <div class="accordion-content">
-                            <ul>
-                                <li>100% Soie</li>
-                                <li>Bordure en dentelle festonnée</li>
-                                <li>Fines bretelles ajustables</li>
-                                <li>Fabriqué en Italie</li>
-                                <li>Coupe ajustée</li>
-                                <li>Couleur : Vert olive</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <button class="accordion-header">
-                            <span class="accordion-title">Livraison et Retours</span>
-                            <span class="accordion-icon">+</span>
-                        </button>
-                        <div class="accordion-content">
-                            <p>Livraison standard offerte. Les délais de livraison sont estimés au moment du paiement.</p>
-                            <p>Nous acceptons les retours sous 30 jours pour un échange ou un remboursement. Les articles doivent être retournés dans leur état d'origine. Pour initier un retour, veuillez contacter notre service client.</p>
-                        </div>
-                    </div>
-                </div>
-                <a href="#" id="open-size-guide" class="size-guide-link" style="text-align: center;">Guide des tailles</a>
-            </div>
-            <div class="thumbnail-column">
-                <div class="thumbnail-gallery" >
-                    <img src="{% static 'pages/images/robes/louis-vuitton-robe-boutonnee-en-denim--FTDR40GOW610_PM1_Worn view.avif' %}" alt="Vue 1" class="thumbnail-image active">
-                    <img src="{% static 'pages/images/robes/louis-vuitton-robe-boutonnee-en-denim--FTDR40GOW610_PM2_Front view.avif' %}" alt="Vue 2" class="thumbnail-image">
-                    <img src="{% static 'pages/images/robes/louis-vuitton-robe-boutonnee-en-denim--FTDR40GOW610_PM1_Cropped view.avif' %}" alt="Vue 3" class="thumbnail-image">
-                    <img src="{% static 'pages/images/robes/louis-vuitton-robe-boutonnee-en-denim--FTDR40GOW610_PM1_Cropped worn view.avif' %}" alt="Vue 4" class="thumbnail-image">
-                    <img src="{% static 'pages/images/robes/louis-vuitton-robe-boutonnee-en-denim--FTDR40GOW610_PM1_Ambiance view.avif' %}" alt="Vue 5" class="thumbnail-image">
-                </div>
-            </div>
-        </div>
 
-        <div class="product-layout-container layout-reversed" id="mise-en-avant-2"> 
-            <div class="thumbnail-column">
-                <div class="thumbnail-gallery" >
-                    <img src="{% static 'pages/images/robes/louis-vuitton-robe-polo-en-gabardine-technique--FTDS43G72900_PM1_Side view.avif' %}" alt="Vue 1" class="thumbnail-image active">
-                    <img src="{% static 'pages/images/robes/louis-vuitton-robe-polo-en-gabardine-technique--FTDS43G72900_PM1_Cropped worn view.avif' %}" alt="Vue 2" class="thumbnail-image">
-                    <img src="{% static 'pages/images/robes/louis-vuitton-robe-polo-en-gabardine-technique--FTDS43G72900_PM1_Cropped view.webp' %}" alt="Vue 3" class="thumbnail-image">
-                </div>
-            </div>
-            <div class="product-text-column">
-                <h3>Robe polo en gabardine technique</h3>
-                <p class="description">
-                    Confectionnée dans le jersey technique emblématique de la Maison, cette robe trapèze présente une silhouette chic et épurée. Inspirée du style polo sportif, elle dispose d'un col contrasté et d'une patte bordée de boutons-pression dorés. Ce modèle graphique élégant comporte deux poches color-block à l’avant.
-                </p>
-                <p class="price">250,00 €</p>
-                <div class="size-selector-dropdown">
-                    <div class="custom-select-wrapper">
-                        <select id="size-select-2" name="size" required>
-                            <option value="" disabled selected>Sélectionner la taille</option>
-                            <option value="32">32</option>
-                            <option value="34">34</option>
-                        </select>
-                        <span class="custom-arrow"></span>
-                    </div>
-                </div>
-                <a href="#" class="add-to-cart-btn">Ajouter au panier</a>
-                <a href="#" class="contact-us-btn">Contactez-nous</a>
-                <div class="product-services-accordion">
-                    <div class="accordion-item">
-                        <button class="accordion-header">
-                            <span class="accordion-title">Détails du produit</span>
-                            <span class="accordion-icon">+</span>
-                        </button>
-                        <div class="accordion-content">
-                            <ul>
-                                <li>100% Soie</li>
-                                <li>Bordure en dentelle festonnée</li>
-                                <li>Fines bretelles ajustables</li>
-                                <li>Fabriqué en Italie</li>
-                                <li>Coupe ajustée</li>
-                                <li>Couleur : Vert olive</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <button class="accordion-header">
-                            <span class="accordion-title">Livraison et Retours</span>
-                            <span class="accordion-icon">+</span>
-                        </button>
-                        <div class="accordion-content">
-                            <p>Livraison standard offerte. Les délais de livraison sont estimés au moment du paiement.</p>
-                            <p>Nous acceptons les retours sous 30 jours pour un échange ou un remboursement. Les articles doivent être retournés dans leur état d'origine. Pour initier un retour, veuillez contacter notre service client.</p>
-                        </div>
-                    </div>
-                </div>
-                <a href="#" id="open-size-guide" class="size-guide-link" style="text-align: center;">Guide des tailles</a>
-            </div>
-            <div class="product-image-column">
-                <img src="{% static 'pages/images/robes/louis-vuitton-robe-polo-en-gabardine-technique--FTDS43G72900_PM1_Worn view.avif' %}" alt="Robe en soie vue de face" class="main-product-image">
-            </div>
-        </div>
+                <div class="product-text-column">
+                    <h3>{{ featured_1.name }}</h3>
+                    <p class="description">{{ featured_1.description }}</p>
+                    <p class="price">{{ featured_1.price }} €</p>
 
-        <div class="product-layout-container" id="mise-en-avant-3"> 
-            <div class="product-image-column">
-                <img src="{% static 'pages/images/robes/mini-jupe-a-pli-imprime-guepards-et-palmettes--5E0343DSDE-worn-1-0-0-800-800_g (1).webp' %}" alt="Robe en soie vue de face" class="main-product-image">
-            </div>
+                    <div class="size-selector-dropdown">
+                        <div class="custom-select-wrapper">
+                            <select name="size" required>
+                                <option value="" disabled selected>Sélectionner la taille</option>
+                                {% for size in featured_1.sizes.all %}
+                                    <option value="{{ size.size }}" {% if size.is_out_of_stock %}disabled{% endif %}>
+                                        {{ size.size }}{% if size.is_out_of_stock %} (Rupture){% endif %}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            <span class="custom-arrow"></span>
+                        </div>
+                    </div>
 
-            <div class="product-text-column">
-                <h3>Robe plissée à Monogram délavé</h3>
-                <p class="description">
-                    Réalisée en crêpe de Chine en soie infroissable dans une teinte douce de la saison, 
-                    cette robe plissée s'agrémente d'un motif Monogram interprété avec une finition délavée graphique. La partie principale mise sur les lignes épurées d'une coupe droite, 
-                    tandis que des plis creux ajoutent un volume romantique à la jupe. Le dos de cette pièce révèle une demi-fermeture à glissière apparente.
-                </p>
-                <p class="price">250,00 €</p>
-                <div class="size-selector-dropdown">
-                    <div class="custom-select-wrapper">
-                        <select id="size-select-1" name="size" required>
-                            <option value="" disabled selected>Sélectionner la taille</option>
-                            <option value="32">32</option>
-                            <option value="34">34</option>
-                            <option value="36">36</option>
-                            <option value="38">38</option>
-                            <option value="40">40</option>
-                            <option value="42">42</option>
-                            <option value="44">44</option>
-                            <option value="46">46</option>
-                        </select>
-                        <span class="custom-arrow"></span>
-                    </div>
-                </div>
-                <a href="#" class="add-to-cart-btn">Ajouter au panier</a>
-                <a href="#" class="contact-us-btn">Contactez-nous</a>
-                <div class="product-services-accordion">
-                    <div class="accordion-item">
-                        <button class="accordion-header">
-                            <span class="accordion-title">Détails du produit</span>
-                            <span class="accordion-icon">+</span>
-                        </button>
-                        <div class="accordion-content">
-                            <ul>
-                                <li>100% Soie</li>
-                                <li>Bordure en dentelle festonnée</li>
-                                <li>Fines bretelles ajustables</li>
-                                <li>Fabriqué en Italie</li>
-                                <li>Coupe ajustée</li>
-                                <li>Couleur : Vert olive</li>
-                            </ul>
+                    <a href="#" class="add-to-cart-btn">Ajouter au panier</a>
+                    <a href="#" class="contact-us-btn">Contactez-nous</a>
+
+                    <div class="product-services-accordion">
+                        <div class="accordion-item">
+                            <button class="accordion-header">
+                                <span class="accordion-title">Détails du produit</span>
+                                <span class="accordion-icon">+</span>
+                            </button>
+                            <div class="accordion-content">
+                                <ul>
+                                    {% for detail in featured_1.details.all %}
+                                        <li>{{ detail.content }}</li>
+                                    {% empty %}
+                                        <li>Aucun détail renseigné.</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <button class="accordion-header">
+                                <span class="accordion-title">Livraison et Retours</span>
+                                <span class="accordion-icon">+</span>
+                            </button>
+                            <div class="accordion-content">
+                                <p>{{ delivery_info.title }}</p>
+                                <p>{{ delivery_info.content }}</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="accordion-item">
-                        <button class="accordion-header">
-                            <span class="accordion-title">Livraison et Retours</span>
-                            <span class="accordion-icon">+</span>
-                        </button>
-                        <div class="accordion-content">
-                            <p>Livraison standard offerte. Les délais de livraison sont estimés au moment du paiement.</p>
-                            <p>Nous acceptons les retours sous 30 jours pour un échange ou un remboursement. Les articles doivent être retournés dans leur état d'origine. Pour initier un retour, veuillez contacter notre service client.</p>
-                        </div>
+
+                    <a href="#" class="size-guide-link" style="text-align: center;">Guide des tailles</a>
+                </div>
+
+                <div class="thumbnail-column">
+                    <div class="thumbnail-gallery">
+                        {% if featured_1.main_image %}
+                            <img src="{{ featured_1.main_image.url }}" class="thumbnail-image active">
+                        {% endif %}
+                        {% for image in featured_1.images.all %}
+                            <img src="{{ image.image.url }}" class="thumbnail-image">
+                        {% endfor %}
                     </div>
                 </div>
-                <a href="#" id="open-size-guide" class="size-guide-link" style="text-align: center;">Guide des tailles</a>
             </div>
-            <div class="thumbnail-column">
-                <div class="thumbnail-gallery">
-                    <img src="{% static 'pages/images/robes/mini-jupe-a-pli-imprime-guepards-et-palmettes--5E0343DSDE-worn-2-0-0-800-800_g.webp' %}" alt="Vue 1" class="thumbnail-image active">
-                    <img src="{% static 'pages/images/robes/mini-jupe-a-pli-imprime-guepards-et-palmettes--5E0343DSDE-worn-1-0-0-800-800_g.webp' %}" alt="Vue 2" class="thumbnail-image">
-                    <img src="{% static 'pages/images/robes/mini-jupe-a-pli-imprime-guepards-et-palmettes--5E0343DSDE-worn-3-0-0-800-800_g.webp' %}" alt="Vue 3" class="thumbnail-image">
+        {% endif %}
+
+
+        {% if featured_2 %}
+            <div class="product-layout-container layout-reversed" id="mise-en-avant-2"> 
+                <div class="thumbnail-column">
+                    <div class="thumbnail-gallery">
+                        {% for image in featured_2.images.all %}
+                            <img src="{{ image.image.url }}" class="thumbnail-image {% if forloop.first %}active{% endif %}">
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="product-text-column">
+                    <h3>{{ featured_2.name }}</h3>
+                    <p class="description">{{ featured_2.description|default:"" }}</p>
+                    <p class="price">{{ featured_2.price }} €</p>
+                    <div class="size-selector-dropdown">
+                        <div class="custom-select-wrapper">
+                            <select name="size" required>
+                                <option value="" disabled selected>Sélectionner la taille</option>
+                                {% for size in featured_2.sizes.all %}
+                                    <option value="{{ size.size }}" {% if size.is_out_of_stock %}disabled{% endif %}>
+                                        {{ size.size }}{% if size.is_out_of_stock %} (Rupture){% endif %}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            <span class="custom-arrow"></span>
+                        </div>
+                    </div>
+                    <a href="#" class="add-to-cart-btn">Ajouter au panier</a>
+                    <a href="#" class="contact-us-btn">Contactez-nous</a>
+                    <div class="product-services-accordion">
+                        <div class="accordion-item">
+                            <button class="accordion-header"><span class="accordion-title">Détails du produit</span><span class="accordion-icon">+</span></button>
+                            <div class="accordion-content">
+                                <ul>
+                                    {% for detail in featured_2.details.all %}
+                                        <li>{{ detail.content }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <button class="accordion-header"><span class="accordion-title">Livraison et Retours</span><span class="accordion-icon">+</span></button>
+                            <div class="accordion-content">
+                                <p>{{ delivery_info.title|default:"Livraison standard offerte." }}</p>
+                                <p>{{ delivery_info.content|default:"Retour sous 30 jours." }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" class="size-guide-link" style="text-align: center;">Guide des tailles</a>
+                </div>
+                <div class="product-image-column">
+                    <img src="{{ featured_2.main_image.url }}" alt="{{ featured_2.name }}" class="main-product-image">
                 </div>
             </div>
-        </div>
+        {% endif %}
+
+
+        {% if featured_3 %}
+            <div class="product-layout-container" id="mise-en-avant-3"> 
+                <div class="product-image-column">
+                    <img src="{{ featured_3.main_image.url }}" alt="{{ featured_3.name }}" class="main-product-image">
+                </div>
+                <div class="product-text-column">
+                    <h3>{{ featured_3.name }}</h3>
+                    <p class="description">{{ featured_3.description|default:"" }}</p>
+                    <p class="price">{{ featured_3.price }} €</p>
+                    <div class="size-selector-dropdown">
+                        <div class="custom-select-wrapper">
+                            <select name="size" required>
+                                <option value="" disabled selected>Sélectionner la taille</option>
+                                {% for size in featured_3.sizes.all %}
+                                    <option value="{{ size.size }}" {% if size.is_out_of_stock %}disabled{% endif %}>
+                                        {{ size.size }}{% if size.is_out_of_stock %} (Rupture){% endif %}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            <span class="custom-arrow"></span>
+                        </div>
+                    </div>
+                    <a href="#" class="add-to-cart-btn">Ajouter au panier</a>
+                    <a href="#" class="contact-us-btn">Contactez-nous</a>
+                    <div class="product-services-accordion">
+                        <div class="accordion-item">
+                            <button class="accordion-header"><span class="accordion-title">Détails du produit</span><span class="accordion-icon">+</span></button>
+                            <div class="accordion-content">
+                                <ul>
+                                    {% for detail in featured_3.details.all %}
+                                        <li>{{ detail.content }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <button class="accordion-header"><span class="accordion-title">Livraison et Retours</span><span class="accordion-icon">+</span></button>
+                            <div class="accordion-content">
+                                <p>{{ delivery_info.title|default:"Livraison standard offerte." }}</p>
+                                <p>{{ delivery_info.content|default:"Retour sous 30 jours." }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" class="size-guide-link" style="text-align: center;">Guide des tailles</a>
+                </div>
+                <div class="thumbnail-column">
+                    <div class="thumbnail-gallery">
+                        {% for image in featured_3.images.all %}
+                            <img src="{{ image.image.url }}" class="thumbnail-image {% if forloop.first %}active{% endif %}">
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     </section>
 
+    
+
     <style>
+        .fly-to-cart {
+            position: fixed;
+            top: var(--start-y);
+            left: var(--start-x);
+            width: 150px;
+            height: auto;
+            z-index: 1000;
+            border-radius: 50%;
+            animation: flyAndRotate 1.5s cubic-bezier(0.2, 0.5, 0.8, 1) forwards;
+        }
+
+        @keyframes flyAndRotate {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            20% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--dest-x), var(--dest-y)) scale(0.45) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .shake {
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        }
+        @keyframes shake {
+        10%, 90% { transform: translate3d(-1px, 0, 0); }
+        20%, 80% { transform: translate3d(2px, 0, 0); }
+        30%, 50%, 70% { transform: translate3d(-3px, 0, 0); }
+        40%, 60% { transform: translate3d(3px, 0, 0); }
+        }
+
         * {
             box-sizing: border-box;
         }
@@ -493,6 +535,28 @@
         .section-title::before, .section-title::after { content: ''; flex: 1; border-bottom: 2px solid; }
         .section-title::before { margin-right: 2em; border-bottom-color: #009246; }
         .section-title::after { margin-left: 2em; border-bottom-color: #CE2B37; }
+ 
+        .featured-product-selector label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            display: block;
+        }
+        .featured-product-selector select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .save-featured-btn {
+            padding: 10px 20px;
+            background-color: black;
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            align-self: flex-start;
+        }
     </style>
 
     <script>
@@ -693,42 +757,28 @@
         });
     </script>
 
+    <script>
+        function saveFeaturedProducts() {
+            const data = {};
+            document.querySelectorAll('.featured-slot').forEach(select => {
+                data[select.dataset.slot] = select.value;
+            });
 
-
-    <style>
-        .fly-to-cart {
-            position: fixed;
-            top: var(--start-y);
-            left: var(--start-x);
-            width: 150px;
-            height: auto;
-            z-index: 1000;
-            border-radius: 50%;
-            animation: flyAndRotate 1.5s cubic-bezier(0.2, 0.5, 0.8, 1) forwards;
+            fetch('/update-featured-products/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    location.reload();
+                } else {
+                    alert("Erreur lors de la sauvegarde.");
+                }
+            });
         }
-
-        @keyframes flyAndRotate {
-            0% {
-                transform: scale(0);
-                opacity: 0;
-            }
-            20% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            100% {
-                transform: translate(var(--dest-x), var(--dest-y)) scale(0.45) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        .shake {
-            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
-        }
-        @keyframes shake {
-        10%, 90% { transform: translate3d(-1px, 0, 0); }
-        20%, 80% { transform: translate3d(2px, 0, 0); }
-        30%, 50%, 70% { transform: translate3d(-3px, 0, 0); }
-        40%, 60% { transform: translate3d(3px, 0, 0); }
-        }
-    </style>
+    </script>

@@ -148,3 +148,17 @@ class DeliveryReturnInfo(models.Model):
 
     def __str__(self):
         return self.title
+
+
+
+class FeaturedProduct(models.Model):
+    SLOT_CHOICES = [
+        (1, 'Slot 1'),
+        (2, 'Slot 2'),
+        (3, 'Slot 3'),
+    ]
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    slot = models.PositiveSmallIntegerField(choices=SLOT_CHOICES, unique=True)
+
+    def __str__(self):
+        return f"{self.product.name} - Slot {self.slot}"
